@@ -19,11 +19,11 @@ TREATMENTS_SECTION = '''<section class="rt-table-v2 ib-treatments-compact" id="t
 <div class="rt-home-v4-heading">
 <p style="text-transform:uppercase;letter-spacing:.16em;font-size:.75rem;color:#9e9271;margin:0 0 .75rem;">Áreas de atuação</p>
 <h2 class="rt-gap-off">Tratamentos por especialidade</h2>
-<p class="rt-gap-off" style="margin:1rem 0 0;color:#414e3d;line-height:1.65;">Explore cada área com conteúdo técnico, indicações e FAQs. Passe o mouse nos cards para descobrir os protocolos.</p>
+<p class="rt-gap-off" style="margin:1rem 0 0;color:#414e3d;line-height:1.65;">Explore cada área com conteúdo técnico, indicações e FAQs.</p>
 </div>
 </div>
 <div class="ib-display-cards" aria-label="Principais áreas de tratamento">
-<a class="ib-display-card ib-display-card--1" href="/tratamentos-faciais/">
+<a class="ib-display-card" href="/tratamentos-faciais/">
 <div class="ib-display-card-head">
 <span class="ib-display-card-icon"><img src="assets/instituto/icon-facial.svg" alt="" width="16" height="16"/></span>
 <p class="ib-display-card-title">Estética facial e harmonização</p>
@@ -31,7 +31,7 @@ TREATMENTS_SECTION = '''<section class="rt-table-v2 ib-treatments-compact" id="t
 <p class="ib-display-card-desc">Avaliação facial, toxina botulínica, preenchimentos, bioestimuladores, regenerativos e fios.</p>
 <p class="ib-display-card-meta">Ver tratamentos →</p>
 </a>
-<a class="ib-display-card ib-display-card--2" href="/tecnologias-faciais-e-laser/">
+<a class="ib-display-card" href="/tecnologias-faciais-e-laser/">
 <div class="ib-display-card-head">
 <span class="ib-display-card-icon"><img src="assets/instituto/icon-laser.svg" alt="" width="16" height="16"/></span>
 <p class="ib-display-card-title">Tecnologias faciais e laser</p>
@@ -39,7 +39,7 @@ TREATMENTS_SECTION = '''<section class="rt-table-v2 ib-treatments-compact" id="t
 <p class="ib-display-card-desc">HYPRO, laser CO2 fracionado, BB Glow e protocolos para flacidez, textura e manchas.</p>
 <p class="ib-display-card-meta">Ver tratamentos →</p>
 </a>
-<a class="ib-display-card ib-display-card--3" href="/tratamentos-corporais/">
+<a class="ib-display-card" href="/tratamentos-corporais/">
 <div class="ib-display-card-head">
 <span class="ib-display-card-icon"><img src="assets/instituto/icon-corporal.svg" alt="" width="16" height="16"/></span>
 <p class="ib-display-card-title">Tratamentos corporais</p>
@@ -47,10 +47,17 @@ TREATMENTS_SECTION = '''<section class="rt-table-v2 ib-treatments-compact" id="t
 <p class="ib-display-card-desc">HYPRO corporal, laser CO2, LIP e injetáveis para contorno, flacidez e qualidade da pele.</p>
 <p class="ib-display-card-meta">Ver tratamentos →</p>
 </a>
+<a class="ib-display-card" href="/tratamentos-capilares/">
+<div class="ib-display-card-head">
+<span class="ib-display-card-icon"><img src="assets/instituto/icon-tricologia.svg" alt="" width="16" height="16"/></span>
+<p class="ib-display-card-title">Tricologia e saúde capilar</p>
+</div>
+<p class="ib-display-card-desc">Avaliação do couro cabeludo, queda de cabelo e protocolos para fortalecimento dos fios.</p>
+<p class="ib-display-card-meta">Ver tratamentos →</p>
+</a>
 </div>
 </div>
 <div class="ib-areas-more">
-<a href="/tratamentos-capilares/">Tricologia e saúde capilar</a>
 <a href="/estetica-com-esteticista/">Cuidados com esteticista Adriana</a>
 <a class="ib-areas-cta" href="/avaliacao-facial/">Comece pela avaliação facial</a>
 </div>

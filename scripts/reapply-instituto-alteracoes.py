@@ -31,6 +31,8 @@ html,body{opacity:1!important;visibility:visible!important}
 .rt-our-studio-counter-block .rt-counter-number-text{white-space:nowrap;line-height:1;display:block}
 .rt-our-studio-counter-block .rt-counter-number-text.rt-counter-compact{font-size:clamp(2.25rem,5.5vw,6.5rem)}
 .rt-home-sticly-wrap{background-color:#1f2a1c}
+.rt-header-v1{background-color:#1f2a1c!important}
+.rt-responsive-navbar,.rt-mega-menu{background-color:#1f2a1c!important}
 .rt-wellness-section{position:relative;z-index:2;background-color:#1f2a1c;padding-top:clamp(2.5rem,8vw,5rem);padding-bottom:clamp(2rem,5vw,3.75rem)}
 .rt-wellness-top.rt-text-align-center{gap:1.25rem}
 .rt-therapy.rt-home-therapy{padding-top:2.5rem!important;padding-bottom:0!important}
