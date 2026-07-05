@@ -1,0 +1,7 @@
+{
+  "name": "instituto-bruna-aguiar-site",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/vercel-build.js"
+  }
+}

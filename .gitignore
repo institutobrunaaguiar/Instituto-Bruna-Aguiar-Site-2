@@ -7,8 +7,4 @@ public/fotos_time/
 /*.jpg
 /*.png
 breathiva.webflow.io/assets/instituto/membro-*.jpg
-breathiva.webflow.io/assets/instituto/icon-facial.svg
-breathiva.webflow.io/assets/instituto/icon-laser.svg
-breathiva.webflow.io/assets/instituto/icon-corporal.svg
-breathiva.webflow.io/assets/instituto/icon-tricologia.svg
-breathiva.webflow.io/assets/instituto/icon-wellness.svg
+dist/
