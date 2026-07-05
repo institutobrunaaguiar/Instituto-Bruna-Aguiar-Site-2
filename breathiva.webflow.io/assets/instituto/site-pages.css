@@ -11,6 +11,18 @@
   --ib-max: 72rem;
 }
 
+/* Ícone geométrico duplicado ao lado da logo (mobile) */
+.rt-top-logo,
+img[src*="69afc47f53a6a841a4281a48"],
+img[src*="small.svg"] {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
 *,
 *::before,
 *::after {
@@ -19,6 +31,14 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  touch-action: manipulation;
+  max-width: 100%;
 }
 
 body.ib-page {
@@ -45,14 +65,20 @@ body.ib-page {
   border-radius: 0.375rem;
 }
 
-/* Header */
+/* Header — fixo como na home */
 .ib-header {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 100;
-  background: rgba(249, 246, 243, 0.92);
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(249, 246, 243, 0.96);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--ib-border);
+}
+
+body.ib-page {
+  padding-top: 4.25rem;
 }
 
 .ib-header-inner {
@@ -68,18 +94,17 @@ body.ib-page {
 .ib-logo {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  flex-shrink: 0;
   text-decoration: none;
-  color: var(--ib-green);
-  font-weight: 600;
-  font-size: 0.95rem;
 }
 
 .ib-logo img {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 999px;
-  object-fit: cover;
+  display: block;
+  width: auto;
+  height: 1.5rem;
+  max-width: 9rem;
+  border-radius: 0;
+  object-fit: contain;
 }
 
 .ib-nav-toggle {
@@ -103,7 +128,19 @@ body.ib-page {
 .ib-nav {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+@media (max-width: 1200px) {
+  .ib-nav a:not(.ib-btn) {
+    font-size: 0.8125rem;
+  }
+
+  .ib-nav {
+    gap: 0.65rem;
+  }
 }
 
 .ib-nav a {
@@ -463,6 +500,47 @@ body.ib-page {
   font-weight: 500;
 }
 
+/* Newsletter — fonte ≥16px evita zoom no iOS ao focar */
+.ib-footer-input-wrap {
+  display: flex;
+  width: 100%;
+  max-width: 20rem;
+}
+
+.ib-footer-input,
+.ib-footer-submit {
+  font-size: 16px;
+}
+
+.ib-footer-input {
+  flex: 1;
+  min-width: 0;
+  height: 2.75rem;
+  border: 1px solid var(--ib-border);
+  border-radius: 0.375rem 0 0 0.375rem;
+  padding: 0 0.75rem;
+  background: #fff;
+  color: var(--ib-green);
+  outline: none;
+}
+
+.ib-footer-input:focus {
+  border-color: var(--ib-gold);
+  box-shadow: 0 0 0 2px rgba(158, 146, 113, 0.25);
+}
+
+.ib-footer-submit {
+  height: 2.75rem;
+  border: none;
+  border-radius: 0 0.375rem 0.375rem 0;
+  padding: 0 1rem;
+  background: var(--ib-green);
+  color: var(--ib-cream);
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
 /* Sticky mobile CTA */
 .ib-mobile-cta {
   display: none;
@@ -520,12 +598,40 @@ body.ib-page {
     flex-wrap: wrap;
   }
 
+  .ib-logo img {
+    height: 1.25rem;
+    max-width: 7.5rem;
+  }
+
   .ib-mobile-cta {
     display: block;
   }
 
   body.ib-page {
     padding-bottom: 4.5rem;
+  }
+
+  .ib-footer-input-wrap {
+    flex-direction: column;
+    max-width: 100%;
+    gap: 0.5rem;
+  }
+
+  .ib-footer-input,
+  .ib-footer-submit {
+    width: 100%;
+    border-radius: 0.375rem;
+  }
+
+  .ib-footer-bar .ib-footer-whatsapp {
+    display: none;
+  }
+
+  .ib-footer-inner,
+  .ib-footer-grid,
+  .ib-main {
+    max-width: 100%;
+    overflow-x: hidden;
   }
 }
 

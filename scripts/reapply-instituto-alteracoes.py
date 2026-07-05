@@ -47,10 +47,10 @@ html,body{opacity:1!important;visibility:visible!important}
 .ib-footer-hours{font-size:.875rem;color:#5a6658;margin:1.25rem 0 0;line-height:1.5}
 .ib-footer-address{font-size:.8125rem;color:#5a6658;margin:1rem 0 0;line-height:1.55}
 .ib-footer-address a{color:inherit}
-.ib-footer-input-wrap{position:relative;display:flex;max-width:20rem}
-.ib-footer-input{flex:1;height:2.5rem;border:1px solid #d8ddd2;border-radius:.375rem 0 0 .375rem;padding:0 .75rem;font-size:.875rem;background:#fff;color:#1f2a1c;outline:none}
+.ib-footer-input-wrap{position:relative;display:flex;width:100%;max-width:20rem}
+.ib-footer-input{flex:1;min-width:0;height:2.75rem;border:1px solid #d8ddd2;border-radius:.375rem 0 0 .375rem;padding:0 .75rem;font-size:16px;background:#fff;color:#1f2a1c;outline:none}
 .ib-footer-input:focus{border-color:#9e9271;box-shadow:0 0 0 2px rgba(158,146,113,.25)}
-.ib-footer-submit{height:2.5rem;border:none;border-radius:0 .375rem .375rem 0;padding:0 1rem;background:#1f2a1c;color:#f9f6f3;font-size:.875rem;font-weight:500;cursor:pointer;white-space:nowrap}
+.ib-footer-submit{height:2.75rem;border:none;border-radius:0 .375rem .375rem 0;padding:0 1rem;background:#1f2a1c;color:#f9f6f3;font-size:16px;font-weight:500;cursor:pointer;white-space:nowrap}
 .ib-footer-submit:hover{background:#2f3c2c}
 .ib-footer-submit:disabled{opacity:.6;cursor:not-allowed}
 .ib-footer-newsletter-msg{font-size:.8125rem;margin-top:.5rem}
@@ -374,7 +374,12 @@ def apply(html: str) -> str:
     if 'id="galeria"' not in html:
         html = html.replace('<section class="rt-gallery-v2">', '<section id="galeria" class="rt-gallery-v2">', 1)
 
-    html = re.sub(r'<div class="rt-top-logo">.*?</div>', '', html)
+    html = re.sub(r'<div class="rt-top-logo">\s*.*?</div>\s*', '', html, flags=re.DOTALL)
+    html = re.sub(
+        r'<img[^>]*(?:86ea6b0a230663ce|small\.svg|69afc47f53a6a841a4281a48)[^>]*/>\s*',
+        '',
+        html,
+    )
     html = re.sub(r'<img class="ib-footer-logo"[^>]*/>\s*', '', html)
 
     return html

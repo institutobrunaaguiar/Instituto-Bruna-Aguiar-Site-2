@@ -61,10 +61,13 @@ def render_header(depth: int, active: str = "") -> str:
     ap = asset_prefix(depth)
     home = "/" if depth == 0 else "../" * depth
     nav_items = [
-        ("Início", home if depth else "/"),
-        ("Tratamentos", f"{home}tratamentos-faciais/" if depth else "/tratamentos-faciais/"),
-        ("Sobre", f"{home}#sobre" if depth == 0 else "/#sobre"),
-        ("Contato", f"{home}#contato" if depth == 0 else "/#contato"),
+        ("Início", "/"),
+        ("Sobre", "/#sobre"),
+        ("Tratamentos", "/#tratamentos"),
+        ("Galeria", "/#galeria"),
+        ("Equipe", "/#equipe"),
+        ("FAQ", "/#faq"),
+        ("Contato", "/#contato"),
     ]
     links = []
     for label, href in nav_items:
@@ -72,9 +75,8 @@ def render_header(depth: int, active: str = "") -> str:
         links.append(f'<a href="{href}"{cur}>{html.escape(label)}</a>')
     return f"""<header class="ib-header">
   <div class="ib-header-inner">
-    <a class="ib-logo" href="{home if depth else '/'}">
-      <img src="{ap}/instituto/logo.png" alt="{html.escape(SITE_NAME)}" width="32" height="32" loading="eager"/>
-      <span>{html.escape(SITE_NAME)}</span>
+    <a class="ib-logo" href="/">
+      <img src="{ap}/instituto/logo.png" alt="{html.escape(SITE_NAME)}" width="129" height="24" loading="eager"/>
     </a>
     <button class="ib-nav-toggle" type="button" aria-expanded="false" aria-controls="ib-nav" aria-label="Abrir menu">
       <span></span><span></span><span></span>
@@ -310,7 +312,7 @@ def render_page(page, depth: int = 1) -> str:
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"/>
   <title>{html.escape(page.meta_title)}</title>
   <meta name="description" content="{html.escape(page.meta_description)}"/>
   <meta name="keywords" content="{html.escape(keywords)}"/>

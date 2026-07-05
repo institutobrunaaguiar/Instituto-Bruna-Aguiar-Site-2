@@ -238,6 +238,14 @@ def main() -> None:
         'class="rt-hero-video" src="assets/instituto/hero.jpg" fetchpriority="high" decoding="async"',
     )
 
+    # Ícone geométrico duplicado no header mobile
+    html = re.sub(r'<div class="rt-top-logo">\s*.*?</div>\s*', '', html, flags=re.DOTALL)
+    html = re.sub(
+        r'<img[^>]*(?:86ea6b0a230663ce|small\.svg|69afc47f53a6a841a4281a48)[^>]*/>\s*',
+        '',
+        html,
+    )
+
     INDEX.write_text(html, encoding="utf-8")
     print("Home atualizada:", INDEX)
 
