@@ -139,7 +139,6 @@ def render_footer(depth: int) -> str:
     </div>
     <div class="ib-footer-bar">
       <p>© {date.today().year} {html.escape(SITE_NAME)}. Todos os direitos reservados.</p>
-      <a class="ib-footer-whatsapp" href="{WHATSAPP_URL}" target="_blank" rel="noopener">Agende sua Avaliação</a>
     </div>
   </div>
 </footer>
