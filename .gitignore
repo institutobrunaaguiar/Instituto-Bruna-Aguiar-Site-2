@@ -8,3 +8,4 @@ public/fotos_time/
 /*.png
 breathiva.webflow.io/assets/instituto/membro-*.jpg
 dist/
+.vercel

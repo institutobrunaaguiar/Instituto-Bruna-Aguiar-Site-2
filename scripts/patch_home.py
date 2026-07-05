@@ -14,36 +14,45 @@ WHATSAPP = "https://api.whatsapp.com/message/5DWUJQU6VH5VP1?autoload=1&app_absen
 TREATMENTS_SECTION = '''<section class="rt-table-v2 ib-treatments-compact" id="tratamentos" style="padding:5rem 0;background:#fff;">
 <div class="w-layout-blockcontainer rt-container-xl w-container">
 <div class="w-layout-vflex rt-class-time-main">
-<div class="rt-home-v4-heading rt-text-align-center" style="margin-bottom:2.5rem;">
+<div class="ib-areas-layout">
+<div class="ib-areas-copy">
+<div class="rt-home-v4-heading">
 <p style="text-transform:uppercase;letter-spacing:.16em;font-size:.75rem;color:#9e9271;margin:0 0 .75rem;">Áreas de atuação</p>
 <h2 class="rt-gap-off">Tratamentos por especialidade</h2>
-<p class="rt-gap-off" style="max-width:36rem;margin:1rem auto 0;color:#414e3d;line-height:1.65;">Explore cada área com conteúdo técnico, indicações e FAQs. A home apresenta o Instituto; os protocolos detalhados estão nas páginas dedicadas.</p>
+<p class="rt-gap-off" style="margin:1rem 0 0;color:#414e3d;line-height:1.65;">Explore cada área com conteúdo técnico, indicações e FAQs. Passe o mouse nos cards para descobrir os protocolos.</p>
 </div>
-<div class="ib-card-grid" style="display:grid;gap:1rem;grid-template-columns:1fr;max-width:64rem;margin:0 auto;">
-<a class="ib-card" href="/tratamentos-faciais/" style="background:#f9f6f3;border:1px solid #e0e4da;border-radius:.875rem;padding:1.35rem;text-decoration:none;color:inherit;display:block;">
-<h3 style="margin:0 0 .35rem;font-size:1.05rem;color:#1f2a1c;">Estética facial e harmonização</h3>
-<p style="margin:0;font-size:.875rem;color:#5a6658;">Avaliação facial, toxina botulínica, preenchimentos, bioestimuladores, regenerativos e fios.</p>
+</div>
+<div class="ib-display-cards" aria-label="Principais áreas de tratamento">
+<a class="ib-display-card ib-display-card--1" href="/tratamentos-faciais/">
+<div class="ib-display-card-head">
+<span class="ib-display-card-icon"><img src="assets/instituto/icon-facial.svg" alt="" width="16" height="16"/></span>
+<p class="ib-display-card-title">Estética facial e harmonização</p>
+</div>
+<p class="ib-display-card-desc">Avaliação facial, toxina botulínica, preenchimentos, bioestimuladores, regenerativos e fios.</p>
+<p class="ib-display-card-meta">Ver tratamentos →</p>
 </a>
-<a class="ib-card" href="/tecnologias-faciais-e-laser/" style="background:#f9f6f3;border:1px solid #e0e4da;border-radius:.875rem;padding:1.35rem;text-decoration:none;color:inherit;display:block;">
-<h3 style="margin:0 0 .35rem;font-size:1.05rem;color:#1f2a1c;">Tecnologias faciais e laser</h3>
-<p style="margin:0;font-size:.875rem;color:#5a6658;">HYPRO, laser CO2 fracionado, BB Glow e protocolos para flacidez, textura e manchas.</p>
+<a class="ib-display-card ib-display-card--2" href="/tecnologias-faciais-e-laser/">
+<div class="ib-display-card-head">
+<span class="ib-display-card-icon"><img src="assets/instituto/icon-laser.svg" alt="" width="16" height="16"/></span>
+<p class="ib-display-card-title">Tecnologias faciais e laser</p>
+</div>
+<p class="ib-display-card-desc">HYPRO, laser CO2 fracionado, BB Glow e protocolos para flacidez, textura e manchas.</p>
+<p class="ib-display-card-meta">Ver tratamentos →</p>
 </a>
-<a class="ib-card" href="/tratamentos-corporais/" style="background:#f9f6f3;border:1px solid #e0e4da;border-radius:.875rem;padding:1.35rem;text-decoration:none;color:inherit;display:block;">
-<h3 style="margin:0 0 .35rem;font-size:1.05rem;color:#1f2a1c;">Tratamentos corporais</h3>
-<p style="margin:0;font-size:.875rem;color:#5a6658;">HYPRO corporal, laser CO2, LIP e injetáveis para contorno, flacidez e qualidade da pele.</p>
+<a class="ib-display-card ib-display-card--3" href="/tratamentos-corporais/">
+<div class="ib-display-card-head">
+<span class="ib-display-card-icon"><img src="assets/instituto/icon-corporal.svg" alt="" width="16" height="16"/></span>
+<p class="ib-display-card-title">Tratamentos corporais</p>
+</div>
+<p class="ib-display-card-desc">HYPRO corporal, laser CO2, LIP e injetáveis para contorno, flacidez e qualidade da pele.</p>
+<p class="ib-display-card-meta">Ver tratamentos →</p>
 </a>
-<a class="ib-card" href="/tratamentos-capilares/" style="background:#f9f6f3;border:1px solid #e0e4da;border-radius:.875rem;padding:1.35rem;text-decoration:none;color:inherit;display:block;">
-<h3 style="margin:0 0 .35rem;font-size:1.05rem;color:#1f2a1c;">Tricologia e saúde capilar</h3>
-<p style="margin:0;font-size:.875rem;color:#5a6658;">Avaliação capilar, mesoterapia e protocolos para queda, couro cabeludo e fortalecimento.</p>
-</a>
-<a class="ib-card" href="/estetica-com-esteticista/" style="background:#f9f6f3;border:1px solid #e0e4da;border-radius:.875rem;padding:1.35rem;text-decoration:none;color:inherit;display:block;">
-<h3 style="margin:0 0 .35rem;font-size:1.05rem;color:#1f2a1c;">Cuidados com esteticista Adriana</h3>
-<p style="margin:0;font-size:.875rem;color:#5a6658;">Limpeza de pele, revitalização, design de sobrancelhas e drenagem corporal.</p>
-</a>
-<a class="ib-card" href="/avaliacao-facial/" style="background:#1f2a1c;border:1px solid #1f2a1c;border-radius:.875rem;padding:1.35rem;text-decoration:none;color:#f9f6f3;display:block;">
-<h3 style="margin:0 0 .35rem;font-size:1.05rem;color:#f9f6f3;">Comece pela avaliação facial</h3>
-<p style="margin:0;font-size:.875rem;opacity:.9;">Plano individualizado a partir da sua anatomia, objetivos e histórico clínico.</p>
-</a>
+</div>
+</div>
+<div class="ib-areas-more">
+<a href="/tratamentos-capilares/">Tricologia e saúde capilar</a>
+<a href="/estetica-com-esteticista/">Cuidados com esteticista Adriana</a>
+<a class="ib-areas-cta" href="/avaliacao-facial/">Comece pela avaliação facial</a>
 </div>
 <div style="text-align:center;margin-top:2rem;">
 <a class="rt-button-v1 w-inline-block" href="''' + WHATSAPP + '''" target="_blank" rel="noopener" style="display:inline-block;padding:.75rem 1.5rem;background:#1f2a1c;color:#f9f6f3;border-radius:999px;text-decoration:none;font-size:.875rem;font-weight:500;">Agende sua avaliação</a>
@@ -133,6 +142,14 @@ def main() -> None:
         html = html.replace(
             'rel="stylesheet" type="text/css"/>',
             'rel="stylesheet" type="text/css"/><link href="assets/instituto/site-pages.css" rel="stylesheet"/>',
+            1,
+        )
+
+    if "display-cards.css" not in html:
+        html = html.replace(
+            '<link href="assets/instituto/site-pages.css" rel="stylesheet"/>',
+            '<link href="assets/instituto/site-pages.css" rel="stylesheet"/>'
+            '<link href="assets/instituto/display-cards.css" rel="stylesheet"/>',
             1,
         )
 

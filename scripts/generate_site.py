@@ -106,7 +106,6 @@ def render_footer(depth: int) -> str:
     <div class="ib-footer-grid">
       <div>
         <div class="ib-footer-brand">
-          <img class="ib-footer-logo" src="{ap}/instituto/logo.png" alt="{html.escape(SITE_NAME)}" width="40" height="40"/>
           <span class="ib-footer-name">{html.escape(SITE_NAME)}</span>
         </div>
         <p class="ib-footer-desc">{html.escape(SITE_TAGLINE)} Referência em estética avançada na Asa Sul, Brasília.</p>
