@@ -16,9 +16,9 @@ OFFLINE_CSS = '''<style data-offline="1">/* offline: ensure content is visible r
 html,body{opacity:1!important;visibility:visible!important}
 .w-webflow-badge{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}
 .page-loader,.site-loader,[class*='loading-screen'],[id*='loading-screen']{display:none!important}
-.rt-home-hero-image-wrapper .rt-hero-video{object-position:72% 28%}
-@media (max-width:991px){.rt-home-hero-image-wrapper .rt-hero-video{object-position:68% 24%}}
-@media (max-width:767px){.rt-home-hero-image-wrapper .rt-hero-video{object-position:62% 20%}}
+.rt-home-hero-image-wrapper .rt-hero-video{object-position:50% 28%}
+@media (max-width:991px){.rt-home-hero-image-wrapper .rt-hero-video{object-position:50% 24%}}
+@media (max-width:767px){.rt-home-hero-image-wrapper .rt-hero-video{object-position:50% 20%}}
 .rt-slide-nav-text-wrapper{max-width:22rem}
 .rt-slide-nav-description.rt-slide-nav-location{max-width:18rem;text-align:center}
 .rt-slide-nav-description.rt-slide-nav-location p{margin-bottom:.5rem;font-size:.875rem;line-height:1.45;opacity:.92}
@@ -148,6 +148,9 @@ def copy_assets():
     for f in ("hero.jpg", "logo.png", "icon.png"):
         if (PUBLIC / f).exists():
             shutil.copy2(PUBLIC / f, ASSETS / f)
+    mateus_hero = ROOT / "mateus-candido-7-1365x2048.jpg"
+    if mateus_hero.exists():
+        shutil.copy2(mateus_hero, ASSETS / "hero.jpg")
     m = PUBLIC / "equipe/membro-1.jpg"
     if m.exists():
         shutil.copy2(m, ASSETS / "membro-1.jpg")
@@ -208,7 +211,7 @@ def apply(html: str) -> str:
     html = html.replace("assets/instituto/hero-mateus.jpg", "assets/instituto/hero.jpg")
     html = re.sub(
         r'(<img alt="Instituto Bruna Aguiar" class="rt-hero-video" src=")assets/instituto/hero[^"]*(" style=")([^"]*)(")',
-        r"\1assets/instituto/hero.jpg\2object-fit:cover;object-position:72% 28%;width:100%;height:100%;position:absolute;inset:0;\4",
+        r"\1assets/instituto/hero.jpg\2object-fit:cover;object-position:50% 28%;width:100%;height:100%;position:absolute;inset:0;\4",
         html,
         count=1,
     )
