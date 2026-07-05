@@ -11,51 +11,59 @@ INDEX = ROOT / "breathiva.webflow.io" / "index.html"
 SITE_URL = "https://institutobrunaaguiar.com.br"
 WHATSAPP = "https://api.whatsapp.com/message/5DWUJQU6VH5VP1?autoload=1&app_absent=0&utm_source=site"
 
-TREATMENTS_SECTION = '''<section class="rt-table-v2 ib-treatments-compact" id="tratamentos" style="padding:5rem 0;background:#fff;">
+TREATMENTS_SECTION = '''<section class="rt-table-v2 ib-treatments-compact" id="tratamentos">
 <div class="w-layout-blockcontainer rt-container-xl w-container">
 <div class="w-layout-vflex rt-class-time-main">
-<div class="ib-areas-layout">
-<div class="ib-areas-copy">
-<div class="rt-home-v4-heading">
-<p style="text-transform:uppercase;letter-spacing:.16em;font-size:.75rem;color:#9e9271;margin:0 0 .75rem;">Áreas de atuação</p>
+<header class="ib-areas-header">
+<p class="ib-areas-eyebrow">Áreas de atuação</p>
 <h2 class="rt-gap-off">Tratamentos por especialidade</h2>
-<p class="rt-gap-off" style="margin:1rem 0 0;color:#414e3d;line-height:1.65;">Explore cada área com conteúdo técnico, indicações e FAQs. Passe o mouse nos cards para descobrir os protocolos.</p>
+<p class="ib-areas-lead">Cada área reúne protocolos, indicações e respostas frequentes. Escolha a especialidade que combina com o seu momento.</p>
+</header>
+<div class="ib-areas-grid" aria-label="Principais áreas de tratamento">
+<a class="ib-area-card" href="/tratamentos-faciais/">
+<span class="ib-area-card-icon"><img src="assets/instituto/icon-facial.svg" alt="" width="24" height="24"/></span>
+<div class="ib-area-card-body">
+<h3>Estética facial e harmonização</h3>
+<p>Avaliação facial, toxina botulínica, preenchimentos, bioestimuladores, regenerativos e fios.</p>
+<span class="ib-area-card-link">Ver tratamentos</span>
 </div>
-</div>
-<div class="ib-display-cards" aria-label="Principais áreas de tratamento">
-<a class="ib-display-card ib-display-card--1" href="/tratamentos-faciais/">
-<div class="ib-display-card-head">
-<span class="ib-display-card-icon"><img src="assets/instituto/icon-facial.svg" alt="" width="16" height="16"/></span>
-<p class="ib-display-card-title">Estética facial e harmonização</p>
-</div>
-<p class="ib-display-card-desc">Avaliação facial, toxina botulínica, preenchimentos, bioestimuladores, regenerativos e fios.</p>
-<p class="ib-display-card-meta">Ver tratamentos →</p>
 </a>
-<a class="ib-display-card ib-display-card--2" href="/tecnologias-faciais-e-laser/">
-<div class="ib-display-card-head">
-<span class="ib-display-card-icon"><img src="assets/instituto/icon-laser.svg" alt="" width="16" height="16"/></span>
-<p class="ib-display-card-title">Tecnologias faciais e laser</p>
+<a class="ib-area-card" href="/tecnologias-faciais-e-laser/">
+<span class="ib-area-card-icon"><img src="assets/instituto/icon-laser.svg" alt="" width="24" height="24"/></span>
+<div class="ib-area-card-body">
+<h3>Tecnologias faciais e laser</h3>
+<p>HYPRO, laser CO2 fracionado, BB Glow e protocolos para flacidez, textura e manchas.</p>
+<span class="ib-area-card-link">Ver tratamentos</span>
 </div>
-<p class="ib-display-card-desc">HYPRO, laser CO2 fracionado, BB Glow e protocolos para flacidez, textura e manchas.</p>
-<p class="ib-display-card-meta">Ver tratamentos →</p>
 </a>
-<a class="ib-display-card ib-display-card--3" href="/tratamentos-corporais/">
-<div class="ib-display-card-head">
-<span class="ib-display-card-icon"><img src="assets/instituto/icon-corporal.svg" alt="" width="16" height="16"/></span>
-<p class="ib-display-card-title">Tratamentos corporais</p>
+<a class="ib-area-card" href="/tratamentos-corporais/">
+<span class="ib-area-card-icon"><img src="assets/instituto/icon-corporal.svg" alt="" width="24" height="24"/></span>
+<div class="ib-area-card-body">
+<h3>Tratamentos corporais</h3>
+<p>HYPRO corporal, laser CO2, LIP e injetáveis para contorno, flacidez e qualidade da pele.</p>
+<span class="ib-area-card-link">Ver tratamentos</span>
 </div>
-<p class="ib-display-card-desc">HYPRO corporal, laser CO2, LIP e injetáveis para contorno, flacidez e qualidade da pele.</p>
-<p class="ib-display-card-meta">Ver tratamentos →</p>
+</a>
+<a class="ib-area-card" href="/tratamentos-capilares/">
+<span class="ib-area-card-icon"><img src="assets/instituto/icon-tricologia.svg" alt="" width="24" height="24"/></span>
+<div class="ib-area-card-body">
+<h3>Tricologia e saúde capilar</h3>
+<p>Avaliação do couro cabeludo, fortalecimento dos fios e protocolos para queda e afinamento.</p>
+<span class="ib-area-card-link">Ver tratamentos</span>
+</div>
+</a>
+<a class="ib-area-card ib-area-card--featured" href="/estetica-com-esteticista/">
+<span class="ib-area-card-icon"><img src="assets/instituto/icon-wellness.svg" alt="" width="24" height="24"/></span>
+<div class="ib-area-card-body">
+<h3>Cuidados com esteticista Adriana</h3>
+<p>Limpeza de pele, design, nano lips e protocolos de bem-estar complementares ao plano médico.</p>
+<span class="ib-area-card-link">Conhecer os cuidados</span>
+</div>
 </a>
 </div>
-</div>
-<div class="ib-areas-more">
-<a href="/tratamentos-capilares/">Tricologia e saúde capilar</a>
-<a href="/estetica-com-esteticista/">Cuidados com esteticista Adriana</a>
-<a class="ib-areas-cta" href="/avaliacao-facial/">Comece pela avaliação facial</a>
-</div>
-<div style="text-align:center;margin-top:2rem;">
-<a class="rt-button-v1 w-inline-block" href="''' + WHATSAPP + '''" target="_blank" rel="noopener" style="display:inline-block;padding:.75rem 1.5rem;background:#1f2a1c;color:#f9f6f3;border-radius:999px;text-decoration:none;font-size:.875rem;font-weight:500;">Agende sua avaliação</a>
+<div class="ib-areas-footer">
+<a class="ib-areas-cta-outline" href="/avaliacao-facial/">Comece pela avaliação facial</a>
+<a class="ib-areas-cta-primary" href="''' + WHATSAPP + '''" target="_blank" rel="noopener">Agende sua avaliação</a>
 </div>
 </div>
 </div>
@@ -192,7 +200,7 @@ def main() -> None:
 
     # Replace tratamentos table section
     html = re.sub(
-        r'<section class="rt-table-v2" id="tratamentos">.*?</section><section class="rt-booking-v2',
+        r'<section class="rt-table-v2[^"]*" id="tratamentos">.*?</section><section class="rt-booking-v2',
         TREATMENTS_SECTION + '<section class="rt-booking-v2',
         html,
         count=1,
