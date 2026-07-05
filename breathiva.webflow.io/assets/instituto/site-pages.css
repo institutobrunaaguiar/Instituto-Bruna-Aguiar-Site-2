@@ -794,3 +794,68 @@ body.ib-page {
     width: 100%;
   }
 }
+
+/* Home — wellness abaixo do hero (texto branco precisa de fundo verde) */
+.rt-home-sticly-wrap {
+  background-color: var(--ib-green);
+}
+
+.rt-wellness-section {
+  position: relative;
+  z-index: 2;
+  background-color: var(--ib-green);
+  padding-top: clamp(2.5rem, 8vw, 5rem);
+  padding-bottom: clamp(2rem, 5vw, 3.75rem);
+}
+
+.rt-wellness-top.rt-text-align-center {
+  gap: 1.25rem;
+}
+
+.rt-wellness-logo-wrapper {
+  max-width: 5rem;
+  padding-bottom: 0.5rem;
+}
+
+.rt-wellness-logo-wrapper img {
+  width: 4.5rem;
+  height: auto;
+}
+
+.rt-therapy.rt-home-therapy {
+  padding-top: 2.5rem !important;
+  padding-bottom: 0 !important;
+}
+
+@media (max-width: 767px) {
+  .rt-therapy.rt-home-therapy {
+    padding-top: 1.75rem !important;
+  }
+
+  .rt-wellness-top-text-style .rt-text-style-h3.rt-text-white {
+    font-size: clamp(1.35rem, 5vw, 1.75rem);
+    line-height: 1.25;
+  }
+
+  .rt-gap-off.rt-wellness-paragraph-style {
+    font-size: 0.9375rem;
+    max-width: 22rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .rt-therapy-main {
+    gap: 1.5rem 1rem;
+  }
+
+  .rt-text-style-h4.rt-text-color-white {
+    font-size: 0.9375rem;
+    line-height: 1.3;
+  }
+
+  .rt-gap-off.rt-text-color-white.rt-therapy-paragraph-gap {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    opacity: 0.92;
+  }
+}

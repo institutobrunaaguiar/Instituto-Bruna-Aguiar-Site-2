@@ -30,6 +30,11 @@ html,body{opacity:1!important;visibility:visible!important}
 .rt-our-studio-counter-block-v1{flex:1 1 9rem;max-width:16rem;padding:0 .5rem}
 .rt-our-studio-counter-block .rt-counter-number-text{white-space:nowrap;line-height:1;display:block}
 .rt-our-studio-counter-block .rt-counter-number-text.rt-counter-compact{font-size:clamp(2.25rem,5.5vw,6.5rem)}
+.rt-home-sticly-wrap{background-color:#1f2a1c}
+.rt-wellness-section{position:relative;z-index:2;background-color:#1f2a1c;padding-top:clamp(2.5rem,8vw,5rem);padding-bottom:clamp(2rem,5vw,3.75rem)}
+.rt-wellness-top.rt-text-align-center{gap:1.25rem}
+.rt-therapy.rt-home-therapy{padding-top:2.5rem!important;padding-bottom:0!important}
+@media (max-width:767px){.rt-therapy.rt-home-therapy{padding-top:1.75rem!important}}
 .ib-footer{background:#f4f1ec;color:#1f2a1c;font-family:inherit}
 .ib-footer-inner{max-width:75rem;margin:0 auto;padding:0 1.5rem}
 .ib-footer-grid{display:grid;grid-template-columns:1fr;gap:2.5rem;padding:4rem 0 3rem}
