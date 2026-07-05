@@ -72,9 +72,10 @@ body.ib-page {
   left: 0;
   right: 0;
   z-index: 1000;
-  background: var(--ib-green);
+  background-color: #1f2a1c !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 24px rgba(31, 42, 28, 0.15);
+  isolation: isolate;
 }
 
 body.ib-page {
@@ -94,21 +95,26 @@ body.ib-page {
 .ib-logo {
   display: flex;
   align-items: center;
-  flex-shrink: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: calc(100% - 3.25rem);
   text-decoration: none;
 }
 
 .ib-logo img {
   display: block;
   width: auto;
-  height: 1.5rem;
-  max-width: 9rem;
-  border-radius: 0;
+  height: auto;
+  max-width: min(8.125rem, 100%);
+  max-height: 2.3125rem;
   object-fit: contain;
+  object-position: left center;
+  mix-blend-mode: lighten;
 }
 
 .ib-nav-toggle {
   display: none;
+  flex-shrink: 0;
   background: none;
   border: none;
   width: 2.75rem;
@@ -609,12 +615,16 @@ body.ib-page {
 
   .ib-header-inner {
     position: relative;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+  }
+
+  .ib-logo {
+    max-width: calc(100% - 3.5rem);
   }
 
   .ib-logo img {
-    height: 1.25rem;
-    max-width: 7.5rem;
+    max-width: min(7.75rem, calc(100vw - 4.5rem));
+    max-height: 2.125rem;
   }
 
   .ib-mobile-cta {

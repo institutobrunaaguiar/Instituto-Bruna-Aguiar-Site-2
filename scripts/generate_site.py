@@ -29,6 +29,7 @@ from site_config import (
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "breathiva.webflow.io"
+CSS_VERSION = "4"
 CSS_SRC = OUT / "assets" / "instituto" / "site-pages.css"
 
 
@@ -73,10 +74,10 @@ def render_header(depth: int, active: str = "") -> str:
     for label, href in nav_items:
         cur = ' aria-current="page"' if label.lower() == active.lower() else ""
         links.append(f'<a href="{href}"{cur}>{html.escape(label)}</a>')
-    return f"""<header class="ib-header">
+    return f"""<header class="ib-header" style="background-color:#1f2a1c">
   <div class="ib-header-inner">
     <a class="ib-logo" href="/">
-      <img src="{ap}/instituto/logo.png" alt="{html.escape(SITE_NAME)}" width="129" height="24" loading="eager"/>
+      <img src="{ap}/instituto/logo.png" alt="{html.escape(SITE_NAME)}" width="130" height="37" loading="eager" decoding="async"/>
     </a>
     <button class="ib-nav-toggle" type="button" aria-expanded="false" aria-controls="ib-nav" aria-label="Abrir menu">
       <span></span><span></span><span></span>
@@ -239,7 +240,7 @@ def schema_for_page(page, canonical: str) -> str:
 def render_page(page, depth: int = 1) -> str:
     canonical = f"{SITE_URL}{page_url(page.slug)}"
     ap = asset_prefix(depth)
-    css_href = f"{ap}/instituto/site-pages.css"
+    css_href = f"{ap}/instituto/site-pages.css?v={CSS_VERSION}"
 
     bc_html = ""
     crumbs = breadcrumbs(page)
