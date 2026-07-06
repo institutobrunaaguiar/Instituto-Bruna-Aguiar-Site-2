@@ -15,6 +15,7 @@ from site_config import (
     FACEBOOK,
     HOURS,
     INSTAGRAM,
+    TIKTOK,
     MAPS_URL,
     OG_IMAGE,
     PHONE_DISPLAY,
@@ -132,6 +133,7 @@ def render_footer(depth: int) -> str:
         <ul class="ib-footer-social">
           <li><a href="{INSTAGRAM}" target="_blank" rel="noopener">Instagram</a></li>
           <li><a href="{FACEBOOK}" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="{TIKTOK}" target="_blank" rel="noopener">TikTok</a></li>
         </ul>
         <p class="ib-footer-desc" style="margin-top:1rem;font-size:.8125rem">{html.escape(ADDRESS)}<br/>
         <a href="{MAPS_URL}" target="_blank" rel="noopener">Como chegar</a></p>
@@ -228,7 +230,7 @@ def schema_for_page(page, canonical: str) -> str:
             "reviewCount": RATING_COUNT,
             "bestRating": "5",
         },
-        "sameAs": [INSTAGRAM, FACEBOOK],
+        "sameAs": [INSTAGRAM, FACEBOOK, TIKTOK],
     }
     graphs.insert(0, org)
 

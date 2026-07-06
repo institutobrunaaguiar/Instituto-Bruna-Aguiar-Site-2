@@ -15,6 +15,7 @@ MAPS_URL = (
 )
 INSTAGRAM = "https://www.instagram.com/instituto.brunaaguiar/"
 FACEBOOK = "https://www.facebook.com/institutobrunaaguiar/"
+TIKTOK = "https://www.tiktok.com/@instituto.brunaaguiar"
 HOURS = "Segunda a sexta, 9h às 18h"
 OG_IMAGE = "/assets/instituto/hero.jpg"
 RATING_VALUE = "5.0"

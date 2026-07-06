@@ -96,6 +96,7 @@ SCHEMA = {
             "sameAs": [
                 "https://www.instagram.com/instituto.brunaaguiar/",
                 "https://www.facebook.com/institutobrunaaguiar/",
+                "https://www.tiktok.com/@instituto.brunaaguiar",
             ],
         },
         {
