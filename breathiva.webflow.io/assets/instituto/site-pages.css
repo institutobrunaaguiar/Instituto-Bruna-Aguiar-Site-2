@@ -784,10 +784,37 @@ body.ib-page {
 }
 
 .ib-prof-role {
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.35rem;
   font-size: 0.875rem;
   line-height: 1.4;
   color: #9e9271;
+}
+
+.ib-prof-subrole {
+  margin: 0 0 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: #5a6658;
+}
+
+.ib-prof-crbm {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: #5a6658;
+  letter-spacing: 0.02em;
+}
+
+.ib-prof-crbm-num {
+  display: inline-block;
+  min-width: 3.5rem;
+  min-height: 1.1em;
+  border-bottom: 1px solid #d8ddd2;
+  vertical-align: baseline;
+}
+
+.ib-prof-info .ib-prof-role:last-child {
+  margin-bottom: 0;
 }
 
 .ib-prof-bio {
