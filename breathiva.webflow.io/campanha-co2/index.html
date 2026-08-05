@@ -43,7 +43,14 @@
   .back.on{opacity:1;pointer-events:auto}
   .back:active{background:rgba(31,42,28,.08)}
   .back svg{width:22px;height:22px}
-  .logo{height:26px;margin:0 auto;display:block;object-fit:contain;user-select:none}
+  /* logo recolorida para o verde da marca (a PNG original é bege claro e
+     desapareceria no fundo creme) — usa a PNG transparente como máscara */
+  .logo{
+    height:30px;aspect-ratio:1125/321;margin:0 auto;display:block;user-select:none;
+    background-color:var(--green);
+    -webkit-mask:url(/assets/instituto/logo.png) center/contain no-repeat;
+            mask:url(/assets/instituto/logo.png) center/contain no-repeat;
+  }
   .sp{width:40px;flex:0 0 40px}
   .progressWrap{padding:8px 20px 4px}
   .bar{height:4px;background:var(--border);border-radius:99px;overflow:hidden}
@@ -168,7 +175,7 @@
     <button class="back" id="back" aria-label="Voltar">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
     </button>
-    <img class="logo" src="/assets/instituto/logo.png" alt="Instituto Bruna Aguiar" />
+    <span class="logo" role="img" aria-label="Instituto Bruna Aguiar"></span>
     <span class="sp"></span>
   </header>
   <div class="progressWrap"><div class="bar"><i id="prog"></i></div></div>
