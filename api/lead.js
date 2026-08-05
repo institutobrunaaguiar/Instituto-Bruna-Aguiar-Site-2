@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
 
 // ---------- Supabase (PostgREST REST API) ----------
 async function saveToSupabase(lead, phoneE164, userAgent) {
-  const url = process.env.SUPABASE_URL;
+  const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) return { saved: false, reason: "not_configured" };
 
