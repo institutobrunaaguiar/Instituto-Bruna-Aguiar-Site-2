@@ -449,7 +449,7 @@
     try{
       var ctrl = new AbortController();
       var to = setTimeout(function(){ ctrl.abort(); }, 4500);
-      fetch("/api/lead", {
+      fetch("/api/lead/", {
         method:"POST",
         headers:{ "Content-Type":"application/json" },
         body: JSON.stringify(data),
