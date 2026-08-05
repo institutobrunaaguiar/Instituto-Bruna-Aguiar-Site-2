@@ -33,7 +33,17 @@ para o WhatsApp da clínica com a mensagem pré-preenchida.
 - Dropdowns como bottom-sheet deslizante (não `<select>` cru).
 - Tudo inline num único HTML (zero requests externos além do POST do lead).
 
-## Captura de lead — Kommo
+## Captura de lead — Supabase + Kommo (em paralelo)
+`api/lead.js` grava em dois destinos independentes (`Promise.all`), cada um
+opcional e gated por env var, ambos com degradação segura.
+
+### Supabase (fonte de verdade)
+Insert via PostgREST (`POST {SUPABASE_URL}/rest/v1/leads_campanha_co2`) com a
+`SUPABASE_SERVICE_ROLE_KEY` (fica só no servidor; bypassa RLS). Sem SDK — só
+`fetch`, porque o build roda sem `npm install`. Schema: `docs/supabase/leads_campanha_co2.sql`.
+Env vars: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`.
+
+### Kommo (CRM)
 `api/lead.js` recebe JSON e:
 1. `POST /api/v4/leads/complex` → cria lead + contato (contato com `field_code: PHONE`),
    tag "Campanha CO2", opcional `pipeline_id`/`status_id`.
