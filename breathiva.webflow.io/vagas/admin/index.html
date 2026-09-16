@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#1f2a1c" />
+<title>Painel de candidaturas | Instituto Bruna Aguiar</title>
+<meta name="robots" content="noindex, nofollow, noarchive" />
+<meta name="referrer" content="no-referrer" />
+<link rel="icon" href="/assets/instituto/icon.png" />
+
+<style>
+  @font-face{font-family:Satoshi;src:url("/assets/711c6243cdc5431f_69b94459bfebcfdb86bc1719_Satos.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:Satoshi;src:url("/assets/93330866d109f6b2_6995a0d104741b8ff2d1554f_Satos.otf") format("opentype");font-weight:500;font-style:normal;font-display:swap}
+  @font-face{font-family:Orticalinear;src:url("/assets/fc58716fc92f11f2_698574a601f92b97484ef858_Ortic.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
+
+  :root{
+    --green:#1f2a1c; --green-2:#2f3c2c; --text:#414e3d; --muted:#5a6658;
+    --gold:#9e9271; --gold-light:#d8aa78; --cream:#f9f6f3; --cream-2:#f4f1ec;
+    --border:#e0e4da; --danger:#b42318; --ok:#2d6a4f;
+    --head:Orticalinear,Georgia,serif; --body:Satoshi,-apple-system,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;font-family:var(--body);background:var(--cream);color:var(--text);
+    -webkit-font-smoothing:antialiased;font-size:16px;line-height:1.55}
+  h1,h2,h3{font-family:var(--head);font-weight:400;color:var(--green);margin:0;letter-spacing:-.01em}
+  p{margin:0}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+  [hidden]{display:none!important}
+
+  .topo{background:var(--green);padding:.9rem 1.25rem;display:flex;align-items:center;
+    justify-content:space-between;gap:1rem;position:sticky;top:0;z-index:10}
+  .logo{height:22px;aspect-ratio:1125/321;display:block;background-color:var(--cream);
+    -webkit-mask:url(/assets/instituto/logo.png) center/contain no-repeat;
+            mask:url(/assets/instituto/logo.png) center/contain no-repeat}
+  .topo .quem{color:rgba(249,246,243,.7);font-size:.8125rem;display:flex;align-items:center;gap:.9rem}
+  .sair{background:none;border:none;color:rgba(249,246,243,.7);font-family:inherit;font-size:.8125rem;
+    cursor:pointer;text-decoration:underline;padding:.25rem}
+  .sair:hover{color:var(--cream)}
+
+  .wrap{max-width:62rem;margin:0 auto;padding-inline:1.25rem}
+
+  /* ------------------------------------------------------------- login --- */
+  .login{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:1.5rem}
+  .login-caixa{width:100%;max-width:23rem;text-align:center}
+  .login .logo{margin:0 auto 2rem;height:26px;background-color:var(--green)}
+  .login h1{font-size:1.65rem;margin-bottom:.4rem}
+  .login .sub{color:var(--muted);font-size:.9375rem;margin-bottom:1.75rem}
+  .campo{text-align:left;margin-bottom:1rem}
+  label{display:block;font-size:.8125rem;font-weight:500;color:var(--green);margin-bottom:.45rem}
+  .field{width:100%;font-family:inherit;font-size:1.0625rem;padding:.95rem 1.05rem;color:var(--text);
+    border:1.5px solid var(--border);border-radius:14px;background:#fff;outline:none;
+    transition:border-color .18s ease,box-shadow .18s ease}
+  .field:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(158,146,113,.14)}
+  .field[aria-invalid="true"]{border-color:var(--danger)}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:52px;
+    padding:0 1.6rem;border:none;border-radius:14px;cursor:pointer;background:var(--green);
+    color:var(--cream);font-family:inherit;font-size:1rem;font-weight:500;
+    transition:background .2s ease,opacity .2s ease}
+  .btn:hover{background:var(--green-2)}
+  .btn[disabled]{opacity:.45;cursor:not-allowed}
+  .btn-block{width:100%}
+  .btn-sec{background:transparent;color:var(--green);border:1.5px solid var(--border)}
+  .btn-sec:hover{background:var(--cream-2)}
+  .btn-peq{min-height:40px;padding:0 .95rem;font-size:.875rem;border-radius:11px}
+
+  .erro{display:none;color:var(--danger);font-size:.875rem;margin-top:.75rem}
+  .erro.on{display:block}
+
+  /* ------------------------------------------------------------- painel -- */
+  .abas{display:flex;gap:.35rem;border-bottom:1px solid var(--border);margin:1.5rem 0 1.25rem}
+  .aba{background:none;border:none;font-family:inherit;font-size:.9375rem;color:var(--muted);
+    padding:.7rem .9rem;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+  .aba[aria-selected="true"]{color:var(--green);border-bottom-color:var(--gold);font-weight:500}
+
+  .filtros{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.1rem}
+  .filtros .field{padding:.7rem .9rem;font-size:.9375rem}
+  .filtros .busca{flex:1;min-width:11rem}
+  select.field{appearance:none;background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235a6658' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right .7rem center;background-size:18px;padding-right:2.3rem}
+
+  .contagem{font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;
+    margin-bottom:.9rem}
+
+  .cartao{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:1.1rem 1.2rem;
+    margin-bottom:.8rem}
+  .cartao .topo-cartao{display:flex;gap:.95rem;align-items:flex-start}
+  .cartao .corpo{flex:1;min-width:0}
+  .cartao .linha1{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;
+    flex-wrap:wrap}
+
+  /* retrato do candidato: foto quando existe, iniciais quando não */
+  .retrato{width:56px;height:56px;flex:0 0 56px;border-radius:50%;overflow:hidden;background:var(--cream-2);
+    border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;
+    color:var(--gold);font-size:1.0625rem;font-weight:500;letter-spacing:.02em;padding:0;
+    font-family:inherit;position:relative}
+  .retrato img{width:100%;height:100%;object-fit:cover;display:block}
+  button.retrato{cursor:zoom-in;transition:border-color .15s ease,transform .12s ease}
+  button.retrato:hover{border-color:var(--gold);box-shadow:0 0 0 3px rgba(158,146,113,.18)}
+  button.retrato:active{transform:scale(.97)}
+
+  /* foto em tamanho real */
+  .visor{position:fixed;inset:0;z-index:50;background:rgba(31,42,28,.88);display:flex;
+    align-items:center;justify-content:center;padding:1.5rem}
+  .visor img{max-width:100%;max-height:85vh;border-radius:12px;display:block;
+    box-shadow:0 18px 50px rgba(0,0,0,.35)}
+  .visor .fechar{position:absolute;top:1rem;right:1rem;width:44px;height:44px;border-radius:50%;
+    border:none;background:rgba(249,246,243,.16);color:#fff;font-size:1.5rem;line-height:1;
+    cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .visor .fechar:hover{background:rgba(249,246,243,.28)}
+  .visor .legenda{position:absolute;left:0;right:0;bottom:1.25rem;text-align:center;
+    color:rgba(249,246,243,.85);font-size:.875rem}
+  .cartao .nome{font-size:1.0625rem;color:var(--green);font-weight:500}
+  .cartao .quando{font-size:.75rem;color:var(--muted);white-space:nowrap}
+  .cartao .dados{display:flex;flex-wrap:wrap;gap:.35rem 1.1rem;margin-top:.55rem;font-size:.875rem;
+    color:var(--muted)}
+  .cartao .dados a{color:var(--muted)}
+  .cartao .acoes{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-top:1rem;
+    padding-top:.95rem;border-top:1px solid var(--border)}
+  .cartao .acoes select{min-height:40px;font-size:.875rem;padding:0 2.3rem 0 .8rem;border-radius:11px}
+
+  .selo{display:inline-block;font-size:.6875rem;text-transform:uppercase;letter-spacing:.1em;
+    padding:.2rem .55rem;border-radius:99px;border:1px solid var(--border);color:var(--muted)}
+  .selo.foto{color:var(--gold);border-color:var(--gold)}
+
+  .vazio{text-align:center;color:var(--muted);padding:3rem 1rem;font-size:.9375rem}
+  .carregando{text-align:center;color:var(--muted);padding:2.5rem 1rem;font-size:.9375rem}
+
+  /* ------------------------------------------------------------ códigos -- */
+  .aviso{background:#fff;border:1.5px solid var(--border);border-left:3px solid var(--gold);
+    border-radius:14px;padding:1rem 1.1rem;margin-bottom:1.25rem;font-size:.875rem;color:var(--muted)}
+  .novo-codigo{background:var(--green);color:var(--cream);border-radius:16px;padding:1.25rem;
+    margin-bottom:1.25rem}
+  .novo-codigo .rot{font-size:.6875rem;text-transform:uppercase;letter-spacing:.12em;
+    color:rgba(249,246,243,.65)}
+  .novo-codigo .valor{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:1.5rem;
+    margin:.5rem 0 .9rem;word-break:break-all;color:#fff}
+  .novo-codigo .btn{background:var(--cream);color:var(--green)}
+  .novo-codigo .btn:hover{background:#fff}
+  .novo-codigo .nota{font-size:.8125rem;color:rgba(249,246,243,.7);margin-top:.8rem}
+
+  .form-codigo{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.5rem}
+  .form-codigo .field{flex:1;min-width:12rem;padding:.7rem .9rem;font-size:.9375rem}
+
+  main{padding-bottom:4rem}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+  @media (max-width:520px){
+    .cartao .acoes{flex-direction:column;align-items:stretch}
+    .cartao .acoes .btn,.cartao .acoes select{width:100%}
+    /* o selo é informação, não botão: não deve esticar junto */
+    .cartao .acoes .selo{align-self:flex-start;width:auto}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================== LOGIN ==== -->
+<section class="login" id="telaLogin">
+  <div class="login-caixa">
+    <span class="logo" role="img" aria-label="Instituto Bruna Aguiar"></span>
+    <h1>Painel de candidaturas</h1>
+    <p class="sub">Entre com seu código de acesso.</p>
+
+    <form id="formLogin" autocomplete="off">
+      <div class="campo">
+        <label for="codigo">Código de acesso</label>
+        <input class="field" id="codigo" name="codigo" type="password" autocomplete="current-password"
+               autocapitalize="off" spellcheck="false" enterkeyhint="go" aria-describedby="erroLogin" />
+      </div>
+      <button class="btn btn-block" type="submit" id="btnEntrar">Entrar</button>
+      <p class="erro" id="erroLogin" role="alert"></p>
+    </form>
+  </div>
+</section>
+
+<!-- ============================================================= PAINEL ==== -->
+<div id="telaPainel" hidden>
+  <header class="topo">
+    <span class="logo" role="img" aria-label="Instituto Bruna Aguiar"></span>
+    <div class="quem">
+      <span id="quemSou"></span>
+      <button class="sair" type="button" id="btnSair">Sair</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="abas" role="tablist">
+      <button class="aba" role="tab" id="abaCand" aria-selected="true" aria-controls="painelCand">Candidaturas</button>
+      <button class="aba" role="tab" id="abaCod" aria-selected="false" aria-controls="painelCod">Acessos</button>
+    </div>
+
+    <!-- CANDIDATURAS -->
+    <section id="painelCand" role="tabpanel" aria-labelledby="abaCand">
+      <div class="filtros">
+        <label class="sr-only" for="busca">Buscar por nome, e-mail ou telefone</label>
+        <input class="field busca" id="busca" type="search" placeholder="Buscar por nome, e-mail ou telefone"
+               enterkeyhint="search" />
+        <label class="sr-only" for="filtroStatus">Filtrar por status</label>
+        <select class="field" id="filtroStatus">
+          <option value="">Todos os status</option>
+          <option value="nova">Novas</option>
+          <option value="em_analise">Em análise</option>
+          <option value="entrevista">Entrevista</option>
+          <option value="aprovada">Aprovadas</option>
+          <option value="reprovada">Reprovadas</option>
+          <option value="arquivada">Arquivadas</option>
+        </select>
+      </div>
+
+      <p class="contagem" id="contagem" aria-live="polite"></p>
+      <div id="lista"></div>
+      <div style="text-align:center;margin-top:1.25rem">
+        <button class="btn btn-sec" type="button" id="btnMais" hidden>Carregar mais</button>
+      </div>
+    </section>
+
+    <!-- ACESSOS -->
+    <section id="painelCod" role="tabpanel" aria-labelledby="abaCod" hidden>
+      <p class="aviso">
+        Cada pessoa do RH deve ter o próprio código. O código aparece uma única vez, no momento
+        em que é criado — depois disso só fica guardado o hash dele. Para tirar o acesso de
+        alguém, revogue o código: quem estiver usando cai na hora.
+      </p>
+
+      <div class="novo-codigo" id="codigoNovo" hidden>
+        <p class="rot">Novo código de <span id="codigoNovoLabel"></span></p>
+        <p class="valor" id="codigoNovoValor"></p>
+        <button class="btn btn-peq" type="button" id="btnCopiar">Copiar código</button>
+        <p class="nota">Anote ou envie agora. Esta é a única vez que ele aparece.</p>
+      </div>
+
+      <form class="form-codigo" id="formCodigo" autocomplete="off">
+        <label class="sr-only" for="labelCodigo">Nome de quem vai usar</label>
+        <input class="field" id="labelCodigo" type="text" placeholder="Nome de quem vai usar" maxlength="60" />
+        <button class="btn btn-peq" type="submit" id="btnGerar">Gerar código</button>
+      </form>
+      <p class="erro" id="erroCodigo" role="alert"></p>
+
+      <div id="listaCodigos"></div>
+    </section>
+  </main>
+</div>
+
+<!-- foto em tamanho real -->
+<div class="visor" id="visor" hidden role="dialog" aria-modal="true" aria-label="Foto do candidato">
+  <button class="fechar" type="button" id="visorFechar" aria-label="Fechar foto">&times;</button>
+  <img id="visorImg" alt="" />
+  <p class="legenda" id="visorLegenda"></p>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var API = "/api/vagas/admin/";
+  var $ = function (id) { return document.getElementById(id); };
+  var pagina = 0, total = 0, carregando = false, buscaTimer = null;
+
+  var STATUS = {
+    nova: "Nova", em_analise: "Em análise", entrevista: "Entrevista",
+    aprovada: "Aprovada", reprovada: "Reprovada", arquivada: "Arquivada"
+  };
+
+  function chamar(acao, dados) {
+    return fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify(Object.assign({ action: acao }, dados || {}))
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (j) {
+        return { status: r.status, json: j };
+      });
+    });
+  }
+
+  function mostrarErro(id, msg) {
+    var el = $(id);
+    el.textContent = msg || "";
+    el.classList.toggle("on", Boolean(msg));
+  }
+
+  // ------------------------------------------------------------- login ----
+  $("formLogin").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var codigo = $("codigo").value.trim();
+    if (!codigo) { mostrarErro("erroLogin", "Informe seu código."); return; }
+
+    var btn = $("btnEntrar");
+    btn.disabled = true; btn.textContent = "Entrando…";
+    mostrarErro("erroLogin", "");
+
+    chamar("login", { codigo: codigo }).then(function (r) {
+      btn.disabled = false; btn.textContent = "Entrar";
+      if (r.json && r.json.ok) {
+        $("codigo").value = "";
+        abrirPainel(r.json.usuario);
+        return;
+      }
+      $("codigo").setAttribute("aria-invalid", "true");
+      mostrarErro("erroLogin", (r.json && r.json.message) || "Não foi possível entrar.");
+    }).catch(function () {
+      btn.disabled = false; btn.textContent = "Entrar";
+      mostrarErro("erroLogin", "Falha de conexão. Tente de novo.");
+    });
+  });
+
+  $("btnSair").addEventListener("click", function () {
+    chamar("sair").then(function () { window.location.reload(); });
+  });
+
+  function abrirPainel(usuario) {
+    $("telaLogin").hidden = true;
+    $("telaPainel").hidden = false;
+    $("quemSou").textContent = usuario || "";
+    document.title = "Painel de candidaturas | Instituto Bruna Aguiar";
+    recarregar();
+  }
+
+  function sessaoCaiu() {
+    $("telaPainel").hidden = true;
+    $("telaLogin").hidden = false;
+    mostrarErro("erroLogin", "Sua sessão expirou. Entre de novo.");
+  }
+
+  // ---------------------------------------------------------- abas --------
+  function trocarAba(qual) {
+    var cand = qual === "cand";
+    $("abaCand").setAttribute("aria-selected", String(cand));
+    $("abaCod").setAttribute("aria-selected", String(!cand));
+    $("painelCand").hidden = !cand;
+    $("painelCod").hidden = cand;
+    if (!cand) carregarCodigos();
+  }
+  $("abaCand").addEventListener("click", function () { trocarAba("cand"); });
+  $("abaCod").addEventListener("click", function () { trocarAba("cod"); });
+
+  // -------------------------------------------------- candidaturas --------
+  $("busca").addEventListener("input", function () {
+    clearTimeout(buscaTimer);
+    buscaTimer = setTimeout(recarregar, 350);
+  });
+  $("filtroStatus").addEventListener("change", recarregar);
+  $("btnMais").addEventListener("click", function () { pagina += 1; carregar(true); });
+
+  function recarregar() { pagina = 0; carregar(false); }
+
+  function carregar(acrescentar) {
+    if (carregando) return;
+    carregando = true;
+    if (!acrescentar) $("lista").innerHTML = '<p class="carregando">Carregando…</p>';
+
+    chamar("candidaturas", {
+      pagina: pagina,
+      status: $("filtroStatus").value,
+      busca: $("busca").value.trim()
+    }).then(function (r) {
+      carregando = false;
+      if (r.status === 401) return sessaoCaiu();
+      if (!r.json || !r.json.ok) {
+        $("lista").innerHTML = '<p class="vazio">Não foi possível carregar agora.</p>';
+        return;
+      }
+
+      total = r.json.total;
+      if (!acrescentar) $("lista").innerHTML = "";
+
+      var linhas = r.json.candidaturas || [];
+      if (!linhas.length && !acrescentar) {
+        $("lista").innerHTML = '<p class="vazio">Nenhuma candidatura por aqui ainda.</p>';
+        $("contagem").textContent = "";
+        $("btnMais").hidden = true;
+        return;
+      }
+
+      linhas.forEach(function (c) { $("lista").appendChild(cartao(c)); });
+
+      var mostrando = $("lista").querySelectorAll(".cartao").length;
+      $("contagem").textContent = total === null
+        ? mostrando + " candidatura(s)"
+        : mostrando + " de " + total + " candidatura(s)";
+      $("btnMais").hidden = !(total !== null && mostrando < total);
+    }).catch(function () {
+      carregando = false;
+      $("lista").innerHTML = '<p class="vazio">Falha de conexão.</p>';
+    });
+  }
+
+  function texto(tag, classe, valor) {
+    var el = document.createElement(tag);
+    if (classe) el.className = classe;
+    el.textContent = valor;
+    return el;
+  }
+
+  function iniciais(nome) {
+    var partes = String(nome || "").trim().split(/\s+/).filter(Boolean);
+    if (!partes.length) return "?";
+    var primeira = partes[0][0] || "";
+    var ultima = partes.length > 1 ? (partes[partes.length - 1][0] || "") : "";
+    return (primeira + ultima).toUpperCase();
+  }
+
+  // Com foto: miniatura clicável que abre em tamanho real. Sem foto separada
+  // (o currículo já traz uma): as iniciais, para o cartão não ficar torto.
+  function retrato(c) {
+    if (!c.foto_url) {
+      var vazio = document.createElement("div");
+      vazio.className = "retrato";
+      vazio.setAttribute("aria-hidden", "true");
+      vazio.textContent = iniciais(c.nome_completo);
+      return vazio;
+    }
+
+    var b = document.createElement("button");
+    b.className = "retrato";
+    b.type = "button";
+    b.setAttribute("aria-label", "Ver foto de " + c.nome_completo + " em tamanho real");
+    b.title = "Ver foto em tamanho real";
+
+    var img = document.createElement("img");
+    img.src = c.foto_url;
+    img.alt = "";
+    img.loading = "lazy";
+    // link assinado vence ou falha: cai para as iniciais em vez de ícone quebrado
+    img.addEventListener("error", function () {
+      b.replaceWith(Object.assign(document.createElement("div"), {
+        className: "retrato", textContent: iniciais(c.nome_completo)
+      }));
+    });
+    b.appendChild(img);
+    b.addEventListener("click", function () { abrirVisor(c.foto_url, c.nome_completo); });
+    return b;
+  }
+
+  function cartao(c) {
+    var art = document.createElement("article");
+    art.className = "cartao";
+
+    var topo = document.createElement("div");
+    topo.className = "topo-cartao";
+    topo.appendChild(retrato(c));
+
+    var corpo = document.createElement("div");
+    corpo.className = "corpo";
+
+    var l1 = document.createElement("div");
+    l1.className = "linha1";
+    l1.appendChild(texto("p", "nome", c.nome_completo));
+    l1.appendChild(texto("span", "quando", dataBr(c.created_at)));
+    corpo.appendChild(l1);
+
+    var dados = document.createElement("div");
+    dados.className = "dados";
+
+    var tel = document.createElement("a");
+    tel.href = "tel:+55" + c.telefone;
+    tel.textContent = telefoneBr(c.telefone);
+    dados.appendChild(tel);
+
+    var mail = document.createElement("a");
+    mail.href = "mailto:" + c.email;
+    mail.textContent = c.email;
+    dados.appendChild(mail);
+
+    if (c.idade !== null && c.idade !== undefined) dados.appendChild(texto("span", "", c.idade + " anos"));
+
+    var lugar = [c.bairro, c.cidade].filter(Boolean).join(" · ");
+    if (lugar) dados.appendChild(texto("span", "", lugar + (c.estado ? "/" + c.estado : "")));
+    corpo.appendChild(dados);
+    topo.appendChild(corpo);
+    art.appendChild(topo);
+
+    var acoes = document.createElement("div");
+    acoes.className = "acoes";
+
+    var bCv = document.createElement("button");
+    bCv.className = "btn btn-sec btn-peq";
+    bCv.type = "button";
+    bCv.textContent = "Abrir currículo";
+    bCv.addEventListener("click", function () { abrirArquivo(c.id, "curriculo", bCv); });
+    acoes.appendChild(bCv);
+
+    if (!c.tem_foto_separada && c.curriculo_tem_foto) {
+      acoes.appendChild(texto("span", "selo foto", "foto no currículo"));
+    }
+
+    var sel = document.createElement("select");
+    sel.className = "field";
+    sel.setAttribute("aria-label", "Status de " + c.nome_completo);
+    Object.keys(STATUS).forEach(function (k) {
+      var o = document.createElement("option");
+      o.value = k; o.textContent = STATUS[k];
+      if (k === c.status) o.selected = true;
+      sel.appendChild(o);
+    });
+    sel.addEventListener("change", function () {
+      sel.disabled = true;
+      chamar("status", { id: c.id, status: sel.value }).then(function (r) {
+        sel.disabled = false;
+        if (r.status === 401) sessaoCaiu();
+      }).catch(function () { sel.disabled = false; });
+    });
+    acoes.appendChild(sel);
+
+    art.appendChild(acoes);
+    return art;
+  }
+
+  function abrirArquivo(id, tipo, botao) {
+    var rotulo = botao.textContent;
+    botao.disabled = true; botao.textContent = "Abrindo…";
+    // A aba é aberta antes do fetch: o Safari só deixa abrir janela em resposta
+    // direta ao toque.
+    var aba = window.open("", "_blank");
+    chamar("arquivo", { id: id, tipo: tipo }).then(function (r) {
+      botao.disabled = false; botao.textContent = rotulo;
+      if (r.status === 401) { if (aba) aba.close(); return sessaoCaiu(); }
+      if (r.json && r.json.ok && r.json.url) {
+        if (aba) aba.location = r.json.url; else window.location = r.json.url;
+      } else {
+        if (aba) aba.close();
+        alert("Não foi possível abrir o arquivo agora.");
+      }
+    }).catch(function () {
+      botao.disabled = false; botao.textContent = rotulo;
+      if (aba) aba.close();
+    });
+  }
+
+  // -------------------------------------------------------- códigos -------
+  $("formCodigo").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var label = $("labelCodigo").value.trim();
+    if (label.length < 2) { mostrarErro("erroCodigo", "Informe o nome de quem vai usar o código."); return; }
+
+    var btn = $("btnGerar");
+    btn.disabled = true; btn.textContent = "Gerando…";
+    mostrarErro("erroCodigo", "");
+
+    chamar("codigo_novo", { label: label }).then(function (r) {
+      btn.disabled = false; btn.textContent = "Gerar código";
+      if (r.status === 401) return sessaoCaiu();
+      if (r.json && r.json.ok) {
+        $("labelCodigo").value = "";
+        $("codigoNovoLabel").textContent = r.json.label;
+        $("codigoNovoValor").textContent = r.json.codigo;
+        $("codigoNovo").hidden = false;
+        carregarCodigos();
+        return;
+      }
+      mostrarErro("erroCodigo", (r.json && r.json.message) || "Não foi possível gerar o código.");
+    }).catch(function () {
+      btn.disabled = false; btn.textContent = "Gerar código";
+      mostrarErro("erroCodigo", "Falha de conexão.");
+    });
+  });
+
+  $("btnCopiar").addEventListener("click", function () {
+    var valor = $("codigoNovoValor").textContent;
+    var btn = $("btnCopiar");
+    function avisar() { btn.textContent = "Copiado"; setTimeout(function () { btn.textContent = "Copiar código"; }, 1800); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(valor).then(avisar, avisar);
+    } else {
+      var t = document.createElement("textarea");
+      t.value = valor; document.body.appendChild(t); t.select();
+      try { document.execCommand("copy"); } catch (e) {}
+      document.body.removeChild(t); avisar();
+    }
+  });
+
+  function carregarCodigos() {
+    var alvo = $("listaCodigos");
+    alvo.innerHTML = '<p class="carregando">Carregando…</p>';
+    chamar("codigos").then(function (r) {
+      if (r.status === 401) return sessaoCaiu();
+      if (!r.json || !r.json.ok) { alvo.innerHTML = '<p class="vazio">Não foi possível carregar.</p>'; return; }
+      alvo.innerHTML = "";
+      (r.json.codigos || []).forEach(function (c) { alvo.appendChild(cartaoCodigo(c)); });
+    }).catch(function () { alvo.innerHTML = '<p class="vazio">Falha de conexão.</p>'; });
+  }
+
+  function cartaoCodigo(c) {
+    var art = document.createElement("article");
+    art.className = "cartao";
+
+    var l1 = document.createElement("div");
+    l1.className = "linha1";
+    l1.appendChild(texto("p", "nome", c.label));
+    l1.appendChild(texto("span", "selo", c.ativo ? "ativo" : "revogado"));
+    art.appendChild(l1);
+
+    var d = document.createElement("div");
+    d.className = "dados";
+    d.appendChild(texto("span", "", "criado em " + dataBr(c.created_at)));
+    d.appendChild(texto("span", "", c.last_used_at ? "último acesso " + dataBr(c.last_used_at) : "nunca usado"));
+    art.appendChild(d);
+
+    if (c.ativo) {
+      var acoes = document.createElement("div");
+      acoes.className = "acoes";
+      var b = document.createElement("button");
+      b.className = "btn btn-sec btn-peq";
+      b.type = "button";
+      b.textContent = "Revogar acesso";
+      b.addEventListener("click", function () {
+        if (!confirm("Revogar o acesso de " + c.label + "? Quem estiver usando este código cai na hora.")) return;
+        b.disabled = true;
+        chamar("codigo_revogar", { id: c.id }).then(function (r) {
+          b.disabled = false;
+          if (r.status === 401) return sessaoCaiu();
+          if (r.json && r.json.ok) { carregarCodigos(); return; }
+          alert((r.json && r.json.message) || "Não foi possível revogar.");
+        }).catch(function () { b.disabled = false; });
+      });
+      acoes.appendChild(b);
+      art.appendChild(acoes);
+    }
+    return art;
+  }
+
+  // ------------------------------------------------------------- visor ----
+  function abrirVisor(url, nome) {
+    $("visorImg").src = url;
+    $("visorImg").alt = "Foto de " + nome;
+    $("visorLegenda").textContent = nome;
+    $("visor").hidden = false;
+    document.body.style.overflow = "hidden";
+    $("visorFechar").focus();
+  }
+
+  function fecharVisor() {
+    $("visor").hidden = true;
+    $("visorImg").src = "";
+    document.body.style.overflow = "";
+  }
+
+  $("visorFechar").addEventListener("click", fecharVisor);
+  $("visor").addEventListener("click", function (e) { if (e.target === $("visor")) fecharVisor(); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !$("visor").hidden) fecharVisor();
+  });
+
+  // ----------------------------------------------------------- formato ----
+  function dataBr(iso) {
+    if (!iso) return "";
+    var d = new Date(iso);
+    return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" }) +
+      " às " + d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  }
+
+  function telefoneBr(d) {
+    d = String(d || "").replace(/\D/g, "");
+    if (d.length === 11) return "(" + d.slice(0, 2) + ") " + d.slice(2, 7) + "-" + d.slice(7);
+    if (d.length === 10) return "(" + d.slice(0, 2) + ") " + d.slice(2, 6) + "-" + d.slice(6);
+    return d;
+  }
+
+  // Sessão ainda viva? Então já entra direto.
+  chamar("sessao").then(function (r) {
+    if (r.json && r.json.ok) abrirPainel(r.json.usuario);
+  }).catch(function () {});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#1f2a1c" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<title>Vaga de Recepção | Instituto Bruna Aguiar</title>
+<meta name="description" content="Candidate-se à oportunidade para Recepção no Instituto Bruna Aguiar." />
+<link rel="canonical" href="https://www.institutobrunaaguiar.com.br/vagas/" />
+<meta name="robots" content="index, follow" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.institutobrunaaguiar.com.br/vagas/" />
+<meta property="og:title" content="Vaga de Recepção | Instituto Bruna Aguiar" />
+<meta property="og:description" content="Candidate-se à oportunidade para Recepção no Instituto Bruna Aguiar." />
+<meta property="og:image" content="https://www.institutobrunaaguiar.com.br/assets/instituto/recepcao.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="/assets/instituto/icon.png" />
+<link rel="preload" as="image" href="/assets/instituto/recepcao.jpg" />
+
+<style>
+  /* Fontes do site (mesmos arquivos servidos nas demais páginas) */
+  @font-face{font-family:Satoshi;src:url("/assets/711c6243cdc5431f_69b94459bfebcfdb86bc1719_Satos.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:Satoshi;src:url("/assets/93330866d109f6b2_6995a0d104741b8ff2d1554f_Satos.otf") format("opentype");font-weight:500;font-style:normal;font-display:swap}
+  @font-face{font-family:Orticalinear;src:url("/assets/fc58716fc92f11f2_698574a601f92b97484ef858_Ortic.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:Orticalinear;src:url("/assets/b6098fbb004eeb7c_698574d52ce0f72ab1965272_Ortic.otf") format("opentype");font-weight:300;font-style:normal;font-display:swap}
+
+  :root{
+    --green:#1f2a1c; --green-2:#2f3c2c; --text:#414e3d; --muted:#5a6658;
+    --gold:#9e9271; --gold-light:#d8aa78; --cream:#f9f6f3; --cream-2:#f4f1ec;
+    --border:#e0e4da; --danger:#b42318; --ok:#2d6a4f;
+    --head:Orticalinear,Georgia,serif;
+    --body:Satoshi,-apple-system,"Segoe UI",sans-serif;
+    --spring:cubic-bezier(.16,1,.3,1);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;font-family:var(--body);background:var(--cream);color:var(--text);
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    font-size:16px;line-height:1.6;
+  }
+  h1,h2,h3{font-family:var(--head);font-weight:400;color:var(--green);letter-spacing:-.01em;margin:0}
+  p{margin:0}
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+
+  .wrap{max-width:60rem;margin:0 auto;padding:0 1.5rem}
+  .eyebrow{
+    text-transform:uppercase;letter-spacing:.16em;font-size:.75rem;color:var(--gold);
+    font-weight:500;margin:0 0 .75rem;
+  }
+
+  /* ---------------------------------------------------------- topo do site -- */
+  .site-top{background:var(--green);padding:1.15rem 0}
+  .site-top .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+  .site-logo{height:26px;aspect-ratio:1125/321;display:block;background-color:var(--cream);
+    -webkit-mask:url(/assets/instituto/logo.png) center/contain no-repeat;
+            mask:url(/assets/instituto/logo.png) center/contain no-repeat}
+  .site-back{color:rgba(249,246,243,.72);text-decoration:none;font-size:.8125rem}
+  .site-back:hover{color:var(--cream)}
+
+  /* ------------------------------------------------------------------ hero -- */
+  .hero{position:relative;background:var(--green);overflow:hidden}
+  .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.26}
+  .hero::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(31,42,28,.35),rgba(31,42,28,.92))}
+  .hero .wrap{position:relative;z-index:2;padding-top:3.25rem;padding-bottom:3.25rem}
+  .hero h1{color:var(--cream);font-size:clamp(2.25rem,9vw,3.5rem);line-height:1.05}
+  .hero .sub{color:rgba(249,246,243,.82);margin-top:.85rem;font-size:1.0625rem;max-width:32rem}
+  .hero .eyebrow{color:var(--gold-light)}
+
+  /* --------------------------------------------------------------- resumo --- */
+  .resumo{padding-block:2.75rem .5rem}
+  .linhas{list-style:none;margin:0;padding:0;border-top:1px solid var(--border)}
+  .linhas li{
+    display:flex;gap:1rem;align-items:baseline;justify-content:space-between;
+    border-bottom:1px solid var(--border);padding:1.05rem 0;
+  }
+  .linhas dt,.linhas .rot{
+    font-size:.75rem;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);
+    flex:0 0 auto;
+  }
+  .linhas .val{font-size:1.0625rem;color:var(--green);font-weight:500;text-align:right}
+  .linhas .val small{display:block;font-weight:400;font-size:.875rem;color:var(--muted);
+    letter-spacing:0;text-transform:none;margin-top:.15rem}
+
+  .beneficios{padding:2.25rem 0 0}
+  .beneficios h2{font-size:1.5rem;margin-bottom:1.1rem}
+  .bens{list-style:none;margin:0;padding:0;display:grid;gap:.85rem}
+  .bens li{display:flex;gap:.8rem;align-items:flex-start;font-size:1rem;color:var(--text)}
+  .bens svg{width:18px;height:18px;flex:0 0 18px;color:var(--gold);margin-top:.28rem}
+
+  .nota{margin-top:1.5rem;font-size:.9375rem;color:var(--muted);
+    border-left:2px solid var(--gold);padding-left:1rem}
+
+  /* ------------------------------------------------------------------ cta --- */
+  .cta{padding-block:2.75rem 3.5rem}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:.6rem;
+    min-height:58px;padding:0 2rem;border:none;border-radius:16px;cursor:pointer;
+    background:var(--green);color:var(--cream);font-family:inherit;font-size:1.0625rem;
+    font-weight:500;text-decoration:none;transition:transform .12s ease,background .2s ease,opacity .2s ease;
+  }
+  .btn:hover{background:var(--green-2)}
+  .btn:active{transform:scale(.985)}
+  .btn[disabled]{opacity:.4;cursor:not-allowed;transform:none}
+  .btn-block{width:100%}
+  .btn-ghost{background:transparent;color:var(--green);border:1.5px solid var(--border)}
+  .btn-ghost:hover{background:var(--cream-2)}
+  .cta .btn{width:100%}
+  .cta .apoio{margin-top:.85rem;font-size:.875rem;color:var(--muted);text-align:center}
+
+  /* --------------------------------------------------------------- rodapé --- */
+  .rodape{background:var(--cream-2);border-top:1px solid var(--border);padding:1.75rem 0;
+    font-size:.8125rem;color:var(--muted)}
+  .rodape .wrap{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:space-between}
+  .rodape a{color:var(--muted)}
+
+  /* =========================================================== wizard ====== */
+  .wizard{
+    position:fixed;inset:0;z-index:80;background:var(--cream);
+    display:flex;flex-direction:column;overflow:hidden;
+  }
+  .wizard[hidden]{display:none}
+  .wz-top{display:flex;align-items:center;gap:.5rem;width:100%;margin-inline:auto;
+    padding:max(env(safe-area-inset-top),.9rem) 1.25rem .25rem}
+  .icon-btn{
+    width:40px;height:40px;flex:0 0 40px;border:none;background:transparent;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;color:var(--green);cursor:pointer;
+    transition:background .15s ease,opacity .2s ease;
+  }
+  .icon-btn:hover{background:rgba(31,42,28,.07)}
+  .icon-btn svg{width:22px;height:22px}
+  .icon-btn[data-off]{opacity:0;pointer-events:none}
+  .wz-logo{height:26px;aspect-ratio:1125/321;margin:0 auto;display:block;background-color:var(--green);
+    -webkit-mask:url(/assets/instituto/logo.png) center/contain no-repeat;
+            mask:url(/assets/instituto/logo.png) center/contain no-repeat}
+
+  .wz-prog{padding:.65rem 1.25rem .35rem;max-width:34rem;margin:0 auto;width:100%}
+  .wz-prog .bar{height:4px;background:var(--border);border-radius:99px;overflow:hidden}
+  .wz-prog .bar>i{display:block;height:100%;width:0;border-radius:99px;
+    background:linear-gradient(90deg,var(--gold),var(--gold-light));
+    transition:width .45s var(--spring)}
+  .wz-prog .conta{margin-top:.5rem;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted)}
+
+  .viewport{flex:1;position:relative;overflow:hidden}
+  .track{display:flex;height:100%;width:100%;transition:transform .45s var(--spring);
+    transform:translateX(calc(var(--i,0) * -100%))}
+  .step{flex:0 0 100%;height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;
+    display:flex;flex-direction:column;padding:0 1.25rem}
+  .step-inner{width:100%;max-width:34rem;margin:0 auto;display:flex;flex-direction:column;
+    flex:1;padding:.5rem 0 0}
+  .step h2{font-size:1.65rem;line-height:1.2;margin-bottom:.4rem}
+  .step .hint{color:var(--muted);font-size:.9375rem;margin-bottom:1.6rem}
+  .campos{display:grid;gap:1.15rem}
+  .foot{padding:1rem 0 max(env(safe-area-inset-bottom),1.4rem);max-width:34rem;margin:0 auto;
+    width:100%}
+
+  /* ---------------------------------------------------------------- campos -- */
+  .campo label,.legend{display:block;font-size:.8125rem;font-weight:500;color:var(--green);
+    margin-bottom:.45rem;letter-spacing:.01em}
+  .campo .aux{font-size:.8125rem;color:var(--muted);margin-top:.4rem}
+  .field{
+    width:100%;font-family:inherit;font-size:1.0625rem;padding:1rem 1.05rem;color:var(--text);
+    border:1.5px solid var(--border);border-radius:14px;background:#fff;outline:none;
+    transition:border-color .18s ease,box-shadow .18s ease;
+  }
+  .field::placeholder{color:#a3ada0}
+  .field:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(158,146,113,.14)}
+  .field[aria-invalid="true"]{border-color:var(--danger)}
+  .erro{display:none;color:var(--danger);font-size:.8125rem;margin-top:.45rem}
+  .erro.on{display:block}
+
+  fieldset{border:none;margin:0;padding:0;min-width:0}
+  .chips{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
+  .chip{
+    min-height:52px;border:1.5px solid var(--border);background:#fff;border-radius:14px;
+    font-family:inherit;font-size:.9375rem;color:var(--green);cursor:pointer;padding:0 .9rem;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    transition:border-color .15s ease,background .15s ease,color .15s ease;
+  }
+  .chip:hover{border-color:var(--gold)}
+  .chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:var(--cream)}
+
+  .choices{display:grid;gap:.7rem}
+  .choice{
+    min-height:60px;border:1.5px solid var(--border);background:#fff;border-radius:16px;
+    font-family:inherit;font-size:1.0625rem;color:var(--green);cursor:pointer;
+    display:flex;align-items:center;gap:.9rem;padding:0 1.25rem;text-align:left;
+    transition:border-color .15s ease,background .15s ease,color .15s ease;
+  }
+  .choice .dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);flex:0 0 20px;
+    transition:.15s}
+  .choice:hover{border-color:var(--gold)}
+  .choice[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:var(--cream)}
+  .choice[aria-pressed="true"] .dot{border-color:#fff;background:#fff;box-shadow:inset 0 0 0 4px var(--green)}
+
+  /* ------------------------------------------------------------------- cep -- */
+  .cep-status{margin-top:1rem;min-height:1.25rem;font-size:.9375rem}
+  .cep-buscando{color:var(--muted);display:flex;align-items:center;gap:.6rem}
+  .cep-achado{
+    background:#fff;border:1.5px solid var(--border);border-left:3px solid var(--gold);
+    border-radius:14px;padding:1rem 1.1rem;
+  }
+  .cep-achado .rot{font-size:.75rem;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+  .cep-achado .cidade{font-family:var(--head);font-size:1.5rem;color:var(--green);margin-top:.2rem}
+  .spin{width:16px;height:16px;border-radius:50%;border:2px solid var(--border);
+    border-top-color:var(--gold);animation:spin .8s linear infinite;flex:0 0 16px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* -------------------------------------------------------------- arquivos -- */
+  .drop{
+    border:1.5px dashed var(--border);border-radius:16px;background:#fff;padding:1.6rem 1.1rem;
+    text-align:center;cursor:pointer;transition:border-color .15s ease,background .15s ease;
+  }
+  .drop:hover,.drop.over{border-color:var(--gold);background:#fffdf9}
+  .drop .ic{width:34px;height:34px;color:var(--gold);margin:0 auto .6rem;display:block}
+  .drop .t{font-size:1rem;color:var(--green);font-weight:500}
+  .drop .s{font-size:.8125rem;color:var(--muted);margin-top:.3rem}
+  .drop .tag{display:inline-block;margin-top:.7rem;font-size:.6875rem;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--border);border-radius:99px;
+    padding:.2rem .6rem}
+  input[type="file"]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+
+  .arquivo{
+    display:flex;gap:.9rem;align-items:center;background:#fff;border:1.5px solid var(--border);
+    border-radius:16px;padding:.95rem 1.05rem;
+  }
+  .arquivo .mini{width:42px;height:42px;border-radius:11px;background:var(--cream-2);flex:0 0 42px;
+    display:flex;align-items:center;justify-content:center;color:var(--gold);
+    font-size:.625rem;font-weight:500;letter-spacing:.06em;overflow:hidden}
+  .arquivo .mini img{width:100%;height:100%;object-fit:cover}
+  .arquivo .meta{flex:1;min-width:0}
+  .arquivo .nome{font-size:.9375rem;color:var(--green);font-weight:500;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .arquivo .sub{font-size:.8125rem;color:var(--muted);margin-top:.15rem}
+  .arquivo .sub.ok{color:var(--ok)}
+  .arquivo .sub.err{color:var(--danger)}
+  .arquivo .acoes{display:flex;gap:.25rem;flex:0 0 auto}
+  .link-btn{background:none;border:none;font-family:inherit;font-size:.8125rem;color:var(--muted);
+    cursor:pointer;padding:.35rem .5rem;border-radius:8px;text-decoration:underline}
+  .link-btn:hover{color:var(--green)}
+  .barra{height:3px;background:var(--border);border-radius:99px;margin-top:.5rem;overflow:hidden}
+  .barra>i{display:block;height:100%;width:0;background:var(--gold);border-radius:99px;
+    transition:width .25s ease}
+
+  .bloco-foto{margin-top:1.4rem;padding-top:1.4rem;border-top:1px solid var(--border)}
+  .bloco-foto[hidden]{display:none}
+
+  /* --------------------------------------------------------------- revisão -- */
+  .resumo-lista{list-style:none;margin:0;padding:0;background:#fff;border:1.5px solid var(--border);
+    border-radius:16px;overflow:hidden}
+  .resumo-lista li{display:flex;justify-content:space-between;gap:1rem;padding:.85rem 1.05rem;
+    border-bottom:1px solid var(--border);font-size:.9375rem}
+  .resumo-lista li:last-child{border-bottom:none}
+  .resumo-lista .k{color:var(--muted);flex:0 0 auto}
+  .resumo-lista .v{color:var(--green);font-weight:500;text-align:right;min-width:0;
+    overflow-wrap:anywhere}
+
+  .aceite{display:flex;gap:.8rem;align-items:flex-start;margin-top:1.4rem;cursor:pointer}
+  .aceite input{width:22px;height:22px;flex:0 0 22px;margin:.15rem 0 0;accent-color:var(--green)}
+  .aceite span{font-size:.875rem;color:var(--text);line-height:1.5}
+  details.privacidade{margin-top:1rem;font-size:.8125rem;color:var(--muted)}
+  details.privacidade summary{cursor:pointer;color:var(--muted);text-decoration:underline}
+  details.privacidade p{margin-top:.6rem;line-height:1.6}
+
+  .alerta{
+    display:none;margin-top:1rem;background:#fff4f2;border:1px solid #f3c9c1;color:var(--danger);
+    border-radius:14px;padding:.9rem 1rem;font-size:.875rem;
+  }
+  .alerta.on{display:block}
+
+  /* --------------------------------------------------------------- enviando -- */
+  .enviando{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;gap:.4rem;padding-bottom:3rem}
+  .enviando .spin-big{width:44px;height:44px;border-radius:50%;border:3px solid var(--border);
+    border-top-color:var(--gold);animation:spin .8s linear infinite;margin-bottom:1.2rem}
+
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+  @media (min-width:640px){
+    .wizard{background:var(--cream-2)}
+    .wz-top,.wz-prog,.step-inner,.foot{max-width:34rem}
+    .step{padding:0 1.5rem}
+  }
+  @media (min-width:768px){
+    .hero .wrap{padding-top:4.5rem;padding-bottom:4.5rem}
+    .resumo{padding-top:3.5rem}
+    .cta .btn{width:auto;min-width:18rem}
+    .cta .apoio{text-align:left}
+    .bens{grid-template-columns:1fr 1fr;gap:1rem 2rem}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ LANDING ==== -->
+<div id="pagina">
+  <header class="site-top">
+    <div class="wrap">
+      <a href="/" aria-label="Instituto Bruna Aguiar — página inicial"><span class="site-logo" role="img" aria-label="Instituto Bruna Aguiar"></span></a>
+      <a class="site-back" href="/">Voltar ao site</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <img class="hero-img" src="/assets/instituto/recepcao.jpg" alt="" aria-hidden="true" />
+      <div class="wrap">
+        <p class="eyebrow">Trabalhe conosco</p>
+        <h1>Recepção</h1>
+        <p class="sub">Clínica de alto padrão em Brasília. Um lugar onde o cuidado com a pessoa começa na porta de entrada.</p>
+      </div>
+    </section>
+
+    <section class="wrap resumo" aria-labelledby="detalhes-vaga">
+      <h2 id="detalhes-vaga" class="sr-only">Detalhes da vaga</h2>
+      <ul class="linhas">
+        <li>
+          <span class="rot">Horário</span>
+          <span class="val">Segunda a sexta<small>das 09h às 18h</small></span>
+        </li>
+        <li>
+          <span class="rot">Remuneração</span>
+          <span class="val">R$ 2.000,00<small>mais benefícios</small></span>
+        </li>
+        <li>
+          <span class="rot">Local</span>
+          <span class="val">Asa Sul<small>Brasília — DF</small></span>
+        </li>
+      </ul>
+
+      <div class="beneficios">
+        <h2>Benefícios</h2>
+        <ul class="bens">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>Vale transporte pago em dinheiro</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>Vale alimentação pago em dinheiro</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>Plano de saúde a partir do 4º mês</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>Bônus anual de R$ 2.000,00 líquidos a cada ano completo de empresa</span>
+          </li>
+        </ul>
+        <p class="nota">A candidatura leva cerca de 2 minutos. Tenha seu currículo em mãos — de preferência com uma foto sua.</p>
+      </div>
+    </section>
+
+    <section class="wrap cta">
+      <button class="btn" type="button" id="abrirForm">Quero me candidatar</button>
+      <p class="apoio">Suas informações são usadas apenas neste processo seletivo.</p>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="wrap">
+      <span>© <span id="ano">2026</span> Instituto Bruna Aguiar</span>
+      <a href="/">institutobrunaaguiar.com.br</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ============================================================= WIZARD ==== -->
+<div class="wizard" id="wizard" role="dialog" aria-modal="true" aria-labelledby="wzTitulo" hidden>
+  <p id="wzTitulo" class="sr-only">Candidatura para a vaga de Recepção</p>
+
+  <header class="wz-top">
+    <button class="icon-btn" id="btnVoltar" type="button" data-off aria-label="Voltar para a etapa anterior">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <span class="wz-logo" role="img" aria-label="Instituto Bruna Aguiar"></span>
+    <button class="icon-btn" id="btnFechar" type="button" aria-label="Fechar formulário">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </header>
+
+  <div class="wz-prog">
+    <div class="bar"><i id="progBar"></i></div>
+    <p class="conta" id="progTexto" aria-live="polite">Etapa 1 de 5</p>
+  </div>
+
+  <div class="viewport">
+    <div class="track" id="track">
+
+      <!-- ETAPA 1 ----------------------------------------------------------- -->
+      <section class="step" data-step="0" aria-label="Etapa 1: seus dados">
+        <div class="step-inner">
+          <h2>Vamos começar</h2>
+          <p class="hint">Três informações para a gente entrar em contato com você.</p>
+
+          <div class="campos">
+            <div class="campo">
+              <label for="nome">Nome completo</label>
+              <input class="field" id="nome" name="nome" type="text" autocomplete="name"
+                     autocapitalize="words" enterkeyhint="next" spellcheck="false"
+                     aria-describedby="erroNome" />
+              <p class="erro" id="erroNome" role="alert"></p>
+            </div>
+
+            <div class="campo">
+              <label for="email">E-mail</label>
+              <input class="field" id="email" name="email" type="email" inputmode="email"
+                     autocomplete="email" autocapitalize="off" spellcheck="false"
+                     enterkeyhint="next" aria-describedby="erroEmail" />
+              <p class="erro" id="erroEmail" role="alert"></p>
+            </div>
+
+            <div class="campo">
+              <label for="telefone">Telefone / WhatsApp</label>
+              <input class="field" id="telefone" name="telefone" type="tel" inputmode="tel"
+                     autocomplete="tel" enterkeyhint="done" maxlength="16"
+                     aria-describedby="erroTelefone" />
+              <p class="erro" id="erroTelefone" role="alert"></p>
+            </div>
+          </div>
+        </div>
+        <div class="foot"><button class="btn btn-block" type="button" data-avancar="0">Continuar</button></div>
+      </section>
+
+      <!-- ETAPA 2 ----------------------------------------------------------- -->
+      <section class="step" data-step="1" aria-label="Etapa 2: sobre você">
+        <div class="step-inner">
+          <h2>Conte um pouco sobre você</h2>
+          <p class="hint">Dados cadastrais do processo seletivo.</p>
+
+          <div class="campos">
+            <div class="campo">
+              <label for="nascimento">Data de nascimento</label>
+              <input class="field" id="nascimento" name="nascimento" type="text" inputmode="numeric"
+                     autocomplete="bday" placeholder="DD/MM/AAAA" maxlength="10"
+                     aria-describedby="idadeCalc erroNascimento" />
+              <p class="aux" id="idadeCalc" aria-live="polite"></p>
+              <p class="erro" id="erroNascimento" role="alert"></p>
+            </div>
+
+            <fieldset class="campo">
+              <legend class="legend">Sexo</legend>
+              <div class="chips" id="sexoGrupo">
+                <button class="chip" type="button" data-sexo="feminino" aria-pressed="false">Feminino</button>
+                <button class="chip" type="button" data-sexo="masculino" aria-pressed="false">Masculino</button>
+                <button class="chip" type="button" data-sexo="outro" aria-pressed="false">Outro</button>
+                <button class="chip" type="button" data-sexo="nao_informado" aria-pressed="false">Prefiro não informar</button>
+              </div>
+              <p class="erro" id="erroSexo" role="alert"></p>
+            </fieldset>
+          </div>
+        </div>
+        <div class="foot"><button class="btn btn-block" type="button" data-avancar="1">Continuar</button></div>
+      </section>
+
+      <!-- ETAPA 3 ----------------------------------------------------------- -->
+      <section class="step" data-step="2" aria-label="Etapa 3: onde você mora">
+        <div class="step-inner">
+          <h2>Onde você mora?</h2>
+          <p class="hint">Só o CEP — o bairro aparece sozinho.</p>
+
+          <div class="campo">
+            <label for="cep">CEP</label>
+            <input class="field" id="cep" name="cep" type="text" inputmode="numeric"
+                   autocomplete="postal-code" placeholder="00000-000" maxlength="9"
+                   aria-describedby="cepStatus erroCep" />
+            <p class="erro" id="erroCep" role="alert"></p>
+          </div>
+
+          <div class="cep-status" id="cepStatus" aria-live="polite"></div>
+        </div>
+        <div class="foot"><button class="btn btn-block" type="button" data-avancar="2" disabled>Continuar</button></div>
+      </section>
+
+      <!-- ETAPA 4 ----------------------------------------------------------- -->
+      <section class="step" data-step="3" aria-label="Etapa 4: currículo e foto">
+        <div class="step-inner">
+          <h2>Envie seu currículo</h2>
+          <p class="hint">Envie seu currículo atualizado e, de preferência, com uma foto sua.</p>
+
+          <div id="curriculoVazio">
+            <div class="drop" id="dropCurriculo" role="button" tabindex="0"
+                 aria-controls="inputCurriculo" aria-describedby="erroCurriculo">
+              <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4m0 0L8 8m4-4l4 4"/><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+              <p class="t">Escolher arquivo</p>
+              <p class="s">PDF, DOC ou DOCX — até 10 MB</p>
+              <span class="tag">PDF é o formato ideal</span>
+            </div>
+            <input type="file" id="inputCurriculo"
+                   accept="application/pdf,.pdf,application/msword,.doc,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.docx" />
+          </div>
+
+          <div id="curriculoCheio" hidden>
+            <div class="arquivo">
+              <span class="mini" id="curriculoMini" aria-hidden="true">PDF</span>
+              <div class="meta">
+                <p class="nome" id="curriculoNome"></p>
+                <p class="sub" id="curriculoSub"></p>
+                <div class="barra" id="curriculoBarraWrap" hidden><i id="curriculoBarra"></i></div>
+              </div>
+              <div class="acoes">
+                <button class="link-btn" type="button" id="trocarCurriculo">Trocar</button>
+                <button class="link-btn" type="button" id="removerCurriculo">Remover</button>
+              </div>
+            </div>
+          </div>
+          <p class="erro" id="erroCurriculo" role="alert"></p>
+
+          <fieldset class="campo" style="margin-top:1.6rem">
+            <legend class="legend">Seu currículo possui uma foto sua?</legend>
+            <div class="choices" id="temFotoGrupo">
+              <button class="choice" type="button" data-temfoto="sim" aria-pressed="false"><span class="dot"></span>Sim</button>
+              <button class="choice" type="button" data-temfoto="nao" aria-pressed="false"><span class="dot"></span>Não</button>
+            </div>
+          </fieldset>
+
+          <div class="bloco-foto" id="blocoFoto" hidden>
+            <h3 style="font-size:1.15rem;margin-bottom:.35rem">Adicione uma foto de perfil</h3>
+            <p class="hint" style="margin-bottom:1.1rem">Como seu currículo não possui foto, envie uma foto recente para completar sua candidatura.</p>
+
+            <div id="fotoVazia">
+              <div class="drop" id="dropFoto" role="button" tabindex="0"
+                   aria-controls="inputFoto" aria-describedby="erroFoto">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h3l2-2h8l2 2h3v13H3z"/><circle cx="12" cy="13" r="3.5"/></svg>
+                <p class="t">Escolher foto</p>
+                <p class="s">JPG, PNG ou WEBP — até 5 MB</p>
+              </div>
+              <input type="file" id="inputFoto" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" />
+            </div>
+
+            <div id="fotoCheia" hidden>
+              <div class="arquivo">
+                <span class="mini" id="fotoMini" aria-hidden="true"></span>
+                <div class="meta">
+                  <p class="nome" id="fotoNome"></p>
+                  <p class="sub" id="fotoSub"></p>
+                  <div class="barra" id="fotoBarraWrap" hidden><i id="fotoBarra"></i></div>
+                </div>
+                <div class="acoes">
+                  <button class="link-btn" type="button" id="trocarFoto">Trocar</button>
+                  <button class="link-btn" type="button" id="removerFoto">Remover</button>
+                </div>
+              </div>
+            </div>
+            <p class="erro" id="erroFoto" role="alert"></p>
+          </div>
+        </div>
+        <div class="foot"><button class="btn btn-block" type="button" data-avancar="3" disabled>Continuar</button></div>
+      </section>
+
+      <!-- ETAPA 5 ----------------------------------------------------------- -->
+      <section class="step" data-step="4" aria-label="Etapa 5: revisão">
+        <div class="step-inner">
+          <h2>Revise seus dados</h2>
+          <p class="hint">Confira antes de enviar. Dá para voltar e ajustar.</p>
+
+          <ul class="resumo-lista" id="resumoLista"></ul>
+
+          <label class="aceite" for="consentimento">
+            <input type="checkbox" id="consentimento" />
+            <span>Declaro que as informações fornecidas são verdadeiras e autorizo o tratamento dos meus dados para participação neste processo seletivo.</span>
+          </label>
+          <p class="erro" id="erroConsentimento" role="alert"></p>
+
+          <details class="privacidade">
+            <summary>Como tratamos seus dados</summary>
+            <p>Seus dados e arquivos são usados apenas para avaliar sua candidatura a esta vaga, ficam guardados em ambiente privado e não são compartilhados com terceiros. Para corrigir ou apagar suas informações, fale com a gente pelo site.</p>
+          </details>
+
+          <div class="alerta" id="alertaEnvio" role="alert"></div>
+
+          <!-- honeypot: invisível para gente, tentador para bot -->
+          <div class="hp" aria-hidden="true">
+            <label for="website">Não preencha este campo</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+        </div>
+        <div class="foot">
+          <button class="btn btn-block" type="button" id="btnEnviar">Enviar candidatura</button>
+        </div>
+      </section>
+
+      <!-- ENVIANDO ---------------------------------------------------------- -->
+      <section class="step" data-step="5" aria-label="Enviando candidatura">
+        <div class="step-inner enviando">
+          <div class="spin-big" aria-hidden="true"></div>
+          <h2>Enviando candidatura…</h2>
+          <p class="hint" id="enviandoTexto">Estamos registrando suas informações. Não feche esta tela.</p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var TOTAL_ETAPAS = 5;             // 5 etapas visíveis; o índice 5 é a tela de envio
+  var CHAVE = "iba:vagas:recepcao"; // sessionStorage — só texto, nunca arquivo
+  var JOB_SLUG = "recepcao";
+
+  // ------------------------------------------------------------- analytics --
+  // Eventos sem nenhum dado pessoal. Se um dia entrar GTM/GA/Pixel no site,
+  // eles já chegam lá; sem isso, viram no-op.
+  function track(evento, params) {
+    var dados = params || {};
+    try {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push(Object.assign({ event: evento, vaga: JOB_SLUG }, dados));
+      if (typeof window.gtag === "function") window.gtag("event", evento, Object.assign({ vaga: JOB_SLUG }, dados));
+      if (typeof window.fbq === "function") window.fbq("trackCustom", evento, Object.assign({ vaga: JOB_SLUG }, dados));
+    } catch (e) { /* analytics nunca pode quebrar o formulário */ }
+  }
+
+  // ----------------------------------------------------------------- estado --
+  var dados = {
+    nome_completo: "", email: "", telefone: "",
+    data_nascimento: "", idade: null, sexo: "",
+    cep: "", bairro: "", cidade: "", estado: "",
+    curriculo_tem_foto: null
+  };
+
+  // Arquivos vivem só na memória desta aba: nada de currículo ou foto no storage.
+  var curriculo = null; // { file, path, nome, tamanho, status }
+  var foto = null;
+  var sessao = { id: "", token: "" };
+  var etapa = 0;
+  var enviando = false;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var track_ = $("track");
+  var progBar = $("progBar");
+  var progTexto = $("progTexto");
+  var wizard = $("wizard");
+  var pagina = $("pagina");
+  var btnVoltar = $("btnVoltar");
+
+  // ------------------------------------------------------------ persistência --
+  function salvar() {
+    try {
+      sessionStorage.setItem(CHAVE, JSON.stringify({
+        dados: dados, etapa: Math.min(etapa, 3), sessao: sessao
+      }));
+    } catch (e) { /* modo privado do Safari pode recusar */ }
+  }
+
+  function limparPersistencia() {
+    try { sessionStorage.removeItem(CHAVE); } catch (e) {}
+  }
+
+  function restaurar() {
+    var bruto;
+    try { bruto = sessionStorage.getItem(CHAVE); } catch (e) { return null; }
+    if (!bruto) return null;
+    try { return JSON.parse(bruto); } catch (e) { return null; }
+  }
+
+  // --------------------------------------------------------------- máscaras --
+  function mascaraTelefone(v) {
+    var d = v.replace(/\D/g, "").slice(0, 11);
+    if (d.length <= 2) return d.length ? "(" + d : "";
+    if (d.length <= 6) return "(" + d.slice(0, 2) + ") " + d.slice(2);
+    if (d.length <= 10) return "(" + d.slice(0, 2) + ") " + d.slice(2, 6) + "-" + d.slice(6);
+    return "(" + d.slice(0, 2) + ") " + d.slice(2, 7) + "-" + d.slice(7);
+  }
+
+  function mascaraData(v) {
+    var d = v.replace(/\D/g, "").slice(0, 8);
+    if (d.length <= 2) return d;
+    if (d.length <= 4) return d.slice(0, 2) + "/" + d.slice(2);
+    return d.slice(0, 2) + "/" + d.slice(2, 4) + "/" + d.slice(4);
+  }
+
+  function mascaraCep(v) {
+    var d = v.replace(/\D/g, "").slice(0, 8);
+    return d.length <= 5 ? d : d.slice(0, 5) + "-" + d.slice(5);
+  }
+
+  // Idade completa: leva em conta dia e mês, não só o ano.
+  function calcularIdade(iso) {
+    var p = iso.split("-");
+    var ano = +p[0], mes = +p[1], dia = +p[2];
+    var hoje = new Date();
+    var idade = hoje.getFullYear() - ano;
+    var m = hoje.getMonth() + 1, d = hoje.getDate();
+    if (m < mes || (m === mes && d < dia)) idade -= 1;
+    return idade;
+  }
+
+  function dataParaIso(mascarada) {
+    var m = mascarada.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if (!m) return null;
+    var dia = +m[1], mes = +m[2], ano = +m[3];
+    var dt = new Date(ano, mes - 1, dia);
+    if (dt.getFullYear() !== ano || dt.getMonth() !== mes - 1 || dt.getDate() !== dia) return null;
+    if (dt > new Date()) return null;
+    return m[3] + "-" + m[2] + "-" + m[1];
+  }
+
+  function isoParaBr(iso) {
+    var p = (iso || "").split("-");
+    return p.length === 3 ? p[2] + "/" + p[1] + "/" + p[0] : "";
+  }
+
+  function tamanhoLegivel(bytes) {
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1024 * 1024) return Math.round(bytes / 1024) + " KB";
+    return (bytes / 1024 / 1024).toFixed(1).replace(".", ",") + " MB";
+  }
+
+  // ------------------------------------------------------------------ erros --
+  function mostrarErro(idErro, mensagem, campo) {
+    var el = $(idErro);
+    el.textContent = mensagem || "";
+    el.classList.toggle("on", Boolean(mensagem));
+    if (campo) campo.setAttribute("aria-invalid", mensagem ? "true" : "false");
+  }
+
+  // -------------------------------------------------------------- navegação --
+  function atualizarEtapa() {
+    track_.style.setProperty("--i", etapa);
+    var visiveis = Math.min(etapa + 1, TOTAL_ETAPAS);
+    progBar.style.width = (visiveis / TOTAL_ETAPAS) * 100 + "%";
+    progTexto.textContent = etapa >= TOTAL_ETAPAS
+      ? "Enviando…"
+      : "Etapa " + (etapa + 1) + " de " + TOTAL_ETAPAS;
+
+    if (etapa > 0 && etapa < TOTAL_ETAPAS) btnVoltar.removeAttribute("data-off");
+    else btnVoltar.setAttribute("data-off", "");
+
+    // Só a etapa visível recebe foco/tab.
+    var passos = track_.querySelectorAll(".step");
+    for (var i = 0; i < passos.length; i++) {
+      var ativo = i === etapa;
+      passos[i].setAttribute("aria-hidden", ativo ? "false" : "true");
+      if ("inert" in HTMLElement.prototype) passos[i].inert = !ativo;
+    }
+    salvar();
+  }
+
+  function irPara(n, foco) {
+    etapa = n;
+    atualizarEtapa();
+    if (foco !== false) {
+      setTimeout(function () {
+        var passo = track_.querySelector('.step[data-step="' + etapa + '"]');
+        var alvo = passo && passo.querySelector("input:not([type=file]), button:not([disabled])");
+        var titulo = passo && passo.querySelector("h2");
+        if (titulo) { titulo.setAttribute("tabindex", "-1"); titulo.focus({ preventScroll: true }); }
+        else if (alvo) alvo.focus();
+      }, 420);
+    }
+  }
+
+  function avancar() {
+    if (etapa < TOTAL_ETAPAS - 1) {
+      track("application_step_completed", { etapa: etapa + 1 });
+      irPara(etapa + 1);
+    }
+  }
+
+  btnVoltar.addEventListener("click", function () { if (etapa > 0) irPara(etapa - 1); });
+
+  // ---------------------------------------------------------- abrir/fechar ---
+  function abrirWizard(etapaInicial) {
+    wizard.hidden = false;
+    pagina.setAttribute("aria-hidden", "true");
+    if ("inert" in HTMLElement.prototype) pagina.inert = true;
+    document.body.style.overflow = "hidden";
+    irPara(typeof etapaInicial === "number" ? etapaInicial : 0);
+    track("application_started");
+  }
+
+  function fecharWizard() {
+    wizard.hidden = true;
+    pagina.removeAttribute("aria-hidden");
+    if ("inert" in HTMLElement.prototype) pagina.inert = false;
+    document.body.style.overflow = "";
+    $("abrirForm").focus();
+  }
+
+  $("abrirForm").addEventListener("click", function () { abrirWizard(0); });
+  $("btnFechar").addEventListener("click", function () { if (!enviando) fecharWizard(); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !wizard.hidden && !enviando) fecharWizard();
+  });
+
+  // ============================================================== ETAPA 1 ===
+  var nomeEl = $("nome"), emailEl = $("email"), telEl = $("telefone");
+
+  telEl.addEventListener("input", function () { telEl.value = mascaraTelefone(telEl.value); });
+
+  function validarEtapa1() {
+    var ok = true;
+
+    var nome = nomeEl.value.trim().replace(/\s+/g, " ");
+    var partes = nome.split(" ").filter(function (p) { return p.length >= 2; });
+    if (partes.length < 2) { mostrarErro("erroNome", "Informe seu nome e sobrenome.", nomeEl); ok = false; }
+    else mostrarErro("erroNome", "", nomeEl);
+
+    var email = emailEl.value.trim().toLowerCase();
+    if (!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(email)) {
+      mostrarErro("erroEmail", "Informe um e-mail válido.", emailEl); ok = false;
+    } else mostrarErro("erroEmail", "", emailEl);
+
+    var tel = telEl.value.replace(/\D/g, "");
+    if (tel.length < 10) { mostrarErro("erroTelefone", "Informe o telefone com DDD.", telEl); ok = false; }
+    else mostrarErro("erroTelefone", "", telEl);
+
+    if (ok) {
+      dados.nome_completo = nome;
+      dados.email = email;
+      dados.telefone = tel;
+      salvar();
+    } else {
+      var primeiro = document.querySelector('.step[data-step="0"] [aria-invalid="true"]');
+      if (primeiro) primeiro.focus();
+    }
+    return ok;
+  }
+
+  // ============================================================== ETAPA 2 ===
+  var nascEl = $("nascimento");
+
+  nascEl.addEventListener("input", function () {
+    nascEl.value = mascaraData(nascEl.value);
+    var iso = dataParaIso(nascEl.value);
+    if (iso) {
+      var idade = calcularIdade(iso);
+      $("idadeCalc").textContent = idade >= 0 ? "Você tem " + idade + " anos." : "";
+      mostrarErro("erroNascimento", "", nascEl);
+    } else {
+      $("idadeCalc").textContent = "";
+    }
+  });
+
+  document.querySelectorAll("#sexoGrupo .chip").forEach(function (b) {
+    b.addEventListener("click", function () {
+      document.querySelectorAll("#sexoGrupo .chip").forEach(function (o) {
+        o.setAttribute("aria-pressed", String(o === b));
+      });
+      dados.sexo = b.getAttribute("data-sexo");
+      mostrarErro("erroSexo", "");
+      salvar();
+    });
+  });
+
+  function validarEtapa2() {
+    var ok = true;
+    var iso = dataParaIso(nascEl.value);
+    if (!iso) {
+      mostrarErro("erroNascimento", "Informe a data no formato DD/MM/AAAA.", nascEl); ok = false;
+    } else {
+      var idade = calcularIdade(iso);
+      if (idade < 14 || idade > 100) {
+        mostrarErro("erroNascimento", "Confira a data de nascimento.", nascEl); ok = false;
+      } else {
+        mostrarErro("erroNascimento", "", nascEl);
+        dados.data_nascimento = iso;
+        dados.idade = idade;
+      }
+    }
+
+    if (!dados.sexo) { mostrarErro("erroSexo", "Escolha uma opção."); ok = false; }
+    else mostrarErro("erroSexo", "");
+
+    if (ok) salvar(); else if (!iso) nascEl.focus();
+    return ok;
+  }
+
+  // ============================================================== ETAPA 3 ===
+  var cepEl = $("cep");
+  var cepStatus = $("cepStatus");
+  var btnEtapa3 = document.querySelector('[data-avancar="2"]');
+  var cepConsultado = "";   // evita repetir a chamada para o mesmo CEP
+  var cepEmVoo = false;
+  var cepCache = {};
+
+  cepEl.addEventListener("input", function () {
+    cepEl.value = mascaraCep(cepEl.value);
+    var digitos = cepEl.value.replace(/\D/g, "");
+
+    if (digitos.length < 8) {
+      dados.bairro = ""; dados.cidade = ""; dados.estado = ""; dados.cep = digitos;
+      cepStatus.innerHTML = "";
+      btnEtapa3.disabled = true;
+      mostrarErro("erroCep", "", cepEl);
+      return;
+    }
+    if (digitos === cepConsultado || cepEmVoo) return;
+    buscarCep(digitos);
+  });
+
+  function buscarCep(digitos) {
+    if (cepCache[digitos]) { aplicarCep(digitos, cepCache[digitos]); return; }
+
+    cepConsultado = digitos;
+    cepEmVoo = true;
+    btnEtapa3.disabled = true;
+    mostrarErro("erroCep", "", cepEl);
+    cepStatus.innerHTML = '<span class="cep-buscando"><span class="spin"></span>Buscando cidade…</span>';
+
+    var ctrl = new AbortController();
+    var timer = setTimeout(function () { ctrl.abort(); }, 8000);
+
+    fetch("https://brasilapi.com.br/api/cep/v2/" + digitos, { signal: ctrl.signal })
+      .then(function (r) {
+        clearTimeout(timer);
+        if (!r.ok) throw new Error("cep");
+        return r.json();
+      })
+      .then(function (json) {
+        if (!json || !json.city) throw new Error("cep");
+        cepCache[digitos] = {
+          bairro: json.neighborhood || "",
+          cidade: json.city,
+          estado: json.state || ""
+        };
+        aplicarCep(digitos, cepCache[digitos]);
+      })
+      .catch(function () {
+        clearTimeout(timer);
+        cepEmVoo = false;
+        cepConsultado = "";   // permite tentar de novo o mesmo número
+        dados.bairro = ""; dados.cidade = ""; dados.estado = "";
+        cepStatus.innerHTML = "";
+        btnEtapa3.disabled = true;
+        mostrarErro("erroCep", "Não encontramos esse CEP. Confira os números e tente novamente.", cepEl);
+      });
+  }
+
+  function aplicarCep(digitos, local) {
+    cepEmVoo = false;
+    dados.cep = digitos;
+    dados.bairro = local.bairro || "";
+    dados.cidade = local.cidade;
+    dados.estado = local.estado;
+    // Mostramos o bairro. Alguns CEPs não têm bairro na base — nesses casos a
+    // cidade entra no lugar para a tela não ficar vazia.
+    var temBairro = Boolean(dados.bairro);
+    cepStatus.innerHTML =
+      '<div class="cep-achado"><p class="rot"></p><p class="cidade"></p></div>';
+    cepStatus.querySelector(".rot").textContent = temBairro ? "Bairro encontrado" : "Cidade encontrada";
+    cepStatus.querySelector(".cidade").textContent = temBairro ? dados.bairro : local.cidade;
+    btnEtapa3.disabled = false;
+    mostrarErro("erroCep", "", cepEl);
+    salvar();
+  }
+
+  function validarEtapa3() {
+    if (!dados.cidade) {
+      mostrarErro("erroCep", "Informe um CEP válido para continuar.", cepEl);
+      cepEl.focus();
+      return false;
+    }
+    return true;
+  }
+
+  // ============================================================== ETAPA 4 ===
+  var btnEtapa4 = document.querySelector('[data-avancar="3"]');
+
+  var LIMITES = {
+    curriculo: { max: 10 * 1024 * 1024, exts: ["pdf", "doc", "docx"],
+      erro: "Envie um arquivo PDF, DOC ou DOCX.", grande: "O currículo precisa ter até 10 MB." },
+    foto: { max: 5 * 1024 * 1024, exts: ["jpg", "jpeg", "png", "webp"],
+      erro: "Envie uma imagem JPG, PNG ou WEBP.", grande: "A foto precisa ter até 5 MB." }
+  };
+
+  var MIMES = {
+    pdf: "application/pdf",
+    doc: "application/msword",
+    docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", webp: "image/webp"
+  };
+
+  function extDe(nome) {
+    var m = String(nome || "").toLowerCase().match(/\.([a-z0-9]{1,5})$/);
+    return m ? m[1] : "";
+  }
+
+  function ligarSeletor(dropId, inputId, aoEscolher) {
+    var drop = $(dropId), input = $(inputId);
+    drop.addEventListener("click", function () { input.click(); });
+    drop.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); input.click(); }
+    });
+    ["dragenter", "dragover"].forEach(function (ev) {
+      drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add("over"); });
+    });
+    ["dragleave", "drop"].forEach(function (ev) {
+      drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove("over"); });
+    });
+    drop.addEventListener("drop", function (e) {
+      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) aoEscolher(e.dataTransfer.files[0]);
+    });
+    input.addEventListener("change", function () {
+      if (input.files && input.files[0]) aoEscolher(input.files[0]);
+      input.value = ""; // permite escolher o mesmo arquivo de novo
+    });
+  }
+
+  // ---- currículo
+  ligarSeletor("dropCurriculo", "inputCurriculo", function (file) { receberArquivo("curriculo", file); });
+  ligarSeletor("dropFoto", "inputFoto", function (file) { receberArquivo("foto", file); });
+
+  $("trocarCurriculo").addEventListener("click", function () { $("inputCurriculo").click(); });
+  $("removerCurriculo").addEventListener("click", function () { limparArquivo("curriculo"); });
+  $("trocarFoto").addEventListener("click", function () { $("inputFoto").click(); });
+  $("removerFoto").addEventListener("click", function () { limparArquivo("foto"); });
+
+  function limparArquivo(tipo) {
+    if (tipo === "curriculo") {
+      curriculo = null;
+      $("curriculoCheio").hidden = true;
+      $("curriculoVazio").hidden = false;
+      mostrarErro("erroCurriculo", "");
+    } else {
+      if (foto && foto.preview) URL.revokeObjectURL(foto.preview);
+      foto = null;
+      $("fotoCheia").hidden = true;
+      $("fotoVazia").hidden = false;
+      mostrarErro("erroFoto", "");
+    }
+    revisarEtapa4();
+  }
+
+  function receberArquivo(tipo, file) {
+    var regra = LIMITES[tipo];
+    var ext = extDe(file.name);
+    var idErro = tipo === "curriculo" ? "erroCurriculo" : "erroFoto";
+
+    if (regra.exts.indexOf(ext) === -1) { mostrarErro(idErro, regra.erro); return; }
+    if (file.size > regra.max) { mostrarErro(idErro, regra.grande); return; }
+    if (file.size === 0) { mostrarErro(idErro, "Esse arquivo está vazio. Escolha outro."); return; }
+    mostrarErro(idErro, "");
+
+    var registro = {
+      file: file, ext: ext, nome: file.name, tamanho: file.size,
+      status: "enviando", path: "", preview: ""
+    };
+
+    if (tipo === "curriculo") {
+      curriculo = registro;
+      $("curriculoVazio").hidden = true;
+      $("curriculoCheio").hidden = false;
+      $("curriculoMini").textContent = ext.toUpperCase();
+      $("curriculoNome").textContent = file.name;
+    } else {
+      if (foto && foto.preview) URL.revokeObjectURL(foto.preview);
+      registro.preview = URL.createObjectURL(file);
+      foto = registro;
+      $("fotoVazia").hidden = true;
+      $("fotoCheia").hidden = false;
+      $("fotoMini").innerHTML = "";
+      var img = document.createElement("img");
+      img.src = registro.preview;
+      img.alt = "";
+      $("fotoMini").appendChild(img);
+      $("fotoNome").textContent = file.name;
+    }
+
+    revisarEtapa4();
+    enviarArquivo(tipo, registro);
+  }
+
+  function pintarStatus(tipo, texto, classe, progresso) {
+    var sub = $(tipo === "curriculo" ? "curriculoSub" : "fotoSub");
+    var wrap = $(tipo === "curriculo" ? "curriculoBarraWrap" : "fotoBarraWrap");
+    var barra = $(tipo === "curriculo" ? "curriculoBarra" : "fotoBarra");
+    var reg = tipo === "curriculo" ? curriculo : foto;
+    sub.textContent = (reg ? tamanhoLegivel(reg.tamanho) + " · " : "") + texto;
+    sub.className = "sub" + (classe ? " " + classe : "");
+    if (typeof progresso === "number") {
+      wrap.hidden = false;
+      barra.style.width = progresso + "%";
+    } else {
+      wrap.hidden = true;
+    }
+  }
+
+  function enviarArquivo(tipo, registro) {
+    registro.status = "enviando";
+    pintarStatus(tipo, "enviando…", "", 5);
+    revisarEtapa4();
+
+    var corpo = {
+      kind: tipo,
+      filename: registro.nome,
+      contentType: MIMES[registro.ext] || registro.file.type,
+      size: registro.tamanho,
+      applicationId: sessao.id,
+      applicationToken: sessao.token
+    };
+
+    fetch("/api/vagas/upload-url/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(corpo)
+    })
+      .then(function (r) { return r.json().then(function (j) { return { status: r.status, json: j }; }); })
+      .then(function (res) {
+        if (!res.json || !res.json.ok) {
+          throw new Error(res.json && res.json.message ? res.json.message : "");
+        }
+        sessao.id = res.json.applicationId;
+        sessao.token = res.json.applicationToken;
+        salvar();
+        return subirParaStorage(tipo, registro, res.json);
+      })
+      .catch(function (e) {
+        if (registroAtual(tipo) !== registro) return; // trocou de arquivo no meio
+        registro.status = "erro";
+        pintarStatus(tipo, "não foi possível enviar", "err");
+        mostrarErro(
+          tipo === "curriculo" ? "erroCurriculo" : "erroFoto",
+          (e && e.message) || "Não conseguimos enviar o arquivo. Toque em Trocar para tentar de novo."
+        );
+        track("application_error", { etapa: 4, motivo: "upload" });
+        revisarEtapa4();
+      });
+  }
+
+  function registroAtual(tipo) { return tipo === "curriculo" ? curriculo : foto; }
+
+  // XMLHttpRequest em vez de fetch: é o jeito de ter barra de progresso real.
+  function subirParaStorage(tipo, registro, info) {
+    return new Promise(function (resolve, reject) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("PUT", info.uploadUrl, true);
+      xhr.setRequestHeader("Content-Type", info.contentType);
+      xhr.setRequestHeader("x-upsert", "false");
+
+      xhr.upload.onprogress = function (e) {
+        if (registroAtual(tipo) !== registro || !e.lengthComputable) return;
+        var pct = Math.max(5, Math.round((e.loaded / e.total) * 100));
+        pintarStatus(tipo, "enviando… " + pct + "%", "", pct);
+      };
+
+      xhr.onload = function () {
+        if (registroAtual(tipo) !== registro) return resolve();
+        if (xhr.status >= 200 && xhr.status < 300) {
+          registro.status = "pronto";
+          registro.path = info.path;
+          pintarStatus(tipo, "enviado", "ok");
+          mostrarErro(tipo === "curriculo" ? "erroCurriculo" : "erroFoto", "");
+          track(tipo === "curriculo" ? "resume_uploaded" : "profile_photo_uploaded");
+          revisarEtapa4();
+          resolve();
+        } else {
+          reject(new Error("Não conseguimos enviar o arquivo. Toque em Trocar para tentar de novo."));
+        }
+      };
+
+      xhr.onerror = function () {
+        reject(new Error("Conexão interrompida durante o envio. Toque em Trocar para tentar de novo."));
+      };
+
+      xhr.send(registro.file);
+    });
+  }
+
+  // ---- pergunta da foto
+  document.querySelectorAll("#temFotoGrupo .choice").forEach(function (b) {
+    b.addEventListener("click", function () {
+      document.querySelectorAll("#temFotoGrupo .choice").forEach(function (o) {
+        o.setAttribute("aria-pressed", String(o === b));
+      });
+      dados.curriculo_tem_foto = b.getAttribute("data-temfoto") === "sim";
+      $("blocoFoto").hidden = dados.curriculo_tem_foto;
+      if (dados.curriculo_tem_foto && foto) limparArquivo("foto");
+      salvar();
+      revisarEtapa4();
+    });
+  });
+
+  // Currículo pronto + resposta da foto + (foto pronta quando necessária).
+  function revisarEtapa4() {
+    var okCurriculo = Boolean(curriculo && curriculo.status === "pronto");
+    var respondeu = dados.curriculo_tem_foto !== null;
+    var okFoto = dados.curriculo_tem_foto === true ||
+      (dados.curriculo_tem_foto === false && foto && foto.status === "pronto");
+    btnEtapa4.disabled = !(okCurriculo && respondeu && okFoto);
+  }
+
+  function validarEtapa4() {
+    if (!curriculo || curriculo.status !== "pronto") {
+      mostrarErro("erroCurriculo", "Envie seu currículo para continuar.");
+      return false;
+    }
+    if (dados.curriculo_tem_foto === null) return false;
+    if (dados.curriculo_tem_foto === false && (!foto || foto.status !== "pronto")) {
+      mostrarErro("erroFoto", "Envie uma foto de perfil para continuar.");
+      return false;
+    }
+    return true;
+  }
+
+  // ============================================================== ETAPA 5 ===
+  function montarResumo() {
+    var linhas = [
+      ["Nome completo", dados.nome_completo],
+      ["E-mail", dados.email],
+      ["Telefone", mascaraTelefone(dados.telefone)],
+      ["Data de nascimento", isoParaBr(dados.data_nascimento)],
+      ["Idade", dados.idade !== null ? dados.idade + " anos" : ""],
+      ["Bairro", dados.bairro || dados.cidade],
+      ["Currículo", curriculo ? curriculo.nome : ""]
+    ];
+    if (dados.curriculo_tem_foto === false && foto) linhas.push(["Foto de perfil", foto.nome]);
+
+    var lista = $("resumoLista");
+    lista.innerHTML = "";
+    linhas.forEach(function (par) {
+      if (!par[1]) return;
+      var li = document.createElement("li");
+      var k = document.createElement("span"); k.className = "k"; k.textContent = par[0];
+      var v = document.createElement("span"); v.className = "v"; v.textContent = par[1];
+      li.appendChild(k); li.appendChild(v);
+      lista.appendChild(li);
+    });
+  }
+
+  $("consentimento").addEventListener("change", function () {
+    if (this.checked) mostrarErro("erroConsentimento", "");
+  });
+
+  // ------------------------------------------------------------------ envio --
+  $("btnEnviar").addEventListener("click", function () {
+    if (enviando) return;
+
+    if (!$("consentimento").checked) {
+      mostrarErro("erroConsentimento", "Marque a declaração para enviar sua candidatura.");
+      $("consentimento").focus();
+      return;
+    }
+
+    enviando = true;
+    var btn = $("btnEnviar");
+    btn.disabled = true;
+    btn.textContent = "Enviando…";
+    $("alertaEnvio").classList.remove("on");
+    irPara(TOTAL_ETAPAS, false);
+
+    var corpo = {
+      applicationId: sessao.id,
+      applicationToken: sessao.token,
+      job_slug: JOB_SLUG,
+      nome_completo: dados.nome_completo,
+      email: dados.email,
+      telefone: dados.telefone,
+      data_nascimento: dados.data_nascimento,
+      idade: dados.idade,
+      sexo: dados.sexo,
+      cep: dados.cep,
+      bairro: dados.bairro,
+      cidade: dados.cidade,
+      estado: dados.estado,
+      curriculo_path: curriculo ? curriculo.path : "",
+      curriculo_nome: curriculo ? curriculo.nome : "",
+      curriculo_tem_foto: dados.curriculo_tem_foto === true,
+      foto_perfil_path: foto ? foto.path : "",
+      consentimento: true,
+      website: $("website").value
+    };
+
+    fetch("/api/vagas/candidatura/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(corpo)
+    })
+      .then(function (r) { return r.json().then(function (j) { return { status: r.status, json: j }; }); })
+      .then(function (res) {
+        if (res.json && res.json.ok) {
+          track("application_submitted");
+          limparPersistencia();
+          window.location.href = "/vagas/obrigado/";
+          return;
+        }
+        falharEnvio(res.json && res.json.message, res.json && res.json.campos);
+      })
+      .catch(function () {
+        falharEnvio("Não foi possível concluir agora. Confira sua conexão e tente novamente.");
+      });
+  });
+
+  function falharEnvio(mensagem, campos) {
+    enviando = false;
+    var btn = $("btnEnviar");
+    btn.disabled = false;
+    btn.textContent = "Enviar candidatura";
+
+    irPara(TOTAL_ETAPAS - 1, false);
+
+    var texto = mensagem || "Não foi possível concluir sua candidatura. Seus dados continuam aqui — tente novamente.";
+    if (campos) {
+      var chaves = Object.keys(campos);
+      if (chaves.length) texto = campos[chaves[0]] + " Volte e ajuste antes de enviar de novo.";
+    }
+    var alerta = $("alertaEnvio");
+    alerta.textContent = texto;
+    alerta.classList.add("on");
+    alerta.scrollIntoView({ block: "center", behavior: "smooth" });
+    track("application_error", { etapa: 5, motivo: "envio" });
+  }
+
+  // ------------------------------------------------------- botões continuar --
+  document.querySelectorAll("[data-avancar]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var n = Number(b.getAttribute("data-avancar"));
+      var validadores = [validarEtapa1, validarEtapa2, validarEtapa3, validarEtapa4];
+      if (validadores[n] && !validadores[n]()) return;
+      if (n === 3) montarResumo();
+      avancar();
+    });
+  });
+
+  // Enter avança nos campos de texto.
+  [nomeEl, emailEl, telEl].forEach(function (el) {
+    el.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") { e.preventDefault(); if (validarEtapa1()) avancar(); }
+    });
+  });
+  nascEl.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { e.preventDefault(); if (validarEtapa2()) avancar(); }
+  });
+  cepEl.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { e.preventDefault(); if (validarEtapa3()) avancar(); }
+  });
+
+  // ----------------------------------------------------------- restauração ---
+  // Texto volta; arquivo não. Quem parou na etapa de upload volta para ela e
+  // seleciona o arquivo de novo — de propósito.
+  (function iniciar() {
+    $("ano").textContent = String(new Date().getFullYear());
+    track("job_page_view");
+
+    var salvo = restaurar();
+    if (!salvo || !salvo.dados) return;
+
+    dados = Object.assign(dados, salvo.dados);
+    dados.curriculo_tem_foto = null; // depende de arquivo, então recomeça
+    if (salvo.sessao) sessao = salvo.sessao;
+
+    if (dados.nome_completo) nomeEl.value = dados.nome_completo;
+    if (dados.email) emailEl.value = dados.email;
+    if (dados.telefone) telEl.value = mascaraTelefone(dados.telefone);
+    if (dados.data_nascimento) {
+      nascEl.value = isoParaBr(dados.data_nascimento);
+      $("idadeCalc").textContent = dados.idade !== null ? "Você tem " + dados.idade + " anos." : "";
+    }
+    if (dados.sexo) {
+      document.querySelectorAll("#sexoGrupo .chip").forEach(function (o) {
+        o.setAttribute("aria-pressed", String(o.getAttribute("data-sexo") === dados.sexo));
+      });
+    }
+    if (dados.cep) {
+      cepEl.value = mascaraCep(dados.cep);
+      if (dados.cidade) {
+        cepConsultado = dados.cep;
+        cepCache[dados.cep] = { bairro: dados.bairro, cidade: dados.cidade, estado: dados.estado };
+        aplicarCep(dados.cep, cepCache[dados.cep]);
+      }
+    }
+
+    var etapaSalva = Math.min(Number(salvo.etapa) || 0, 3);
+    if (etapaSalva > 0) abrirWizard(etapaSalva);
+  })();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#1f2a1c" />
+<title>Candidatura enviada | Instituto Bruna Aguiar</title>
+<meta name="description" content="Recebemos sua candidatura para a vaga de Recepção no Instituto Bruna Aguiar." />
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" href="/assets/instituto/icon.png" />
+
+<style>
+  @font-face{font-family:Satoshi;src:url("/assets/711c6243cdc5431f_69b94459bfebcfdb86bc1719_Satos.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:Satoshi;src:url("/assets/93330866d109f6b2_6995a0d104741b8ff2d1554f_Satos.otf") format("opentype");font-weight:500;font-style:normal;font-display:swap}
+  @font-face{font-family:Orticalinear;src:url("/assets/fc58716fc92f11f2_698574a601f92b97484ef858_Ortic.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
+
+  :root{
+    --green:#1f2a1c; --green-2:#2f3c2c; --text:#414e3d; --muted:#5a6658;
+    --gold:#9e9271; --cream:#f9f6f3; --border:#e0e4da;
+    --head:Orticalinear,Georgia,serif; --body:Satoshi,-apple-system,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;
+    font-family:var(--body);background:var(--cream);color:var(--text);
+    -webkit-font-smoothing:antialiased;line-height:1.6;
+  }
+  :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+
+  .topo{background:var(--green);padding:1.15rem 1.5rem;display:flex;justify-content:center}
+  .logo{height:26px;width:91px;display:block;background-color:var(--cream);
+    -webkit-mask:url(/assets/instituto/logo.png) center/contain no-repeat;
+            mask:url(/assets/instituto/logo.png) center/contain no-repeat}
+
+  main{flex:1;display:flex;align-items:center;justify-content:center;padding:3rem 1.5rem}
+  .caixa{max-width:30rem;text-align:center}
+
+  .selo{
+    width:64px;height:64px;margin:0 auto 1.75rem;border-radius:50%;
+    border:1.5px solid var(--border);background:#fff;color:var(--gold);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .selo svg{width:28px;height:28px}
+  .selo svg path{
+    stroke-dasharray:32;stroke-dashoffset:32;
+    animation:risco .7s cubic-bezier(.16,1,.3,1) .15s forwards;
+  }
+  @keyframes risco{to{stroke-dashoffset:0}}
+
+  h1{font-family:var(--head);font-weight:400;color:var(--green);
+    font-size:clamp(1.85rem,7vw,2.5rem);line-height:1.15;margin:0 0 .85rem;letter-spacing:-.01em}
+  .principal{font-size:1.0625rem;color:var(--green);margin:0 0 1rem}
+  .apoio{color:var(--muted);margin:0 auto;max-width:26rem}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:0 2rem;
+    margin-top:2.25rem;border-radius:16px;border:1.5px solid var(--border);background:transparent;
+    color:var(--green);font-family:inherit;font-size:1rem;font-weight:500;text-decoration:none;
+    transition:background .2s ease,border-color .2s ease;
+  }
+  .btn:hover{background:#fff;border-color:var(--gold)}
+
+  .rodape{border-top:1px solid var(--border);padding:1.5rem;text-align:center;
+    font-size:.8125rem;color:var(--muted)}
+
+  @media (prefers-reduced-motion:reduce){
+    .selo svg path{animation:none;stroke-dashoffset:0}
+  }
+</style>
+</head>
+<body>
+  <header class="topo">
+    <a href="/" aria-label="Instituto Bruna Aguiar — página inicial"><span class="logo" role="img" aria-label="Instituto Bruna Aguiar"></span></a>
+  </header>
+
+  <main>
+    <div class="caixa">
+      <div class="selo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+
+      <h1>Candidatura enviada</h1>
+      <p class="principal">Recebemos seus dados com sucesso.</p>
+      <p class="apoio">Agora vamos analisar as informações enviadas. Caso o seu perfil avance no processo seletivo, entraremos em contato pelo telefone ou e-mail informado.</p>
+
+      <a class="btn" href="/">Voltar ao site</a>
+    </div>
+  </main>
+
+  <footer class="rodape">
+    © <span id="ano">2026</span> Instituto Bruna Aguiar
+  </footer>
+
+  <script>
+    document.getElementById("ano").textContent = String(new Date().getFullYear());
+  </script>
+</body>
+</html>

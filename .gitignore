@@ -12,3 +12,9 @@ public/fotos_time/
 breathiva.webflow.io/assets/instituto/membro-*.jpg
 dist/
 .vercel
+
+# env local (nunca versionar chaves)
+.env
+.env.local
+.env*.local
+.env*

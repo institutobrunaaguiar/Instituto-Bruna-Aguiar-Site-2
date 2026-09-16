@@ -1,0 +1,11 @@
+-- Marcador do estado do banco ANTERIOR a este repositório.
+--
+-- O projeto Supabase "Projetos Instituto" (qjktrrxelkyracmldnoa) é compartilhado
+-- com o ERP/sistema interno, que já tinha esta versão aplicada quando o site
+-- passou a versionar suas migrations aqui. O schema do ERP não é versionado
+-- neste repositório.
+--
+-- Este arquivo existe só para o histórico local bater com o remoto. A versão
+-- 20260327182941 já consta como aplicada em supabase_migrations.schema_migrations,
+-- então o conteúdo abaixo nunca é executado pelo `supabase db push`.
+-- Propositalmente sem DDL.
