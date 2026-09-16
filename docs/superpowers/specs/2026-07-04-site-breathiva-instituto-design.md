@@ -33,7 +33,7 @@ do template Breathiva** (`breathiva.webflow.io/index.html`).
 | 5 | Table (grade horários) | **Tratamentos** | Catálogo por 5 categorias (Facial; Tecnologias & Laser; Skincare; Corporal; Tricologia) |
 | 6 | Booking (banner) | **Faixa CTA** | "Agende sua Avaliação" → WhatsApp |
 | 7 | Gallery (slider) | **Galeria** | 8 fotos `galeria/espaco-1..8.jpg` com legendas (seção 5) |
-| 8 | Pricing (2 planos) | **Tratamentos em destaque** | 2–3 carro-chefe (ex.: HYPRO — Ultrassom Microfocado; Harmonização Facial), **sem preço** |
+| 8 | Pricing (2 planos) | **Tratamentos em destaque** | 2–3 carro-chefe (ex.: HIPRO — Ultrassom Microfocado; Harmonização Facial), **sem preço** |
 | 9 | Our story (depoimentos) | **Depoimentos** | 60 avaliações reais (seção 7) |
 | 10 | Yoga classes (vídeo) | **Dra. Bruna Aguiar** | Spotlight da responsável técnica (única confirmada); foto `equipe/membro-1.jpg` |
 | 11 | Footer | **Footer** | Contato, endereço "Como chegar →", redes |

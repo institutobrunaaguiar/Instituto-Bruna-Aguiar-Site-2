@@ -17,7 +17,7 @@
 |---|---|
 | Nome | Instituto Bruna Aguiar |
 | Tagline | Estética com técnica, propósito e naturalidade. |
-| Descrição (SEO) | Referência em estética avançada no DF: harmonização facial natural, toxina botulínica, preenchimentos, bioestimuladores de colágeno, lasers e ultrassom microfocado (HYPRO). Sofisticação, tecnologia e naturalidade em Brasília (Asa Sul). |
+| Descrição (SEO) | Referência em estética avançada no DF: harmonização facial natural, toxina botulínica, preenchimentos, bioestimuladores de colágeno, lasers e ultrassom microfocado (HIPRO). Sofisticação, tecnologia e naturalidade em Brasília (Asa Sul). |
 | Site | https://institutobrunaaguiar.com.br |
 | Telefone (exibição) | (61) 98120-4327 |
 | Telefone (tel) | +5561981204327 |
@@ -108,7 +108,7 @@ Sobre · Tratamentos · Galeria · Equipe · Depoimentos · FAQ · Contato
 - Redes: Instagram @instituto.brunaaguiar · Instagram @drabrunaaguiar_ · brunaaguiar.com.br
 
 ### Ticker (faixa animada de serviços) *(fonte: `lib/home.ts`)*
-Harmonização Facial · Toxina Botulínica · Preenchimento · Bioestimuladores · Ultrassom Microfocado (HYPRO) · Laser CO2 · Skinbooster · Estética Corporal
+Harmonização Facial · Toxina Botulínica · Preenchimento · Bioestimuladores · Ultrassom Microfocado (HIPRO) · Laser CO2 · Skinbooster · Estética Corporal
 
 ---
 
@@ -137,7 +137,7 @@ Tratamentos faciais avançados para rejuvenescimento, harmonização e prevenç�
 
 ### Tecnologias & Laser Facial
 Equipamentos de última geração para lifting, rejuvenescimento e tratamento de manchas sem cirurgia.
-- HYPRO — Ultrassom Microfocado (lifting sem cirurgia)
+- HIPRO — Ultrassom Microfocado (lifting sem cirurgia)
 - Laser CO2 Fracionado (rejuvenescimento e cicatrizes)
 - Tratamento de Melasma e Manchas
 - BB Glow e BB Laser
@@ -155,7 +155,7 @@ Protocolos de limpeza, revitalização e glow para manter a saúde e o brilho da
 
 ### Estética Corporal
 Protocolos para flacidez, contorno corporal, estrias, celulite e gordura localizada.
-- HYPRO Corporal (flacidez e contorno)
+- HIPRO Corporal (flacidez e contorno)
 - Laser CO2 Fracionado Corporal (estrias e cicatrizes)
 - Bioestimuladores Corporais (Radiesse, Sculptra, Elleva)
 - Intradermoterapia e Otimizador Metabólico

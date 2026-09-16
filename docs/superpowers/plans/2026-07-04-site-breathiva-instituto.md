@@ -80,7 +80,7 @@ por:
 - [ ] **Step 3: Trocar meta description e OG (se presentes)**
 
 Para cada `content="..."` de `meta name="description"`, `meta property="og:title"`, `meta property="og:description"` cujo texto seja do template, substituir por:
-- description: `Referência em estética avançada no DF: harmonização facial natural, toxina botulínica, preenchimentos, bioestimuladores, lasers e ultrassom microfocado (HYPRO). Asa Sul, Brasília.`
+- description: `Referência em estética avançada no DF: harmonização facial natural, toxina botulínica, preenchimentos, bioestimuladores, lasers e ultrassom microfocado (HIPRO). Asa Sul, Brasília.`
 - og:title: `Instituto Bruna Aguiar — Estética avançada, natural e sofisticada`
 - og:description: mesmo texto da description.
 
@@ -216,7 +216,7 @@ git commit -m "feat: hero com imagem (sem vídeo) e copy do Instituto"
 
 Substituir os 4 cards (Meditation/Aromatherapy/Yoga asanas/Meditation) por (título + descrição):
 1. `Estética Facial` — `Rejuvenescimento, harmonização e prevenção com foco na sua naturalidade.`
-2. `Tecnologias & Laser` — `HYPRO, laser CO2 e luz pulsada para lifting e tratamento de manchas sem cirurgia.`
+2. `Tecnologias & Laser` — `HIPRO, laser CO2 e luz pulsada para lifting e tratamento de manchas sem cirurgia.`
 3. `Estética Corporal` — `Protocolos para flacidez, contorno, estrias, celulite e gordura localizada.`
 4. `Tricologia — Saúde Capilar` — `Avaliação e protocolos para o couro cabeludo e o fortalecimento dos fios.`
 
@@ -345,16 +345,16 @@ A tabela tem 6 linhas (yoga type + dias + horários). Reaproveitar como 5 linhas
 
 Conteúdo (de `conteudo-site.md` linhas 118–175), por categoria:
 1. `Estética Facial` — `Toxina Botulínica · Preenchimento com Ácido Hialurônico · Skinboosters · Bioestimuladores de Colágeno · Fios de Sustentação (PDO) · Microagulhamento`
-2. `Tecnologias & Laser Facial` — `HYPRO (Ultrassom Microfocado) · Laser CO2 Fracionado · Melasma e Manchas · BB Glow · Luz Intensa Pulsada`
+2. `Tecnologias & Laser Facial` — `HIPRO (Ultrassom Microfocado) · Laser CO2 Fracionado · Melasma e Manchas · BB Glow · Luz Intensa Pulsada`
 3. `Cuidados Faciais & Skincare` — `Limpeza de Pele Profunda · Peeling de Diamante · Dermaplaning · Revitalização Facial · Design de Sobrancelhas`
-4. `Estética Corporal` — `HYPRO Corporal · Bioestimuladores Corporais · PEIM (Microvasos) · Endolaser · Drenagem Linfática`
+4. `Estética Corporal` — `HIPRO Corporal · Bioestimuladores Corporais · PEIM (Microvasos) · Endolaser · Drenagem Linfática`
 5. `Tricologia — Saúde Capilar` — `Avaliação Capilar Detalhada · Mesoterapia + Alta Frequência + LEDterapia + Ozonioterapia · Terapia de Acalmia`
 
 Se a tabela tiver 6 linhas, remover a 6ª ou usá-la para o CTA. Terminar a seção com a faixa `Cada protocolo é definido após uma avaliação individualizada.` + botão `Agende sua Avaliação` (WhatsApp global) se houver slot; senão deixar para a Task 9 (Booking).
 
 - [ ] **Step 4: Verificar**
 
-Run: `grep -c "HYPRO" breathiva.webflow.io/index.html`
+Run: `grep -c "HIPRO" breathiva.webflow.io/index.html`
 Expected: ≥ 1
 Run: `grep -c "Hatha Yoga" breathiva.webflow.io/index.html`
 Expected: 0
@@ -447,7 +447,7 @@ git commit -m "feat: galeria com fotos dos espaços"
 
 - [ ] **Step 2: Converter os 2 cards de plano em cards de tratamento (remover preço)**
 
-Card 1 → `HYPRO — Ultrassom Microfocado`, sem valor. Remover o preço `$79`/`Monthly Subscription`. Lista de bullets:
+Card 1 → `HIPRO — Ultrassom Microfocado`, sem valor. Remover o preço `$79`/`Monthly Subscription`. Lista de bullets:
 `Lifting facial sem cirurgia · Estímulo de colágeno · Efeito progressivo e natural · Também disponível para o corpo`. Texto: `Tecnologia de ultrassom microfocado para lifting e firmeza, sem cortes e sem afastamento.` Botão `Start your journey` → `Agende sua Avaliação` + WhatsApp.
 
 Card 2 → `Harmonização Facial`, sem valor. Remover `$179`. Bullets:

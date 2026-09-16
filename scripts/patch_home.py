@@ -36,7 +36,7 @@ TREATMENTS_SECTION = '''<section class="rt-table-v2 ib-treatments-compact" id="t
 <span class="ib-display-card-icon"><img src="assets/instituto/icon-laser.svg" alt="" width="16" height="16"/></span>
 <p class="ib-display-card-title">Tecnologias faciais e laser</p>
 </div>
-<p class="ib-display-card-desc">HYPRO, laser CO2 fracionado, BB Glow e protocolos para flacidez, textura e manchas.</p>
+<p class="ib-display-card-desc">HIPRO, laser CO2 fracionado, BB Glow e protocolos para flacidez, textura e manchas.</p>
 <p class="ib-display-card-meta">Ver tratamentos →</p>
 </a>
 <a class="ib-display-card" href="/tratamentos-corporais/">
@@ -44,7 +44,7 @@ TREATMENTS_SECTION = '''<section class="rt-table-v2 ib-treatments-compact" id="t
 <span class="ib-display-card-icon"><img src="assets/instituto/icon-corporal.svg" alt="" width="16" height="16"/></span>
 <p class="ib-display-card-title">Tratamentos corporais</p>
 </div>
-<p class="ib-display-card-desc">HYPRO corporal, laser CO2, LIP e injetáveis para contorno, flacidez e qualidade da pele.</p>
+<p class="ib-display-card-desc">HIPRO corporal, laser CO2, LIP e injetáveis para contorno, flacidez e qualidade da pele.</p>
 <p class="ib-display-card-meta">Ver tratamentos →</p>
 </a>
 <a class="ib-display-card" href="/tratamentos-capilares/">
@@ -123,8 +123,8 @@ def main() -> None:
         "Instituto Bruna Aguiar | Estética avançada em Brasília",
     )
     html = html.replace(
-        'meta content="Referência em estética avançada no DF: harmonização facial natural, toxina botulínica, preenchimentos, bioestimuladores, lasers e ultrassom microfocado (HYPRO). Asa Sul, Brasília." name="description"',
-        'meta content="Clínica de estética avançada na Asa Sul: harmonização facial, toxina botulínica, bioestimuladores, HYPRO, laser e tricologia. Avaliação individualizada e resultados naturais." name="description"',
+        'meta content="Referência em estética avançada no DF: harmonização facial natural, toxina botulínica, preenchimentos, bioestimuladores, lasers e ultrassom microfocado (HIPRO). Asa Sul, Brasília." name="description"',
+        'meta content="Clínica de estética avançada na Asa Sul: harmonização facial, toxina botulínica, bioestimuladores, HIPRO, laser e tricologia. Avaliação individualizada e resultados naturais." name="description"',
     )
     html = html.replace(
         'property="og:description"/><meta content="assets/instituto/hero.jpg"',

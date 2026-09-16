@@ -159,10 +159,10 @@ PAGES["tecnologias-faciais-e-laser"] = _hub(
     h1="Tecnologias faciais e rejuvenescimento a laser",
     meta_title="Laser e Tecnologias Faciais | Instituto Bruna Aguiar — Brasília",
     meta_description=(
-        "Laser CO2 fracionado, BB Glow, HYPRO e protocolos para flacidez, textura, "
+        "Laser CO2 fracionado, BB Glow, HIPRO e protocolos para flacidez, textura, "
         "manchas e contorno facial na Asa Sul, Brasília."
     ),
-    keywords=["laser facial brasília", "hypro facial", "co2 fracionado df"],
+    keywords=["laser facial brasília", "hipro facial", "co2 fracionado df"],
     intro=(
         "Equipamentos de última geração para rejuvenescimento, qualidade da pele e "
         "definição de contorno. Cada protocolo é personalizado conforme região, flacidez "
@@ -171,7 +171,7 @@ PAGES["tecnologias-faciais-e-laser"] = _hub(
     children=[
         "laser-co2-fracionado",
         "bb-glow-laser-poros-manchas",
-        "hypro-facial",
+        "hipro-facial",
     ],
     parent_slug=None,
 )
@@ -181,16 +181,16 @@ PAGES["tratamentos-corporais"] = _hub(
     h1="Tratamentos corporais em Brasília",
     meta_title="Estética Corporal | Instituto Bruna Aguiar — Asa Sul, DF",
     meta_description=(
-        "HYPRO corporal, laser CO2, LIP, injetáveis e protocolos para flacidez, "
+        "HIPRO corporal, laser CO2, LIP, injetáveis e protocolos para flacidez, "
         "contorno, estrias e qualidade da pele na Asa Sul."
     ),
-    keywords=["estética corporal brasília", "flacidez corporal df", "hypro corporal"],
+    keywords=["estética corporal brasília", "flacidez corporal df", "hipro corporal"],
     intro=(
         "Protocolos corporais para flacidez, contorno, textura e qualidade da pele. "
         "A indicação de cada região e tecnologia depende de avaliação individual."
     ),
     children=[
-        "hypro-corporal",
+        "hipro-corporal",
         "laser-co2-fracionado-corporal",
         "luz-intensa-pulsada",
         "injetaveis-corporais",
@@ -453,31 +453,31 @@ PAGES["bb-glow-laser-poros-manchas"] = _proc(
         ("Quantas sessões são necessárias?", "Varia conforme pele e objetivo. Muitos protocolos usam ciclos de três sessões."),
         ("Posso associar com outros lasers?", "Sim, quando há indicação e intervalo adequado entre procedimentos."),
     ),
-    related=["laser-co2-fracionado", "hypro-facial", "avaliacao-facial"],
+    related=["laser-co2-fracionado", "hipro-facial", "avaliacao-facial"],
 )
 
-PAGES["hypro-facial"] = _hub(
-    slug="hypro-facial",
-    h1="HYPRO Facial — ultrassom microfocado",
-    meta_title="HYPRO Facial | Ultrassom Microfocado — Brasília",
+PAGES["hipro-facial"] = _hub(
+    slug="hipro-facial",
+    h1="HIPRO Facial — ultrassom microfocado",
+    meta_title="HIPRO Facial | Ultrassom Microfocado — Brasília",
     meta_description=(
-        "HYPRO para terço superior, papada, pescoço e full face. "
+        "HIPRO para terço superior, papada, pescoço e full face. "
         "Flacidez e definição de contorno com protocolo personalizado."
     ),
-    keywords=["hypro facial brasília", "ultrassom microfocado df", "lifting sem cirurgia"],
+    keywords=["hipro facial brasília", "ultrassom microfocado df", "lifting sem cirurgia"],
     intro=(
         "Ultrassom microfocado para estímulo de colágeno em planos profundos, "
         "com foco em flacidez e contorno conforme região tratada."
     ),
     parent_slug="tecnologias-faciais-e-laser",
     children=[
-        "hypro-terco-superior",
-        "hypro-papada",
-        "hypro-pescoco",
-        "hypro-papada-pescoco",
-        "hypro-terco-medio-inferior",
-        "hypro-full-face",
-        "hypro-full-face-pescoco",
+        "hipro-terco-superior",
+        "hipro-papada",
+        "hipro-pescoco",
+        "hipro-papada-pescoco",
+        "hipro-terco-medio-inferior",
+        "hipro-full-face",
+        "hipro-full-face-pescoco",
     ],
 )
 
@@ -485,32 +485,32 @@ PAGES["hypro-facial"] = _hub(
 # Sub-hubs corporais
 # ---------------------------------------------------------------------------
 
-PAGES["hypro-corporal"] = _hub(
-    slug="hypro-corporal",
-    h1="HYPRO Corporal",
-    meta_title="HYPRO Corporal | Flacidez e Contorno — Brasília",
+PAGES["hipro-corporal"] = _hub(
+    slug="hipro-corporal",
+    h1="HIPRO Corporal",
+    meta_title="HIPRO Corporal | Flacidez e Contorno — Brasília",
     meta_description=(
-        "HYPRO corporal para colo, braços, abdômen, costas, culote, coxas e outras regiões. "
+        "HIPRO corporal para colo, braços, abdômen, costas, culote, coxas e outras regiões. "
         "Protocolo individualizado na Asa Sul."
     ),
-    keywords=["hypro corporal brasília", "flacidez corporal df", "ultrassom microfocado corporal"],
+    keywords=["hipro corporal brasília", "flacidez corporal df", "ultrassom microfocado corporal"],
     intro=(
         "Ultrassom microfocado aplicado a regiões corporais específicas para flacidez "
         "e contorno. Cada área tem objetivo e parâmetros próprios."
     ),
     parent_slug="tratamentos-corporais",
     children=[
-        "hypro-corporal-colo",
-        "hypro-corporal-bracos",
-        "hypro-corporal-abdomen",
-        "hypro-corporal-costas-flancos",
-        "hypro-corporal-prega-glutea",
-        "hypro-corporal-culote",
-        "hypro-corporal-prega-axilar",
-        "hypro-corporal-coxas-internas",
-        "hypro-corporal-virilha",
-        "hypro-corporal-posterior-coxa",
-        "hypro-corporal-faixa-pequena",
+        "hipro-corporal-colo",
+        "hipro-corporal-bracos",
+        "hipro-corporal-abdomen",
+        "hipro-corporal-costas-flancos",
+        "hipro-corporal-prega-glutea",
+        "hipro-corporal-culote",
+        "hipro-corporal-prega-axilar",
+        "hipro-corporal-coxas-internas",
+        "hipro-corporal-virilha",
+        "hipro-corporal-posterior-coxa",
+        "hipro-corporal-faixa-pequena",
     ],
 )
 
@@ -641,9 +641,9 @@ PAGES["drenagem-corporal"] = _proc(
     care="Hidratação adequada e movimento leve ajudam a manter o benefício entre sessões.",
     faqs=_faq(
         ("Drenagem emagrece?", "Não é tratamento para perda de peso. Atua sobre líquidos retidos e conforto."),
-        ("Posso associar com HYPRO ou LIP?", "Sim, quando o plano corporal integrado indica sequência segura."),
+        ("Posso associar com HIPRO ou LIP?", "Sim, quando o plano corporal integrado indica sequência segura."),
     ),
-    related=["hypro-corporal", "luz-intensa-pulsada"],
+    related=["hipro-corporal", "luz-intensa-pulsada"],
 )
 
 # ---------------------------------------------------------------------------
@@ -758,7 +758,7 @@ for slug, h1, detail in BIOSTIM:
             ("Quando vejo resultado?", "Estímulo de colágeno é progressivo, com evolução ao longo de semanas e meses."),
             ("Substitui preenchimento?", "Não necessariamente. Atuam de formas complementares conforme objetivo."),
         ),
-        related=["avaliacao-facial", "preenchimentos-e-skinboosters", "hypro-facial"],
+        related=["avaliacao-facial", "preenchimentos-e-skinboosters", "hipro-facial"],
     )
 
 REGEN = [
@@ -812,7 +812,7 @@ for slug, h1, detail in FIO:
         benefits="Estímulo de colágeno e/ou sustentação imediata conforme tipo de fio.",
         care="Evitar expressões exageradas e massagens na região nas primeiras semanas.",
         associations="Pode complementar bioestimuladores, toxina ou tecnologias de flacidez.",
-        related=["avaliacao-facial", "bioestimuladores-de-colageno", "hypro-facial"],
+        related=["avaliacao-facial", "bioestimuladores-de-colageno", "hipro-facial"],
         faqs=_faq(
             ("Fios de estímulo e sustentação são iguais?", "Não. Estímulo prioriza colágeno; sustentação oferece apoio mecânico."),
             ("Quanto tempo duram?", "Fios são absorvíveis; o benefício do colágeno estimulado persiste além da absorção."),
@@ -840,32 +840,32 @@ for slug, h1, detail in CO2_FACE:
         how_it_works="Feixes fracionados criam microzonas de renovação com cicatrização periférica.",
         benefits="Textura mais lisa, poros menos visíveis e rejuvenescimento progressivo.",
         care="Home care rigoroso, fotoproteção total e evitar sol durante recuperação.",
-        related=["bb-glow-laser-poros-manchas", "hypro-facial", "avaliacao-facial"],
+        related=["bb-glow-laser-poros-manchas", "hipro-facial", "avaliacao-facial"],
         faqs=_faq(
             ("Quantos dias de recuperação?", "Depende da intensidade. Orientamos cronograma social na consulta."),
             ("Posso tratar pálpebras e face juntos?", "Quando indicado, sim, com parâmetros seguros por região."),
         ),
     )
 
-HYPRO_FACE = [
-    ("hypro-terco-superior", "HYPRO para terço superior", "Flacidez de testa e região periorbital."),
-    ("hypro-papada", "HYPRO para papada", "Definição submentoniana e flacidez localizada."),
-    ("hypro-pescoco", "HYPRO para pescoço", "Flacidez e qualidade da pele cervical."),
-    ("hypro-papada-pescoco", "HYPRO para papada e pescoço", "Protocolo combinado submentoniano e cervical."),
-    ("hypro-terco-medio-inferior", "HYPRO para terço médio e inferior", "Flacidez malar, mandibular e região perioral."),
-    ("hypro-full-face", "HYPRO full face", "Tratamento facial amplo conforme mapa individual."),
-    ("hypro-full-face-pescoco", "HYPRO full face com pescoço", "Face completa associada ao pescoço quando indicado."),
+HIPRO_FACE = [
+    ("hipro-terco-superior", "HIPRO para terço superior", "Flacidez de testa e região periorbital."),
+    ("hipro-papada", "HIPRO para papada", "Definição submentoniana e flacidez localizada."),
+    ("hipro-pescoco", "HIPRO para pescoço", "Flacidez e qualidade da pele cervical."),
+    ("hipro-papada-pescoco", "HIPRO para papada e pescoço", "Protocolo combinado submentoniano e cervical."),
+    ("hipro-terco-medio-inferior", "HIPRO para terço médio e inferior", "Flacidez malar, mandibular e região perioral."),
+    ("hipro-full-face", "HIPRO full face", "Tratamento facial amplo conforme mapa individual."),
+    ("hipro-full-face-pescoco", "HIPRO full face com pescoço", "Face completa associada ao pescoço quando indicado."),
 ]
 
-for slug, h1, detail in HYPRO_FACE:
+for slug, h1, detail in HIPRO_FACE:
     PAGES[slug] = _proc(
         slug=slug,
         h1=h1,
-        meta_title=f"{h1} | HYPRO — Instituto Bruna Aguiar, Brasília",
+        meta_title=f"{h1} | HIPRO — Instituto Bruna Aguiar, Brasília",
         meta_description=f"{h1}. Ultrassom microfocado para flacidez e contorno na Asa Sul.",
-        keywords=[f"{slug.replace('-', ' ')} brasília", "hypro df"],
+        keywords=[f"{slug.replace('-', ' ')} brasília", "hipro df"],
         intro=f"{detail} Profundidade e linhas de aplicação são personalizadas.",
-        parent_slug="hypro-facial",
+        parent_slug="hipro-facial",
         purpose="Estimular colágeno profundo e melhorar flacidez e contorno.",
         indication="Flacidez facial ou cervical com indicação para ultrassom microfocado.",
         regions=detail,
@@ -879,36 +879,36 @@ for slug, h1, detail in HYPRO_FACE:
         ),
     )
 
-HYPRO_BODY = [
-    ("hypro-corporal-colo", "Colo", "Flacidez e qualidade da pele decollete."),
-    ("hypro-corporal-bracos", "Braços", "Flacidez de face interna ou posterior do braço."),
-    ("hypro-corporal-abdomen", "Abdômen", "Flacidez abdominal superficial."),
-    ("hypro-corporal-costas-flancos", "Costas e flancos", "Contorno e firmeza de dorso e flancos."),
-    ("hypro-corporal-prega-glutea", "Prega glútea", "Flacidez na prega infraglútea."),
-    ("hypro-corporal-culote", "Culote", "Flacidez lateral de quadril."),
-    ("hypro-corporal-prega-axilar", "Prega axilar", "Flacidez na prega anterior do braço/axila."),
-    ("hypro-corporal-coxas-internas", "Parte interna das coxas", "Flacidez de face interna."),
-    ("hypro-corporal-virilha", "Virilha", "Flacidez localizada na região."),
-    ("hypro-corporal-posterior-coxa", "Posterior de coxa", "Firmeza de face posterior."),
-    ("hypro-corporal-faixa-pequena", "Faixa pequena", "Regiões compactas com protocolo reduzido."),
+HIPRO_BODY = [
+    ("hipro-corporal-colo", "Colo", "Flacidez e qualidade da pele decollete."),
+    ("hipro-corporal-bracos", "Braços", "Flacidez de face interna ou posterior do braço."),
+    ("hipro-corporal-abdomen", "Abdômen", "Flacidez abdominal superficial."),
+    ("hipro-corporal-costas-flancos", "Costas e flancos", "Contorno e firmeza de dorso e flancos."),
+    ("hipro-corporal-prega-glutea", "Prega glútea", "Flacidez na prega infraglútea."),
+    ("hipro-corporal-culote", "Culote", "Flacidez lateral de quadril."),
+    ("hipro-corporal-prega-axilar", "Prega axilar", "Flacidez na prega anterior do braço/axila."),
+    ("hipro-corporal-coxas-internas", "Parte interna das coxas", "Flacidez de face interna."),
+    ("hipro-corporal-virilha", "Virilha", "Flacidez localizada na região."),
+    ("hipro-corporal-posterior-coxa", "Posterior de coxa", "Firmeza de face posterior."),
+    ("hipro-corporal-faixa-pequena", "Faixa pequena", "Regiões compactas com protocolo reduzido."),
 ]
 
-for slug, region, detail in HYPRO_BODY:
+for slug, region, detail in HIPRO_BODY:
     PAGES[slug] = _proc(
         slug=slug,
-        h1=f"HYPRO corporal: {region}",
-        meta_title=f"HYPRO Corporal {region} | Instituto Bruna Aguiar — Brasília",
-        meta_description=f"HYPRO corporal para {region.lower()}. Flacidez e contorno com protocolo individualizado.",
-        keywords=[f"hypro {region.lower()} brasília", "hypro corporal df"],
+        h1=f"HIPRO corporal: {region}",
+        meta_title=f"HIPRO Corporal {region} | Instituto Bruna Aguiar — Brasília",
+        meta_description=f"HIPRO corporal para {region.lower()}. Flacidez e contorno com protocolo individualizado.",
+        keywords=[f"hipro {region.lower()} brasília", "hipro corporal df"],
         intro=f"Ultrassom microfocado para {detail.lower()}",
-        parent_slug="hypro-corporal",
+        parent_slug="hipro-corporal",
         purpose=f"Tratar flacidez e melhorar contorno em {region.lower()}.",
-        indication="Pacientes com flacidez corporal localizada e indicação para HYPRO.",
+        indication="Pacientes com flacidez corporal localizada e indicação para HIPRO.",
         regions=region,
         how_it_works="Aplicação de linhas de ultrassom microfocado conforme anatomia da região.",
         benefits="Firmeza progressiva e melhora do contorno local.",
         care="Hidratação, movimento leve e fotoproteção na área exposta.",
-        related=["hypro-corporal", "laser-co2-fracionado-corporal", "drenagem-corporal"],
+        related=["hipro-corporal", "laser-co2-fracionado-corporal", "drenagem-corporal"],
         faqs=_faq(
             ("Uma sessão basta?", "Na maioria das regiões, sim, com avaliação de reforço posterior."),
             ("Combina com drenagem?", "Pode ser associado em planos corporais integrados."),
@@ -937,7 +937,7 @@ for slug, h1, detail in CO2_BODY:
         how_it_works="Sessões fracionadas com parâmetros ajustados à extensão da região.",
         benefits="Textura mais uniforme e melhora progressiva de estrias, cicatrizes ou manchas.",
         care="Recuperação orientada, fotoproteção e hidratação intensiva.",
-        related=["hypro-corporal", "luz-intensa-pulsada", "drenagem-corporal"],
+        related=["hipro-corporal", "luz-intensa-pulsada", "drenagem-corporal"],
         faqs=_faq(
             ("Estrias respondem ao laser?", "Melhora progressiva é possível; expectativa realista é definida na avaliação."),
         ),
@@ -964,7 +964,7 @@ for slug, h1, detail in INJ_CORP:
         how_it_works="Sessões ou ciclos conforme protocolo definido profissionalmente.",
         benefits="Melhora localizada conforme objetivo e limites de cada técnica.",
         care="Seguir orientações de atividade, compressão ou fotoproteção quando aplicável.",
-        related=["hypro-corporal", "luz-intensa-pulsada", "drenagem-corporal"],
+        related=["hipro-corporal", "luz-intensa-pulsada", "drenagem-corporal"],
         faqs=_faq(
             ("Substitui cirurgia ou lipo?", "Não. Atuam em indicações específicas com limites claros."),
         ),

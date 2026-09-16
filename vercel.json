@@ -18,6 +18,206 @@
   ],
   "redirects": [
     {
+      "source": "/hypro-corporal",
+      "destination": "/hipro-corporal/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal/",
+      "destination": "/hipro-corporal/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-abdomen",
+      "destination": "/hipro-corporal-abdomen/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-abdomen/",
+      "destination": "/hipro-corporal-abdomen/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-bracos",
+      "destination": "/hipro-corporal-bracos/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-bracos/",
+      "destination": "/hipro-corporal-bracos/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-colo",
+      "destination": "/hipro-corporal-colo/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-colo/",
+      "destination": "/hipro-corporal-colo/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-costas-flancos",
+      "destination": "/hipro-corporal-costas-flancos/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-costas-flancos/",
+      "destination": "/hipro-corporal-costas-flancos/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-coxas-internas",
+      "destination": "/hipro-corporal-coxas-internas/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-coxas-internas/",
+      "destination": "/hipro-corporal-coxas-internas/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-culote",
+      "destination": "/hipro-corporal-culote/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-culote/",
+      "destination": "/hipro-corporal-culote/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-faixa-pequena",
+      "destination": "/hipro-corporal-faixa-pequena/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-faixa-pequena/",
+      "destination": "/hipro-corporal-faixa-pequena/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-posterior-coxa",
+      "destination": "/hipro-corporal-posterior-coxa/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-posterior-coxa/",
+      "destination": "/hipro-corporal-posterior-coxa/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-prega-axilar",
+      "destination": "/hipro-corporal-prega-axilar/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-prega-axilar/",
+      "destination": "/hipro-corporal-prega-axilar/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-prega-glutea",
+      "destination": "/hipro-corporal-prega-glutea/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-prega-glutea/",
+      "destination": "/hipro-corporal-prega-glutea/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-virilha",
+      "destination": "/hipro-corporal-virilha/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-corporal-virilha/",
+      "destination": "/hipro-corporal-virilha/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-facial",
+      "destination": "/hipro-facial/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-facial/",
+      "destination": "/hipro-facial/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-full-face",
+      "destination": "/hipro-full-face/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-full-face/",
+      "destination": "/hipro-full-face/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-full-face-pescoco",
+      "destination": "/hipro-full-face-pescoco/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-full-face-pescoco/",
+      "destination": "/hipro-full-face-pescoco/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-papada",
+      "destination": "/hipro-papada/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-papada/",
+      "destination": "/hipro-papada/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-papada-pescoco",
+      "destination": "/hipro-papada-pescoco/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-papada-pescoco/",
+      "destination": "/hipro-papada-pescoco/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-pescoco",
+      "destination": "/hipro-pescoco/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-pescoco/",
+      "destination": "/hipro-pescoco/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-terco-medio-inferior",
+      "destination": "/hipro-terco-medio-inferior/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-terco-medio-inferior/",
+      "destination": "/hipro-terco-medio-inferior/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-terco-superior",
+      "destination": "/hipro-terco-superior/",
+      "permanent": true
+    },
+    {
+      "source": "/hypro-terco-superior/",
+      "destination": "/hipro-terco-superior/",
+      "permanent": true
+    },
+    {
       "source": "/index.html",
       "destination": "/",
       "permanent": true
