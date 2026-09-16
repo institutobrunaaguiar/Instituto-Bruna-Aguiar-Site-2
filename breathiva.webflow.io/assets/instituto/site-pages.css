@@ -900,3 +900,107 @@ body.ib-page {
     opacity: 0.92;
   }
 }
+
+/* ==========================================================================
+   Galeria "Conheça os espaços" — carrossel único (desktop + mobile)
+   Substitui o grid escalonado que existia acima de 767px. O slider do Webflow
+   agrupa os slides por página medindo a largura de cada um, então a largura
+   do .w-slide define quantas fotos aparecem por vez.
+   ========================================================================== */
+.rt-gallery-carousel {
+  width: 100%;
+  height: auto;
+  background-color: transparent;
+  margin-top: 5rem;
+}
+
+.rt-gallery-carousel .w-slider-mask {
+  width: 100%;
+  height: auto;
+}
+
+.rt-gallery-carousel .w-slide {
+  width: 33.333%;
+  height: auto;
+  padding-right: 1.875rem;
+}
+
+/* Cards uniformes: no grid cada posição tinha um arredondamento diferente
+   (250px em um canto distinto) e a coluna do meio subia 8rem. Num carrossel
+   isso vira ruído, então todos os cards recebem o mesmo arco. */
+.rt-gallery-carousel .rt-gallery-v2-wrapper {
+  width: 100%;
+}
+
+.rt-gallery-carousel .rt-gallery-v2-wrapper.rt-gallery-middle-card {
+  margin-top: 0;
+}
+
+.rt-gallery-carousel .rt-gallery-v2-side-top,
+.rt-gallery-carousel .rt-gallery-v2-side-bottom,
+.rt-gallery-carousel .rt-gallery-v2-right-side-top,
+.rt-gallery-carousel .rt-gallery-v2-right-side-bottom,
+.rt-gallery-carousel .rt-gallery-v2-middle-image {
+  height: clamp(20rem, 30vw, 28rem);
+  max-width: none;
+  border-radius: 12.5rem 12.5rem 0 0;
+  overflow: hidden;
+}
+
+.rt-gallery-carousel .w-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.rt-gallery-carousel .rt-gallery-v2-text {
+  text-align: center;
+}
+
+/* Bolinhas de navegação abaixo do carrossel (as setas seguem ocultas). */
+.rt-gallery-carousel-nav.w-slider-nav {
+  position: static;
+  height: auto;
+  margin-top: 1.75rem;
+  padding-top: 0;
+}
+
+.rt-gallery-carousel-nav .w-slider-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  margin: 0 0.3125rem;
+  background-color: #ffffff59;
+}
+
+.rt-gallery-carousel-nav .w-slider-dot.w-active {
+  background-color: #fff;
+}
+
+@media (max-width: 991px) {
+  .rt-gallery-carousel .w-slide {
+    width: 50%;
+  }
+}
+
+@media (max-width: 767px) {
+  .rt-gallery-carousel {
+    margin-top: 2.5rem;
+  }
+
+  .rt-gallery-carousel .w-slide {
+    width: 100%;
+    padding-right: 0;
+  }
+
+  .rt-gallery-carousel .rt-gallery-v2-side-top,
+  .rt-gallery-carousel .rt-gallery-v2-side-bottom,
+  .rt-gallery-carousel .rt-gallery-v2-right-side-top,
+  .rt-gallery-carousel .rt-gallery-v2-right-side-bottom,
+  .rt-gallery-carousel .rt-gallery-v2-middle-image {
+    height: clamp(22rem, 96vw, 28rem);
+    max-width: 26rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
