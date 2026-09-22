@@ -22,7 +22,7 @@ const {
   clientIpHash,
   methodGuard,
 } = require("../_lib/recrutamento");
-const { PERFIS } = require("../_lib/disc");
+const { PERFIS, interpretar } = require("../_lib/disc");
 
 const {
   COOKIE,
@@ -435,7 +435,12 @@ function resumoDisc(discs, candidato) {
   const pendente = discs.find(function (d) { return d.status === "pendente" && Date.parse(d.expires_at) > Date.now(); }) || null;
   const saida = { concluido: null, pendente: null, perfis: PERFIS };
   if (concluido) {
-    saida.concluido = { resultado: concluido.resultado, concluido_em: concluido.concluido_em };
+    saida.concluido = {
+      resultado: concluido.resultado,
+      concluido_em: concluido.concluido_em,
+      // leitura calculada na hora: vale também para testes respondidos antes
+      leitura: interpretar(concluido.resultado),
+    };
   }
   if (pendente) {
     const link = `${SITE_PUBLICO}/vagas/disc/?t=${pendente.token}`;

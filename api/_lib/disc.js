@@ -102,4 +102,143 @@ function calcular(respostas) {
   };
 }
 
-module.exports = { GRUPOS, FATORES, PERFIS, perguntasPublicas, calcular };
+// ------------------------------------------------------------- leitura ----
+// O DISC não se lê pelo maior número. O que descreve o comportamento é a
+// relação entre os quatro fatores: quem é o dominante, quem é o segundo (que
+// muda bastante o primeiro), quais estão baixos e o quanto eles estão
+// distantes entre si. Tudo abaixo é calculado a partir do resultado guardado,
+// então vale também para testes respondidos antes desta leitura existir.
+
+// Combinação dos dois fatores predominantes.
+const COMBINACOES = {
+  DI: "Executor persuasivo", DC: "Executor analítico", DS: "Executor constante",
+  ID: "Comunicador orientado a resultado", IS: "Comunicador relacional", IC: "Comunicador criterioso",
+  SI: "Relacional e colaborativo", SC: "Estável e organizado", SD: "Estável com iniciativa",
+  CD: "Analítico e exigente", CS: "Analítico e consistente", CI: "Analítico comunicativo",
+};
+
+// Comportamentos que a vaga de recepção pede, e não "a vaga precisa de um D".
+// Recepção de clínica de alto padrão que também converte pelo WhatsApp:
+// conversa o tempo todo (I), rotina e paciência (S), agenda e cadastro sem
+// falha (C) e iniciativa comercial sem precisar de perfil agressivo (D).
+// Para outra vaga, mude só esta tabela.
+const ALVO = {
+  I: { min: 65, max: 100, peso: 0.35, porque: "a recepção conversa o tempo todo e precisa criar conexão rápido" },
+  S: { min: 55, max: 90, peso: 0.25, porque: "o dia a dia é de rotina, atendimento e paciência" },
+  C: { min: 55, max: 90, peso: 0.25, porque: "agenda, cadastro e procedimentos não podem falhar" },
+  D: { min: 40, max: 70, peso: 0.15, porque: "existe iniciativa e conversão, sem precisar de perfil agressivo" },
+};
+
+const TENDENCIAS = {
+  alto: {
+    D: "decidir rápido, assumir a frente e buscar resultado",
+    I: "criar relacionamento com facilidade, comunicar e persuadir",
+    S: "ter paciência, constância e trabalhar bem em equipe",
+    C: "cuidar de detalhes, seguir processos e conferir antes de agir",
+  },
+  baixo: {
+    D: "evitar confronto e buscar consenso antes de decidir",
+    I: "ser mais reservada na comunicação e preferir falar por fatos",
+    S: "preferir variedade e ritmo mais dinâmico do que rotina",
+    C: "ser mais flexível e prática do que apegada a procedimentos",
+  },
+};
+
+// DISC deveria gerar perguntas, não respostas definitivas.
+const PERGUNTAS = {
+  D: { alto: "Me conte uma situação em que você precisou tomar uma decisão sem ter todas as informações.",
+       baixo: "Como você reage quando tem meta para bater e a cliente está adiando a decisão?" },
+  I: { alto: "Como você conduz uma conversa com uma cliente que chega desconfiada e só pergunta o preço?",
+       baixo: "Me conte como você faz para criar conexão com uma cliente nova pelo WhatsApp." },
+  S: { alto: "Me conte uma situação em que a rotina mudou de repente. Como você lidou?",
+       baixo: "Como você lida com as tarefas repetitivas do dia a dia da recepção?" },
+  C: { alto: "Me conte uma situação em que você percebeu um erro que outras pessoas não perceberam.",
+       baixo: "Como você organiza agenda e cadastros para não deixar nada passar?" },
+};
+
+function nivel(p) { return p >= 65 ? "alto" : (p <= 44 ? "baixo" : "medio"); }
+
+function interpretar(resultado) {
+  if (!resultado || !resultado.percentual) return null;
+  const pct = resultado.percentual;
+  const ordem = FATORES.slice().sort(function (a, b) { return pct[b] - pct[a]; });
+  const d1 = ordem[0], d2 = ordem[1];
+
+  const fatores = FATORES.map(function (f) {
+    const alvo = ALVO[f];
+    const situacao = pct[f] < alvo.min ? "abaixo" : (pct[f] > alvo.max ? "acima" : "dentro");
+    return { fator: f, nome: PERFIS[f].nome, percentual: pct[f], pontos: resultado.pontos[f],
+             nivel: nivel(pct[f]), situacao: situacao, alvo: alvo.min + " a " + alvo.max, porque: alvo.porque };
+  });
+
+  // Distância entre o maior e o menor: diz o quanto a preferência é marcada.
+  const amplitude = pct[ordem[0]] - pct[ordem[3]];
+  const leituraAmplitude = amplitude >= 40
+    ? "Diferença grande entre os fatores: a preferência por esses comportamentos é bem marcada."
+    : (amplitude >= 20
+      ? "Diferença moderada entre os fatores: há preferência, mas ela não é extrema."
+      : "Fatores próximos entre si: não há preferência comportamental forte, o que costuma indicar adaptação ao contexto.");
+
+  // Aderência ao desenho da vaga: quanto cada fator se afasta da faixa
+  // esperada, com peso diferente por fator.
+  let soma = 0;
+  fatores.forEach(function (f) {
+    const alvo = ALVO[f.fator];
+    const fora = f.percentual < alvo.min ? alvo.min - f.percentual : (f.percentual > alvo.max ? f.percentual - alvo.max : 0);
+    soma += Math.max(0, 100 - fora * 2.5) * alvo.peso;
+  });
+  const aderencia = Math.round(soma);
+
+  const altos = fatores.filter(function (f) { return f.nivel === "alto"; }).sort(function (a, b) { return b.percentual - a.percentual; });
+  const baixos = fatores.filter(function (f) { return f.nivel === "baixo"; }).sort(function (a, b) { return a.percentual - b.percentual; });
+  const medios = fatores.filter(function (f) { return f.nivel === "medio"; });
+
+  // Texto no formato que se usa numa devolutiva: o que tende a aparecer e o
+  // que precisa ser validado, em vez de um rótulo.
+  const frases = [];
+  if (altos.length) {
+    frases.push(altos.map(function (f) { return f.fator + " (" + f.nome + ")"; }).join(" e ") +
+      (altos.length > 1 ? " elevados." : " elevado.") +
+      " Tende a " + altos.map(function (f) { return TENDENCIAS.alto[f.fator]; }).join("; ") + ".");
+  } else {
+    frases.push("Nenhum fator se destaca com força. Tende a ajustar o comportamento conforme a situação.");
+  }
+  if (medios.length) {
+    frases.push(medios.map(function (f) { return f.fator; }).join(" e ") +
+      (medios.length > 1 ? " em nível intermediário, o que deve ser validado" : " em nível intermediário, o que deve ser validado") +
+      " com situações práticas na entrevista.");
+  }
+  if (baixos.length) {
+    frases.push(baixos.map(function (f) { return f.fator; }).join(" e ") +
+      (baixos.length > 1 ? " mais baixos sugerem investigar a tendência a " : " mais baixo sugere investigar a tendência a ") +
+      baixos.map(function (f) { return TENDENCIAS.baixo[f.fator]; }).join("; ") + ".");
+  }
+
+  // Perguntas: começa pelo que está fora da faixa da vaga, depois o dominante.
+  const perguntas = [];
+  function addPergunta(f, comoEsta) {
+    const texto = PERGUNTAS[f][comoEsta === "baixo" ? "baixo" : "alto"];
+    if (texto && perguntas.indexOf(texto) === -1) perguntas.push(texto);
+  }
+  fatores.filter(function (f) { return f.situacao !== "dentro"; })
+    .sort(function (a, b) { return ALVO[b.fator].peso - ALVO[a.fator].peso; })
+    .forEach(function (f) { addPergunta(f.fator, f.situacao === "abaixo" ? "baixo" : "alto"); });
+  addPergunta(d1, nivel(pct[d1]) === "baixo" ? "baixo" : "alto");
+
+  return {
+    dominante: d1,
+    secundario: d2,
+    sigla: d1 + d2,
+    combinacao: COMBINACOES[d1 + d2] || "",
+    ordem: ordem,
+    fatores: fatores,
+    amplitude: amplitude,
+    leituraAmplitude: leituraAmplitude,
+    aderencia: aderencia,
+    nivelAderencia: aderencia >= 80 ? "alta" : (aderencia >= 65 ? "média" : "baixa"),
+    leitura: frases,
+    perguntas: perguntas.slice(0, 4),
+  };
+}
+
+module.exports = { GRUPOS, FATORES, PERFIS, COMBINACOES, ALVO, perguntasPublicas, calcular, interpretar };

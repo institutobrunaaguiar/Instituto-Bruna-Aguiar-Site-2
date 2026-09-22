@@ -266,7 +266,32 @@
   .perfil-disc{background:var(--cream-2);border-radius:12px;padding:.9rem 1rem;font-size:.9375rem}
   .perfil-disc b{color:var(--green);font-weight:500}
   .perfil-disc p + p{margin-top:.4rem}
-  .nota-disc{font-size:.75rem;color:var(--muted);margin-top:.75rem}
+  .nota-disc{font-size:.75rem;color:var(--muted);margin-top:.9rem}
+  .barra-disc .pontos{color:var(--muted);font-size:.75rem;font-variant-numeric:tabular-nums}
+  .barra-disc{grid-template-columns:8.5rem 1fr 3rem 2.5rem}
+  .combo{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap;margin:.2rem 0 .8rem}
+  .combo .sigla{font-family:var(--head);font-size:1.75rem;color:var(--green);letter-spacing:.02em}
+  .combo .nome{color:var(--muted);font-size:.9375rem}
+  .leitura p{font-size:.9375rem;color:var(--text)}
+  .leitura p + p{margin-top:.5rem}
+  .amplitude{font-size:.875rem;color:var(--muted);margin-top:.75rem}
+  .aderencia{margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem}
+  .aderencia .cab{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;font-size:.9375rem}
+  .aderencia .cab b{color:var(--green);font-weight:500}
+  .aderencia .trilho{height:10px;background:var(--cream-2);border-radius:99px;overflow:hidden;margin:.5rem 0 .7rem}
+  .aderencia .trilho i{display:block;height:100%;border-radius:99px;background:var(--gold)}
+  .aderencia.alta .trilho i{background:var(--ok)}
+  .aderencia.baixa .trilho i{background:var(--gold-light)}
+  .faixas{display:grid;gap:.4rem}
+  .faixa{display:flex;gap:.5rem;align-items:baseline;font-size:.8125rem;color:var(--muted)}
+  .faixa .marca{flex:0 0 auto;font-size:.6875rem;text-transform:uppercase;letter-spacing:.06em;padding:.1rem .45rem;
+    border-radius:99px;border:1px solid var(--border)}
+  .faixa.fora .marca{color:#8a6d1f;border-color:#e8d9a8;background:#fdf8ea}
+  .faixa.dentro .marca{color:var(--ok);border-color:#b7d3c3;background:#f2f8f4}
+  .investigar{margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem}
+  .investigar h4{margin:0 0 .5rem;font-size:.9375rem;font-weight:500;color:var(--green)}
+  .investigar ol{margin:0;padding-left:1.1rem;display:grid;gap:.45rem}
+  .investigar li{font-size:.875rem;color:var(--text)}
 
   @media (max-width:560px){
     .escala{grid-template-columns:repeat(6,minmax(0,1fr))}
@@ -1363,24 +1388,68 @@
 
     if (d.concluido && d.concluido.resultado) {
       var res = d.concluido.resultado;
+      var L = d.concluido.leitura;
       b.appendChild(el("p", "disc-status", "Respondido em " + dataBr(d.concluido.concluido_em)));
+
+      // 1 e 2: os dois fatores predominantes é o que descreve o comportamento
+      if (L) {
+        var combo = el("div", "combo");
+        combo.appendChild(el("span", "sigla", L.sigla));
+        combo.appendChild(el("span", "nome", L.combinacao));
+        b.appendChild(combo);
+      }
+
+      // as quatro barras, na ordem do resultado, com a pontuação de -24 a +24
       var barras = el("div", "barras");
-      ["D", "I", "S", "C"].forEach(function (f) {
-        var linha = el("div", "barra-disc" + (f === res.predominante ? " top" : ""));
+      (L ? L.ordem : ["D", "I", "S", "C"]).forEach(function (f) {
+        var linha = el("div", "barra-disc" + (f === (L ? L.dominante : res.predominante) ? " top" : ""));
         linha.appendChild(el("span", "", f + " · " + (d.perfis[f] ? d.perfis[f].nome : f)));
         var tr = el("span", "trilho"); var i = el("i"); i.style.width = (res.percentual[f] || 0) + "%"; tr.appendChild(i);
         linha.appendChild(tr);
         linha.appendChild(el("span", "pct", (res.percentual[f] || 0) + "%"));
+        var pt = res.pontos && res.pontos[f];
+        linha.appendChild(el("span", "pontos", pt === undefined ? "" : (pt > 0 ? "+" + pt : String(pt))));
         barras.appendChild(linha);
       });
       b.appendChild(barras);
-      var p = d.perfis[res.predominante] || {};
-      var perfil = el("div", "perfil-disc");
-      var t1 = el("p"); t1.appendChild(el("b", "", "Predominante: " + res.perfil)); perfil.appendChild(t1);
-      perfil.appendChild(el("p", "", p.resumo || ""));
-      if (p.atencao) perfil.appendChild(el("p", "", "Ponto de atenção: " + p.atencao));
-      b.appendChild(perfil);
-      b.appendChild(el("p", "nota-disc", "Resultado indicativo, baseado na autoavaliação da pessoa. Use como apoio à entrevista, não como critério único."));
+
+      if (L) {
+        // 3 e 4: o que está alto, o que está baixo e quanto isso é marcado
+        var leitura = el("div", "perfil-disc leitura");
+        L.leitura.forEach(function (frase) { leitura.appendChild(el("p", "", frase)); });
+        b.appendChild(leitura);
+        b.appendChild(el("p", "amplitude", L.leituraAmplitude));
+
+        // 5: contexto, comparando com os comportamentos que a vaga pede
+        var ad = el("div", "aderencia " + (L.nivelAderencia === "média" ? "media" : L.nivelAderencia));
+        var cab = el("div", "cab");
+        cab.appendChild(el("b", "", "Aderência ao desenho da vaga"));
+        cab.appendChild(el("span", "", L.aderencia + "%, " + L.nivelAderencia));
+        ad.appendChild(cab);
+        var tr2 = el("span", "trilho"); var i2 = el("i"); i2.style.width = L.aderencia + "%"; tr2.appendChild(i2);
+        ad.appendChild(tr2);
+        var faixas = el("div", "faixas");
+        L.fatores.forEach(function (f) {
+          var linha = el("div", "faixa " + (f.situacao === "dentro" ? "dentro" : "fora"));
+          linha.appendChild(el("span", "marca", f.fator + " " + f.situacao));
+          linha.appendChild(el("span", "", "esperado " + f.alvo + "%, porque " + f.porque));
+          faixas.appendChild(linha);
+        });
+        ad.appendChild(faixas);
+        b.appendChild(ad);
+
+        // 6: evidência comportamental, para comparar o teste com a prática
+        if (L.perguntas.length) {
+          var inv = el("div", "investigar");
+          inv.appendChild(el("h4", "", "Investigue na entrevista"));
+          var ol = el("ol");
+          L.perguntas.forEach(function (q) { ol.appendChild(el("li", "", q)); });
+          inv.appendChild(ol);
+          b.appendChild(inv);
+        }
+      }
+
+      b.appendChild(el("p", "nota-disc", "Resultado indicativo, baseado na autoavaliação da pessoa. O DISC mostra tendências de comportamento, não define quem a pessoa é: use como uma camada do processo, junto da entrevista e das situações práticas."));
     } else {
       b.appendChild(el("p", "desc", "Questionário de perfil comportamental que a pessoa responde pelo celular, em cerca de 5 minutos. O resultado aparece aqui."));
     }

@@ -213,6 +213,28 @@ e o painel avisa para usar como apoio à entrevista, não como critério único.
 Se a base for trocada, mude `GRUPOS` em `api/_lib/disc.js`. Testes já
 respondidos guardam o resultado calculado, então não são afetados.
 
+### Leitura do resultado
+
+A ficha não mostra só o fator mais alto. `interpretar()` monta, a partir do
+resultado guardado, a mesma leitura que se faz numa devolutiva:
+
+1. **Fator dominante e segundo fator**, que é o que de fato descreve o
+   comportamento. Duas pessoas com D alto são perfis diferentes se uma tem I
+   alto e a outra, C alto: uma sai como DI (executor persuasivo) e a outra como
+   CD (analítico e exigente).
+2. **Fatores baixos**, que valem tanto quanto os altos.
+3. **Distância entre o maior e o menor**: acima de 40 pontos a preferência é
+   bem marcada; abaixo de 20 não há preferência forte.
+4. **Aderência ao desenho da vaga**, comparando cada fator com a faixa que a
+   função pede, com pesos diferentes. Para a recepção: I alto (peso 0,35),
+   S e C médios ou altos (0,25 cada) e D médio (0,15). Para outra vaga, mude
+   só a tabela `ALVO`.
+5. **Perguntas para a entrevista**, geradas pelo que ficou fora da faixa, para
+   comparar o teste com evidência de comportamento real.
+
+Como a leitura é calculada na hora, mudar `ALVO` ou os textos vale na mesma
+hora para todos os testes já respondidos.
+
 ## Proteção contra abuso
 
 - Honeypot (`website`): quando preenchido, a resposta é sucesso e nada é gravado.
