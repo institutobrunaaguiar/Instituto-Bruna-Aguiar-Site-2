@@ -20,6 +20,10 @@ e arquivos.
 | `scripts/criar-codigo-admin.js` | Cria código de acesso pelo terminal (primeiro acesso / recuperação) |
 | `supabase/migrations/20260916021231_create_job_applications.sql` | Tabela, índices, constraints, RLS e buckets |
 | `supabase/migrations/20260916031302_admin_codes_e_bairro.sql` | Coluna `bairro`, tabela de códigos e de tentativas de login |
+| `breathiva.webflow.io/vagas/disc/index.html` | Questionário DISC respondido pelo candidato |
+| `api/vagas/disc.js` | Abre e recebe o DISC pelo link do candidato |
+| `api/_lib/disc.js` | Frases do DISC e cálculo do perfil (gabarito nunca sai do servidor) |
+| `supabase/migrations/20260922162422_entrevista_e_disc.sql` | Tabelas `job_interviews` e `job_disc` |
 
 ## Variáveis de ambiente
 
@@ -171,12 +175,51 @@ sortear um.
 logins por aquele período. As tentativas ficam em `job_admin_login_attempts`,
 com o IP em hash.
 
+## Ficha de entrevista
+
+No painel, "Abrir ficha" mostra o roteiro da entrevista junto dos dados da
+candidatura. As respostas ficam em `job_interviews.respostas` (jsonb, uma linha
+por candidatura) e são salvas sozinhas enquanto o RH digita.
+
+O roteiro está em `ROTEIRO`, no JavaScript da página do painel. Cada campo tem
+uma chave (`exp_recepcao`, `perfil_conexao`…), um tipo (`text`, `area`, `sn`,
+`escala`, `select`, `date`) e, quando é condicional, `se: ["campo", "valor"]`.
+As seções 3 e 7 usam isso para aparecer só quando fazem sentido. Para mudar as
+perguntas, basta editar esse trecho: o servidor aceita qualquer chave no formato
+`[a-z0-9_]` e limpa os valores (texto de até 4000 caracteres, sem caracteres de
+controle, sem objetos aninhados).
+
+O que é corrigido na ficha fica só na ficha. A candidatura original não muda,
+com uma exceção: trocar foto ou currículo pela seção 8 substitui os arquivos da
+candidatura.
+
+## Teste DISC
+
+"Gerar link do teste" cria uma linha em `job_disc` com um token aleatório de 32
+bytes e devolve `https://www.institutobrunaaguiar.com.br/vagas/disc/?t=<token>`,
+mais um link de WhatsApp com a mensagem pronta. O link vale 30 dias, só pode ser
+respondido uma vez, e "Gerar novo link" cancela o anterior.
+
+São 24 grupos de 4 frases. Em cada grupo a pessoa marca a que mais e a que menos
+combina com ela. Cada frase pertence a um fator (D, I, S, C) e a pontuação é
+"vezes que foi mais" menos "vezes que foi menos", de −24 a +24, convertida em
+porcentagem. O navegador recebe só os textos: o fator de cada frase e o cálculo
+ficam em `api/_lib/disc.js`, no servidor.
+
+As frases foram escritas para este site, não vêm de instrumento comercial, e
+estão em primeira pessoa para não depender de gênero. O resultado é indicativo,
+e o painel avisa para usar como apoio à entrevista, não como critério único.
+
+Se a base for trocada, mude `GRUPOS` em `api/_lib/disc.js`. Testes já
+respondidos guardam o resultado calculado, então não são afetados.
+
 ## Proteção contra abuso
 
 - Honeypot (`website`): quando preenchido, a resposta é sucesso e nada é gravado.
 - Rate limit: 5 candidaturas por IP por hora (o IP é guardado como hash, em
   `ip_hash`, e nunca em texto).
-- Tipo de arquivo conferido por extensão, content-type **e** magic bytes.
+- Tipo de arquivo conferido por extensão, content-type **e** magic bytes, tanto
+  no envio do candidato quanto na troca de arquivos pela ficha.
 - O path do arquivo precisa pertencer à candidatura que está sendo enviada.
 
 ## Analytics

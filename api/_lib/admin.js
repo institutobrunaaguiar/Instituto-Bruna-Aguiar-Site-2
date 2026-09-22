@@ -10,6 +10,9 @@ const crypto = require("crypto");
 
 const COOKIE = "iba_vagas_admin";
 const SESSAO_HORAS = 8;
+// A sessão é renovada a cada uso do painel (quem está trabalhando não cai),
+// mas nunca passa deste teto contado a partir do login.
+const SESSAO_MAX_DIAS = 7;
 
 // Tentativas de login erradas por IP antes de travar.
 const LOGIN_MAX_ERROS = 8;
@@ -41,10 +44,13 @@ function assinar(texto) {
   return crypto.createHmac("sha256", segredo()).update(texto).digest("base64url");
 }
 
-function criarSessao(codeId) {
+// `inicio` é o momento do login. Na renovação ele é preservado, para o teto de
+// SESSAO_MAX_DIAS continuar valendo.
+function criarSessao(codeId, inicio) {
   const corpo = Buffer.from(JSON.stringify({
     cid: codeId,
     exp: Date.now() + SESSAO_HORAS * 3600 * 1000,
+    ini: typeof inicio === "number" ? inicio : Date.now(),
   })).toString("base64url");
   return corpo + "." + assinar(corpo);
 }
@@ -62,6 +68,7 @@ function lerSessao(token) {
     return null;
   }
   if (!dados || typeof dados.exp !== "number" || dados.exp < Date.now()) return null;
+  if (typeof dados.ini === "number" && Date.now() - dados.ini > SESSAO_MAX_DIAS * 86400 * 1000) return null;
   return dados;
 }
 

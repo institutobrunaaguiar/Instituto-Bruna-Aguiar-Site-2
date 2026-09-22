@@ -63,7 +63,7 @@ module.exports = async (req, res) => {
 
   const nomeCompleto = cleanText(body.nome_completo, 120);
   const partesNome = nomeCompleto.split(" ").filter(function (p) { return p.length >= 2; });
-  if (partesNome.length < 2) erros.nome_completo = "Informe nome e sobrenome.";
+  if (partesNome.length < 2) erros.nome_completo = "Informe seu nome e sobrenome.";
 
   const email = cleanText(body.email, 160).toLowerCase();
   if (!EMAIL_RE.test(email)) erros.email = "Informe um e-mail válido.";
@@ -86,11 +86,11 @@ module.exports = async (req, res) => {
   let bairro = cleanText(body.bairro, 90);
   let cidade = cleanText(body.cidade, 80);
   let estado = cleanText(body.estado, 2).toUpperCase();
-  if (!cidade) erros.cidade = "Não conseguimos identificar sua cidade pelo CEP.";
+  if (!cidade) erros.cidade = "Não conseguimos identificar seu endereço pelo CEP.";
 
   const curriculoTemFoto = body.curriculo_tem_foto === true;
   const consentimento = body.consentimento === true;
-  if (!consentimento) erros.consentimento = "É preciso aceitar a declaração para enviar.";
+  if (!consentimento) erros.consentimento = "Marque a declaração para enviar sua candidatura.";
 
   const jobSlug = JOB_SLUGS.indexOf(cleanText(body.job_slug, 40)) >= 0 ? cleanText(body.job_slug, 40) : "recepcao";
 
@@ -113,7 +113,7 @@ module.exports = async (req, res) => {
     return res.status(422).json({
       ok: false,
       error: "foto_obrigatoria",
-      message: "Como seu currículo não tem foto, envie uma foto de perfil.",
+      message: "Como seu currículo não possui foto, envie uma foto de perfil.",
     });
   }
 
@@ -197,7 +197,7 @@ module.exports = async (req, res) => {
       return res.status(502).json({
         ok: false,
         error: "falha_ao_salvar",
-        message: "Não foi possível concluir sua candidatura. Seus dados continuam aqui — tente novamente.",
+        message: "Não foi possível concluir sua candidatura. Seus dados continuam salvos nesta página. Tente novamente.",
       });
     }
 
@@ -207,7 +207,7 @@ module.exports = async (req, res) => {
     return res.status(502).json({
       ok: false,
       error: "falha_ao_salvar",
-      message: "Não foi possível concluir sua candidatura. Seus dados continuam aqui — tente novamente.",
+      message: "Não foi possível concluir sua candidatura. Seus dados continuam salvos nesta página. Tente novamente.",
     });
   }
 };
@@ -249,7 +249,9 @@ function pathPertenceA(objectPath, applicationId) {
 async function verificarArquivo(url, key, kind, objectPath) {
   const spec = KINDS[kind];
   const ext = extensionOf(objectPath);
-  const rotulo = spec.label;
+  // "o currículo enviado" / "a foto enviada"
+  const oArquivo = kind === "foto" ? "a foto" : "o currículo";
+  const enviado = kind === "foto" ? "enviada" : "enviado";
 
   try {
     const info = await fetch(`${url}/storage/v1/object/info/${spec.bucket}/${objectPath}`, {
@@ -261,7 +263,7 @@ async function verificarArquivo(url, key, kind, objectPath) {
         ok: false,
         error: "arquivo_nao_encontrado",
         motivo: "info_falhou",
-        message: `Não encontramos o ${rotulo} enviado. Selecione o arquivo de novo.`,
+        message: `Não encontramos ${oArquivo} ${enviado}. Selecione o arquivo novamente.`,
       };
     }
 
@@ -271,7 +273,7 @@ async function verificarArquivo(url, key, kind, objectPath) {
         ok: false,
         error: "arquivo_muito_grande",
         motivo: "tamanho",
-        message: `O ${rotulo} precisa ter até ${Math.round(spec.maxBytes / 1024 / 1024)} MB.`,
+        message: `${oArquivo.charAt(0).toUpperCase() + oArquivo.slice(1)} precisa ter até ${Math.round(spec.maxBytes / 1024 / 1024)} MB.`,
       };
     }
 
@@ -284,7 +286,7 @@ async function verificarArquivo(url, key, kind, objectPath) {
         ok: false,
         error: "arquivo_nao_encontrado",
         motivo: "leitura_falhou",
-        message: `Não encontramos o ${rotulo} enviado. Selecione o arquivo de novo.`,
+        message: `Não encontramos ${oArquivo} ${enviado}. Selecione o arquivo novamente.`,
       };
     }
 
@@ -308,7 +310,7 @@ async function verificarArquivo(url, key, kind, objectPath) {
       ok: false,
       error: "falha_ao_verificar",
       motivo: "excecao",
-      message: `Não conseguimos validar o ${rotulo}. Tente enviar novamente.`,
+      message: `Não conseguimos validar ${oArquivo}. Tente enviar novamente.`,
     };
   }
 }

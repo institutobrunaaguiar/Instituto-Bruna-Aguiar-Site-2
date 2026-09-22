@@ -85,6 +85,15 @@
   .linhas .val small{display:block;font-weight:400;font-size:.875rem;color:var(--muted);
     letter-spacing:0;text-transform:none;margin-top:.15rem}
 
+  .requisito{
+    display:flex;gap:.85rem;align-items:flex-start;margin-top:1.5rem;background:#fff;
+    border:1.5px solid var(--border);border-left:3px solid var(--gold);border-radius:14px;
+    padding:1rem 1.1rem;
+  }
+  .requisito svg{width:22px;height:22px;flex:0 0 22px;color:var(--gold);margin-top:.1rem}
+  .requisito .t{font-size:1rem;color:var(--green);font-weight:500}
+  .requisito .s{font-size:.9375rem;color:var(--muted);margin-top:.2rem}
+
   .beneficios{padding:2.25rem 0 0}
   .beneficios h2{font-size:1.5rem;margin-bottom:1.1rem}
   .bens{list-style:none;margin:0;padding:0;display:grid;gap:.85rem}
@@ -305,7 +314,7 @@
 <div id="pagina">
   <header class="site-top">
     <div class="wrap">
-      <a href="/" aria-label="Instituto Bruna Aguiar — página inicial"><span class="site-logo" role="img" aria-label="Instituto Bruna Aguiar"></span></a>
+      <a href="/" aria-label="Ir para a página inicial do Instituto Bruna Aguiar"><span class="site-logo" role="img" aria-label="Instituto Bruna Aguiar"></span></a>
       <a class="site-back" href="/">Voltar ao site</a>
     </div>
   </header>
@@ -316,7 +325,7 @@
       <div class="wrap">
         <p class="eyebrow">Trabalhe conosco</p>
         <h1>Recepção</h1>
-        <p class="sub">Clínica de alto padrão em Brasília. Um lugar onde o cuidado com a pessoa começa na porta de entrada.</p>
+        <p class="sub">Clínica de alto padrão em Brasília, onde o cuidado com cada paciente começa na recepção.</p>
       </div>
     </section>
 
@@ -325,7 +334,7 @@
       <ul class="linhas">
         <li>
           <span class="rot">Horário</span>
-          <span class="val">Segunda a sexta<small>das 09h às 18h</small></span>
+          <span class="val">Segunda a sexta<small>das 08h às 18h</small></span>
         </li>
         <li>
           <span class="rot">Remuneração</span>
@@ -333,20 +342,32 @@
         </li>
         <li>
           <span class="rot">Local</span>
-          <span class="val">Asa Sul<small>Brasília — DF</small></span>
+          <span class="val">Asa Sul<small>Brasília, DF</small></span>
         </li>
       </ul>
+
+      <div class="requisito" role="note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <div>
+          <p class="t">Disponibilidade de horário</p>
+          <p class="s">É um requisito para esta vaga. Considere isso antes de se candidatar.</p>
+        </div>
+      </div>
 
       <div class="beneficios">
         <h2>Benefícios</h2>
         <ul class="bens">
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Vale transporte pago em dinheiro</span>
+            <span>Vale-transporte pago em dinheiro</span>
           </li>
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Vale alimentação pago em dinheiro</span>
+            <span>Vale-alimentação pago em dinheiro</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>Horas extras pagas em dinheiro</span>
           </li>
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
@@ -354,16 +375,16 @@
           </li>
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Bônus anual de R$ 2.000,00 líquidos a cada ano completo de empresa</span>
+            <span>Bônus de R$ 2.000,00 líquidos a cada ano completo de empresa</span>
           </li>
         </ul>
-        <p class="nota">A candidatura leva cerca de 2 minutos. Tenha seu currículo em mãos — de preferência com uma foto sua.</p>
+        <p class="nota">A candidatura leva cerca de 2 minutos. Tenha em mãos seu currículo, de preferência com foto.</p>
       </div>
     </section>
 
     <section class="wrap cta">
       <button class="btn" type="button" id="abrirForm">Quero me candidatar</button>
-      <p class="apoio">Suas informações são usadas apenas neste processo seletivo.</p>
+      <p class="apoio">Suas informações serão usadas apenas neste processo seletivo.</p>
     </section>
   </main>
 
@@ -401,7 +422,7 @@
       <section class="step" data-step="0" aria-label="Etapa 1: seus dados">
         <div class="step-inner">
           <h2>Vamos começar</h2>
-          <p class="hint">Três informações para a gente entrar em contato com você.</p>
+          <p class="hint">Precisamos de três informações para entrar em contato com você.</p>
 
           <div class="campos">
             <div class="campo">
@@ -436,7 +457,7 @@
       <section class="step" data-step="1" aria-label="Etapa 2: sobre você">
         <div class="step-inner">
           <h2>Conte um pouco sobre você</h2>
-          <p class="hint">Dados cadastrais do processo seletivo.</p>
+          <p class="hint">Esses dados fazem parte do seu cadastro no processo seletivo.</p>
 
           <div class="campos">
             <div class="campo">
@@ -467,7 +488,7 @@
       <section class="step" data-step="2" aria-label="Etapa 3: onde você mora">
         <div class="step-inner">
           <h2>Onde você mora?</h2>
-          <p class="hint">Só o CEP — o bairro aparece sozinho.</p>
+          <p class="hint">Informe apenas o CEP. O bairro aparece automaticamente.</p>
 
           <div class="campo">
             <label for="cep">CEP</label>
@@ -493,7 +514,7 @@
                  aria-controls="inputCurriculo" aria-describedby="erroCurriculo">
               <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4m0 0L8 8m4-4l4 4"/><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
               <p class="t">Escolher arquivo</p>
-              <p class="s">PDF, DOC ou DOCX — até 10 MB</p>
+              <p class="s">PDF, DOC ou DOCX, com até 10 MB</p>
               <span class="tag">PDF é o formato ideal</span>
             </div>
             <input type="file" id="inputCurriculo"
@@ -533,7 +554,7 @@
                    aria-controls="inputFoto" aria-describedby="erroFoto">
                 <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h3l2-2h8l2 2h3v13H3z"/><circle cx="12" cy="13" r="3.5"/></svg>
                 <p class="t">Escolher foto</p>
-                <p class="s">JPG, PNG ou WEBP — até 5 MB</p>
+                <p class="s">JPG, PNG ou WEBP, com até 5 MB</p>
               </div>
               <input type="file" id="inputFoto" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" />
             </div>
@@ -562,7 +583,7 @@
       <section class="step" data-step="4" aria-label="Etapa 5: revisão">
         <div class="step-inner">
           <h2>Revise seus dados</h2>
-          <p class="hint">Confira antes de enviar. Dá para voltar e ajustar.</p>
+          <p class="hint">Confira tudo antes de enviar. Se precisar, volte e corrija.</p>
 
           <ul class="resumo-lista" id="resumoLista"></ul>
 
@@ -574,7 +595,7 @@
 
           <details class="privacidade">
             <summary>Como tratamos seus dados</summary>
-            <p>Seus dados e arquivos são usados apenas para avaliar sua candidatura a esta vaga, ficam guardados em ambiente privado e não são compartilhados com terceiros. Para corrigir ou apagar suas informações, fale com a gente pelo site.</p>
+            <p>Seus dados e arquivos são usados apenas para avaliar sua candidatura a esta vaga, ficam guardados em ambiente privado e não são compartilhados com terceiros. Para corrigir ou apagar suas informações, fale conosco pelo site.</p>
           </details>
 
           <div class="alerta" id="alertaEnvio" role="alert"></div>
@@ -756,8 +777,14 @@
     if (foco !== false) {
       setTimeout(function () {
         var passo = track_.querySelector('.step[data-step="' + etapa + '"]');
-        var alvo = passo && passo.querySelector("input:not([type=file]), button:not([disabled])");
-        var titulo = passo && passo.querySelector("h2");
+        if (!passo) return;
+        // Quem já tocou em um campo desta etapa continua nele: sem isso, o foco
+        // era roubado 420ms depois e as primeiras letras digitadas se perdiam
+        // (o teclado do celular chegava a fechar).
+        var atual = document.activeElement;
+        if (atual && atual !== document.body && passo.contains(atual)) return;
+        var alvo = passo.querySelector("input:not([type=file]), button:not([disabled])");
+        var titulo = passo.querySelector("h2");
         if (titulo) { titulo.setAttribute("tabindex", "-1"); titulo.focus({ preventScroll: true }); }
         else if (alvo) alvo.focus();
       }, 420);
@@ -910,7 +937,7 @@
     cepEmVoo = true;
     btnEtapa3.disabled = true;
     mostrarErro("erroCep", "", cepEl);
-    cepStatus.innerHTML = '<span class="cep-buscando"><span class="spin"></span>Buscando cidade…</span>';
+    cepStatus.innerHTML = '<span class="cep-buscando"><span class="spin"></span>Buscando endereço…</span>';
 
     var ctrl = new AbortController();
     var timer = setTimeout(function () { ctrl.abort(); }, 8000);
@@ -1125,7 +1152,7 @@
         pintarStatus(tipo, "não foi possível enviar", "err");
         mostrarErro(
           tipo === "curriculo" ? "erroCurriculo" : "erroFoto",
-          (e && e.message) || "Não conseguimos enviar o arquivo. Toque em Trocar para tentar de novo."
+          (e && e.message) || "Não conseguimos enviar o arquivo. Use o botão Trocar para tentar novamente."
         );
         track("application_error", { etapa: 4, motivo: "upload" });
         revisarEtapa4();
@@ -1159,12 +1186,12 @@
           revisarEtapa4();
           resolve();
         } else {
-          reject(new Error("Não conseguimos enviar o arquivo. Toque em Trocar para tentar de novo."));
+          reject(new Error("Não conseguimos enviar o arquivo. Use o botão Trocar para tentar novamente."));
         }
       };
 
       xhr.onerror = function () {
-        reject(new Error("Conexão interrompida durante o envio. Toque em Trocar para tentar de novo."));
+        reject(new Error("A conexão caiu durante o envio. Use o botão Trocar para tentar novamente."));
       };
 
       xhr.send(registro.file);
@@ -1303,10 +1330,10 @@
 
     irPara(TOTAL_ETAPAS - 1, false);
 
-    var texto = mensagem || "Não foi possível concluir sua candidatura. Seus dados continuam aqui — tente novamente.";
+    var texto = mensagem || "Não foi possível concluir sua candidatura. Seus dados continuam salvos nesta página. Tente novamente.";
     if (campos) {
       var chaves = Object.keys(campos);
-      if (chaves.length) texto = campos[chaves[0]] + " Volte e ajuste antes de enviar de novo.";
+      if (chaves.length) texto = campos[chaves[0]] + " Volte, corrija e envie novamente.";
     }
     var alerta = $("alertaEnvio");
     alerta.textContent = texto;

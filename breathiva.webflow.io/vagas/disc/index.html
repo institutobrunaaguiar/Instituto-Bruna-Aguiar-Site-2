@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#1f2a1c" />
+<title>Questionário de perfil | Instituto Bruna Aguiar</title>
+<meta name="robots" content="noindex, nofollow, noarchive" />
+<meta name="referrer" content="no-referrer" />
+<link rel="icon" href="/assets/instituto/icon.png" />
+<style>
+  @font-face{font-family:Satoshi;src:url("/assets/711c6243cdc5431f_69b94459bfebcfdb86bc1719_Satos.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:Satoshi;src:url("/assets/93330866d109f6b2_6995a0d104741b8ff2d1554f_Satos.otf") format("opentype");font-weight:500;font-style:normal;font-display:swap}
+  @font-face{font-family:Orticalinear;src:url("/assets/fc58716fc92f11f2_698574a601f92b97484ef858_Ortic.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
+  :root{
+    --green:#1f2a1c; --green-2:#2f3c2c; --text:#414e3d; --muted:#5a6658;
+    --gold:#9e9271; --gold-light:#d8aa78; --cream:#f9f6f3; --cream-2:#f4f1ec;
+    --border:#e0e4da; --danger:#b42318;
+    --head:Orticalinear,Georgia,serif; --body:Satoshi,-apple-system,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  [hidden]{display:none!important}
+  body{margin:0;min-height:100dvh;display:flex;flex-direction:column;font-family:var(--body);background:var(--cream);
+    color:var(--text);-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.55}
+  h1,h2{font-family:var(--head);font-weight:400;color:var(--green);margin:0;letter-spacing:-.01em}
+  p{margin:0}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+
+  .topo{background:var(--green);padding:max(env(safe-area-inset-top),1rem) 1.25rem 1rem;display:flex;justify-content:center}
+  .logo{height:24px;aspect-ratio:1125/321;display:block;background-color:var(--cream);
+    -webkit-mask:url(/assets/instituto/logo.png) center/contain no-repeat;mask:url(/assets/instituto/logo.png) center/contain no-repeat}
+
+  main{flex:1;width:100%;max-width:34rem;margin:0 auto;padding:1.75rem 1.25rem max(env(safe-area-inset-bottom),1.5rem);
+    display:flex;flex-direction:column}
+  .tela{flex:1;display:flex;flex-direction:column}
+  .centro{flex:1;display:flex;flex-direction:column;justify-content:center;text-align:center;padding-bottom:3rem}
+  h1{font-size:clamp(1.7rem,7vw,2.2rem);line-height:1.15;margin-bottom:.8rem}
+  .sub{color:var(--muted);font-size:1rem}
+  .passos{list-style:none;padding:0;margin:1.5rem 0 0;display:grid;gap:.75rem;text-align:left}
+  .passos li{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:.85rem 1rem;font-size:.9375rem}
+  .passos b{color:var(--green);font-weight:500}
+
+  .btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:56px;border:none;border-radius:16px;
+    background:var(--green);color:var(--cream);font-family:inherit;font-size:1.0625rem;font-weight:500;cursor:pointer;
+    transition:background .2s ease,opacity .2s ease;margin-top:1.75rem}
+  .btn:hover{background:var(--green-2)}
+  .btn[disabled]{opacity:.4;cursor:not-allowed}
+  .link{background:none;border:none;font-family:inherit;color:var(--muted);text-decoration:underline;cursor:pointer;
+    font-size:.9375rem;padding:.5rem;margin-top:.5rem}
+
+  .prog{margin-bottom:1.5rem}
+  .prog .bar{height:4px;background:var(--border);border-radius:99px;overflow:hidden}
+  .prog .bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-light));
+    border-radius:99px;transition:width .35s cubic-bezier(.16,1,.3,1)}
+  .prog .conta{display:flex;justify-content:space-between;align-items:center;margin-top:.55rem;font-size:.75rem;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .prog .voltar{background:none;border:none;font-family:inherit;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);cursor:pointer;padding:.25rem 0;text-decoration:underline}
+
+  .instrucao{font-family:var(--head);font-size:1.45rem;line-height:1.25;color:var(--green);margin-bottom:.35rem}
+  .dica{color:var(--muted);font-size:.9375rem;margin-bottom:1.25rem;min-height:1.5em}
+  .opcoes{display:grid;gap:.7rem}
+  .opcao{display:flex;align-items:center;justify-content:space-between;gap:.75rem;min-height:60px;padding:.8rem 1.1rem;
+    background:#fff;border:1.5px solid var(--border);border-radius:16px;font-family:inherit;font-size:1.0625rem;
+    color:var(--green);text-align:left;cursor:pointer;transition:border-color .15s ease,background .15s ease,color .15s ease}
+  .opcao:hover{border-color:var(--gold)}
+  .opcao .marca{flex:0 0 auto;font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase;font-weight:500;
+    padding:.25rem .55rem;border-radius:99px}
+  .opcao[data-marca="mais"]{background:var(--green);border-color:var(--green);color:var(--cream)}
+  .opcao[data-marca="mais"] .marca{background:var(--gold-light);color:var(--green)}
+  .opcao[data-marca="menos"]{background:var(--cream-2);border-color:var(--muted);color:var(--muted)}
+  .opcao[data-marca="menos"] .marca{background:var(--muted);color:#fff}
+
+  .selo{width:64px;height:64px;margin:0 auto 1.5rem;border-radius:50%;border:1.5px solid var(--border);background:#fff;
+    color:var(--gold);display:flex;align-items:center;justify-content:center}
+  .selo svg{width:28px;height:28px}
+  .erro{color:var(--danger);font-size:.9375rem;margin-top:1rem}
+  .spin{width:28px;height:28px;margin:0 auto 1rem;border-radius:50%;border:2px solid var(--border);border-top-color:var(--gold);
+    animation:g .8s linear infinite}
+  @keyframes g{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+</style>
+</head>
+<body>
+<header class="topo"><span class="logo" role="img" aria-label="Instituto Bruna Aguiar"></span></header>
+
+<main>
+  <!-- carregando -->
+  <section class="tela" id="tCarregando"><div class="centro"><div class="spin" aria-hidden="true"></div><p class="sub">Abrindo o questionário…</p></div></section>
+
+  <!-- aviso (link inválido, expirado, já respondido) -->
+  <section class="tela" id="tAviso" hidden>
+    <div class="centro">
+      <div class="selo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg></div>
+      <h1 id="avisoTitulo"></h1>
+      <p class="sub" id="avisoTexto"></p>
+    </div>
+  </section>
+
+  <!-- boas-vindas -->
+  <section class="tela" id="tIntro" hidden>
+    <div class="centro" style="text-align:left;justify-content:flex-start;padding-top:.5rem">
+      <h1 id="introTitulo">Olá!</h1>
+      <p class="sub">Este é um questionário de perfil comportamental, parte do processo seletivo para Recepção. Leva cerca de 5 minutos.</p>
+      <ul class="passos">
+        <li>Em cada tela aparecem <b>4 frases</b>.</li>
+        <li>Toque primeiro na frase que <b>mais combina</b> com você e depois na que <b>menos combina</b>.</li>
+        <li>Não existe resposta certa ou errada. Responda pensando em como você é no dia a dia.</li>
+      </ul>
+      <button class="btn" type="button" id="btnComecar">Começar</button>
+    </div>
+  </section>
+
+  <!-- perguntas -->
+  <section class="tela" id="tPergunta" hidden>
+    <div class="prog">
+      <div class="bar"><i id="barra"></i></div>
+      <div class="conta"><span id="contador" aria-live="polite"></span><button class="voltar" type="button" id="btnVoltar">Voltar</button></div>
+    </div>
+    <p class="instrucao" id="instrucao"></p>
+    <p class="dica" id="dica" aria-live="polite"></p>
+    <div class="opcoes" id="opcoes" role="group" aria-labelledby="instrucao"></div>
+  </section>
+
+  <!-- fim -->
+  <section class="tela" id="tFim" hidden>
+    <div class="centro">
+      <h1>Tudo respondido</h1>
+      <p class="sub">Confira se está tudo certo e envie. Se quiser, volte para revisar.</p>
+      <button class="btn" type="button" id="btnEnviar">Enviar respostas</button>
+      <button class="link" type="button" id="btnRevisar">Voltar e revisar</button>
+      <p class="erro" id="erroEnvio" role="alert" hidden></p>
+    </div>
+  </section>
+
+  <!-- enviado -->
+  <section class="tela" id="tObrigado" hidden>
+    <div class="centro">
+      <div class="selo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <h1>Respostas enviadas</h1>
+      <p class="sub">Obrigado por responder. Suas respostas já chegaram para a nossa equipe e entraremos em contato pelo telefone ou e-mail informado.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var token = new URLSearchParams(location.search).get("t") || "";
+  var CHAVE = "iba:disc:" + token.slice(0, 16); // sessionStorage: só as escolhas, nada pessoal
+  var grupos = [], respostas = [], atual = 0, enviando = false;
+
+  function mostrar(id) {
+    ["tCarregando", "tAviso", "tIntro", "tPergunta", "tFim", "tObrigado"].forEach(function (t) { $(t).hidden = t !== id; });
+    window.scrollTo(0, 0);
+  }
+  function aviso(titulo, texto) { $("avisoTitulo").textContent = titulo; $("avisoTexto").textContent = texto; mostrar("tAviso"); }
+  function salvar() { try { sessionStorage.setItem(CHAVE, JSON.stringify({ r: respostas, a: atual })); } catch (e) {} }
+  function chamar(acao, dados) {
+    return fetch("/api/vagas/disc/", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(Object.assign({ action: acao, token: token }, dados || {}))
+    }).then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { status: r.status, json: j }; }); });
+  }
+
+  var INVALIDO = ["Link inválido", "Este link não é mais válido. Fale com o Instituto Bruna Aguiar para receber um novo."];
+  var RESPONDIDO = ["Questionário já respondido", "Você já enviou suas respostas. Obrigado!"];
+
+  if (!token) { aviso(INVALIDO[0], INVALIDO[1]); return; }
+
+  chamar("abrir").then(function (r) {
+    var j = r.json || {};
+    if (j.ok && j.status === "concluido") return aviso(RESPONDIDO[0], RESPONDIDO[1]);
+    if (r.status === 410) return aviso("Link expirado", "O prazo para responder terminou. Fale com o Instituto Bruna Aguiar para receber um novo link.");
+    if (!j.ok) return aviso(INVALIDO[0], INVALIDO[1]);
+
+    grupos = j.grupos || [];
+    respostas = grupos.map(function () { return { mais: null, menos: null }; });
+    try {
+      var salvo = JSON.parse(sessionStorage.getItem(CHAVE) || "null");
+      if (salvo && Array.isArray(salvo.r) && salvo.r.length === grupos.length) { respostas = salvo.r; atual = Math.min(salvo.a || 0, grupos.length - 1); }
+    } catch (e) {}
+    $("introTitulo").textContent = j.nome ? "Olá, " + j.nome + "!" : "Olá!";
+    mostrar("tIntro");
+  }).catch(function () { aviso("Sem conexão", "Não foi possível abrir o questionário. Confira sua internet e recarregue a página."); });
+
+  $("btnComecar").addEventListener("click", function () { desenhar(); mostrar("tPergunta"); });
+
+  function desenhar() {
+    var r = respostas[atual];
+    $("barra").style.width = (atual / grupos.length) * 100 + "%";
+    $("contador").textContent = "Grupo " + (atual + 1) + " de " + grupos.length;
+    $("btnVoltar").style.visibility = atual > 0 ? "visible" : "hidden";
+
+    if (r.mais === null) {
+      $("instrucao").textContent = "Qual frase mais combina com você?";
+      $("dica").textContent = "Toque em uma opção.";
+    } else {
+      $("instrucao").textContent = "E qual menos combina com você?";
+      $("dica").textContent = "Toque em outra opção. Para trocar a primeira escolha, toque nela de novo.";
+    }
+
+    var caixa = $("opcoes");
+    caixa.innerHTML = "";
+    grupos[atual].forEach(function (frase, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "opcao";
+      var t = document.createElement("span"); t.textContent = frase; b.appendChild(t);
+      var m = document.createElement("span"); m.className = "marca";
+      if (r.mais === i) { b.setAttribute("data-marca", "mais"); m.textContent = "Mais combina"; }
+      if (r.menos === i) { b.setAttribute("data-marca", "menos"); m.textContent = "Menos combina"; }
+      if (m.textContent) b.appendChild(m);
+      b.setAttribute("aria-pressed", String(r.mais === i || r.menos === i));
+      b.addEventListener("click", function () { escolher(i); });
+      caixa.appendChild(b);
+    });
+  }
+
+  function escolher(i) {
+    var r = respostas[atual];
+    if (r.mais === i) { r.mais = null; r.menos = null; }
+    else if (r.mais === null) { r.mais = i; }
+    else if (r.menos === i) { r.menos = null; }
+    else { r.menos = i; }
+    salvar();
+    desenhar();
+    if (r.mais !== null && r.menos !== null) {
+      // pequena pausa para a pessoa ver a marcação antes de trocar de tela
+      setTimeout(function () {
+        if (atual < grupos.length - 1) { atual += 1; salvar(); desenhar(); }
+        else { $("barra").style.width = "100%"; mostrar("tFim"); }
+      }, 320);
+    }
+  }
+
+  $("btnVoltar").addEventListener("click", function () { if (atual > 0) { atual -= 1; salvar(); desenhar(); } });
+  $("btnRevisar").addEventListener("click", function () { atual = grupos.length - 1; desenhar(); mostrar("tPergunta"); });
+
+  $("btnEnviar").addEventListener("click", function () {
+    if (enviando) return;
+    var faltando = respostas.findIndex(function (r) { return r.mais === null || r.menos === null; });
+    if (faltando >= 0) { atual = faltando; desenhar(); mostrar("tPergunta"); return; }
+    enviando = true;
+    var b = $("btnEnviar"); b.disabled = true; b.textContent = "Enviando…";
+    $("erroEnvio").hidden = true;
+    chamar("enviar", { respostas: respostas }).then(function (r) {
+      if (r.json && r.json.ok) { try { sessionStorage.removeItem(CHAVE); } catch (e) {} mostrar("tObrigado"); return; }
+      falhou((r.json && r.json.message) || "Não foi possível enviar agora. Tente novamente.");
+    }).catch(function () { falhou("Sem conexão. Confira sua internet e tente novamente."); });
+  });
+
+  function falhou(msg) {
+    enviando = false;
+    var b = $("btnEnviar"); b.disabled = false; b.textContent = "Enviar respostas";
+    $("erroEnvio").textContent = msg; $("erroEnvio").hidden = false;
+  }
+})();
+</script>
+</body>
+</html>
