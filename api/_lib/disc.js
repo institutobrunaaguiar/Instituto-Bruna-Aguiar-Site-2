@@ -121,12 +121,18 @@ const COMBINACOES = {
 // Recepção de clínica de alto padrão que também converte pelo WhatsApp:
 // conversa o tempo todo (I), rotina e paciência (S), agenda e cadastro sem
 // falha (C) e iniciativa comercial sem precisar de perfil agressivo (D).
+//
+// As faixas respeitam uma característica do formato de escolha forçada: como a
+// pessoa sempre escolhe uma frase e descarta outra, os quatro fatores são
+// relativos entre si e a média das quatro medidas é sempre 50. Pedir "alto" em
+// três fatores ao mesmo tempo seria impossível de atingir. Por isso a faixa de
+// I é a mais exigente, S e C ficam em nível médio-alto e D em nível médio.
 // Para outra vaga, mude só esta tabela.
 const ALVO = {
-  I: { min: 65, max: 100, peso: 0.35, porque: "a recepção conversa o tempo todo e precisa criar conexão rápido" },
-  S: { min: 55, max: 90, peso: 0.25, porque: "o dia a dia é de rotina, atendimento e paciência" },
-  C: { min: 55, max: 90, peso: 0.25, porque: "agenda, cadastro e procedimentos não podem falhar" },
-  D: { min: 40, max: 70, peso: 0.15, porque: "existe iniciativa e conversão, sem precisar de perfil agressivo" },
+  I: { min: 62, max: 82, peso: 0.35, porque: "a recepção conversa o tempo todo e precisa criar conexão rápido" },
+  S: { min: 52, max: 72, peso: 0.25, porque: "o dia a dia é de rotina, atendimento e paciência" },
+  C: { min: 45, max: 65, peso: 0.25, porque: "agenda, cadastro e procedimentos não podem falhar" },
+  D: { min: 30, max: 52, peso: 0.15, porque: "existe iniciativa e conversão, sem precisar de perfil agressivo" },
 };
 
 const TENDENCIAS = {

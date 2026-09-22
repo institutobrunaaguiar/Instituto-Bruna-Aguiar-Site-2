@@ -275,6 +275,7 @@
   .leitura p{font-size:.9375rem;color:var(--text)}
   .leitura p + p{margin-top:.5rem}
   .amplitude{font-size:.875rem;color:var(--muted);margin-top:.75rem}
+  .nota-escala{font-size:.8125rem;color:var(--muted);margin:-.2rem 0 .9rem}
   .aderencia{margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem}
   .aderencia .cab{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;font-size:.9375rem}
   .aderencia .cab b{color:var(--green);font-weight:500}
@@ -1412,6 +1413,7 @@
         barras.appendChild(linha);
       });
       b.appendChild(barras);
+      b.appendChild(el("p", "nota-escala", "As quatro medidas são relativas entre si: a pessoa sempre escolhe uma frase e descarta outra, então subir em um fator baixa os demais. Leia a comparação entre eles, não cada número isolado."));
 
       if (L) {
         // 3 e 4: o que está alto, o que está baixo e quanto isso é marcado

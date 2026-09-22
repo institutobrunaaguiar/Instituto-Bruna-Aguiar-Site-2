@@ -226,9 +226,16 @@ resultado guardado, a mesma leitura que se faz numa devolutiva:
 3. **Distância entre o maior e o menor**: acima de 40 pontos a preferência é
    bem marcada; abaixo de 20 não há preferência forte.
 4. **Aderência ao desenho da vaga**, comparando cada fator com a faixa que a
-   função pede, com pesos diferentes. Para a recepção: I alto (peso 0,35),
-   S e C médios ou altos (0,25 cada) e D médio (0,15). Para outra vaga, mude
+   função pede, com pesos diferentes. Para a recepção: I 62 a 82 (peso 0,35),
+   S 52 a 72 e C 45 a 65 (0,25 cada) e D 30 a 52 (0,15). Para outra vaga, mude
    só a tabela `ALVO`.
+
+   As faixas levam em conta uma característica do formato de escolha forçada:
+   como a pessoa sempre marca uma frase e descarta outra, os quatro fatores são
+   relativos entre si e a média das quatro medidas é sempre 50. Pedir "alto" em
+   três fatores ao mesmo tempo seria impossível de alcançar, então as faixas
+   precisam caber nesse total. A ficha avisa isso em uma linha abaixo das
+   barras, para o número não ser lido isoladamente.
 5. **Perguntas para a entrevista**, geradas pelo que ficou fora da faixa, para
    comparar o teste com evidência de comportamento real.
 
