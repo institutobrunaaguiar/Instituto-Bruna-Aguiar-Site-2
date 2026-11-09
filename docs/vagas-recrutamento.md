@@ -24,6 +24,7 @@ e arquivos.
 | `api/vagas/disc.js` | Abre e recebe o DISC pelo link do candidato |
 | `api/_lib/disc.js` | Frases do DISC e cálculo do perfil (gabarito nunca sai do servidor) |
 | `supabase/migrations/20260922162422_entrevista_e_disc.sql` | Tabelas `job_interviews` e `job_disc` |
+| `supabase/migrations/20261109120000_pastas_de_candidaturas.sql` | Tabela `job_folders` e coluna `job_applications.folder_id` |
 
 ## Variáveis de ambiente
 
@@ -174,6 +175,24 @@ sortear um.
 **Força bruta.** Oito tentativas erradas do mesmo IP em 15 minutos travam novos
 logins por aquele período. As tentativas ficam em `job_admin_login_attempts`,
 com o IP em hash.
+
+## Pastas (seleções anteriores)
+
+Ao abrir vagas novas, o botão **Arquivar seleção** guarda todas as candidaturas
+da *Seleção atual* numa pasta com nome (sugestão: "Seleção até dd/mm/aaaa").
+Cada candidatura mantém status, ficha e DISC. O seletor de pasta, ao lado da
+busca, alterna entre a seleção atual e as pastas.
+
+- `folder_id` nulo = seleção atual. Toda candidatura nova entra assim; o
+  formulário público não sabe de pastas.
+- O arquivamento só leva o que o painel já mostrava: o painel manda a data da
+  candidatura mais recente que conhecia (`ate`), e o que chegar enquanto o RH
+  confirma continua na seleção atual. Essa data vai **exatamente como o banco
+  devolveu**: o Postgres guarda microssegundos, e arredondar para milissegundos
+  deixaria a última candidatura de fora.
+- Apagar uma pasta (direto no banco, não há botão) devolve as candidaturas
+  para a seleção atual em vez de apagá-las.
+- Sem a migration, o painel funciona como antes e esconde o seletor.
 
 ## Ficha de entrevista
 

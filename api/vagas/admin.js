@@ -82,6 +82,8 @@ module.exports = async (req, res) => {
 
     if (acao === "sessao") return res.status(200).json({ ok: true, usuario: sessao.label });
     if (acao === "candidaturas") return await listar(res, cfg, body);
+    if (acao === "pastas") return await listarPastas(res, cfg);
+    if (acao === "arquivar_atual") return await arquivarAtual(res, cfg, body, sessao);
     if (acao === "arquivo") return await arquivo(res, cfg, body);
     if (acao === "status") return await mudarStatus(res, cfg, body);
     if (acao === "codigos") return await listarCodigos(res, cfg);
@@ -176,12 +178,15 @@ async function listar(res, cfg, body) {
   const pagina = Math.max(0, Math.min(200, Number(body.pagina) || 0));
   const status = STATUS_VALIDOS.indexOf(cleanText(body.status, 20)) >= 0 ? cleanText(body.status, 20) : "";
   const busca = cleanText(body.busca, 60);
+  // Sem pasta (ou pasta inválida) = seleção atual: o que ainda não foi arquivado.
+  const pasta = cleanText(body.pasta, 40);
+  const filtroPasta = UUID_RE.test(pasta) ? `&folder_id=eq.${pasta}` : "&folder_id=is.null";
 
+  const selos = ",job_interviews(updated_at),job_disc(status,created_at)";
   const campos = "id,nome_completo,email,telefone,idade,data_nascimento,sexo,bairro,cidade,estado," +
-    "curriculo_nome,curriculo_tem_foto,foto_perfil_url,status,created_at," +
-    "job_interviews(updated_at),job_disc(status,created_at)";
+    "curriculo_nome,curriculo_tem_foto,foto_perfil_url,status,created_at" + selos;
   let url = `/rest/v1/job_applications?select=${campos}&order=created_at.desc` +
-    `&limit=${POR_PAGINA}&offset=${pagina * POR_PAGINA}`;
+    `&limit=${POR_PAGINA}&offset=${pagina * POR_PAGINA}` + filtroPasta;
   if (status) url += `&status=eq.${status}`;
   if (busca) {
     // PostgREST: vírgula separa alternativas dentro do or(...)
@@ -189,19 +194,27 @@ async function listar(res, cfg, body) {
     url += `&or=(nome_completo.ilike.${alvo},email.ilike.${alvo},telefone.ilike.${alvo})`;
   }
 
-  let r = await api(cfg, url, { headers: { Prefer: "count=exact" } });
-  let fichaDisponivel = true;
-  if (!r.ok && r.status === 400) {
-    // Tabelas de entrevista/DISC ainda não existem (migration pendente): lista
-    // sem os selos em vez de deixar o painel sem nada.
-    const corpo = await r.text();
-    if (/PGRST200|job_interviews|job_disc/.test(corpo)) {
+  // Migration pendente (pastas, ou entrevista/DISC): lista sem o que falta em
+  // vez de deixar o painel sem nada. Cada recurso ausente custa uma tentativa.
+  let r, corpoErro = "";
+  let fichaDisponivel = true, pastasDisponivel = true;
+  for (let tentativa = 0; tentativa < 3; tentativa++) {
+    corpoErro = "";
+    r = await api(cfg, url, { headers: { Prefer: "count=exact" } });
+    if (r.ok || r.status !== 400) break;
+    corpoErro = await r.text();
+    if (pastasDisponivel && /folder_id/.test(corpoErro)) {
+      pastasDisponivel = false;
+      url = url.replace(filtroPasta, "");
+    } else if (fichaDisponivel && /PGRST200|job_interviews|job_disc/.test(corpoErro)) {
       fichaDisponivel = false;
-      r = await api(cfg, url.replace(",job_interviews(updated_at),job_disc(status,created_at)", ""), { headers: { Prefer: "count=exact" } });
+      url = url.replace(selos, "");
+    } else {
+      break;
     }
   }
   if (!r.ok) {
-    console.error("[vagas/admin] falha ao listar", r.status, (await r.text()).slice(0, 200));
+    console.error("[vagas/admin] falha ao listar", r.status, (corpoErro || await r.text()).slice(0, 200));
     return res.status(502).json({ ok: false, error: "falha_ao_listar" });
   }
 
@@ -222,6 +235,93 @@ async function listar(res, cfg, body) {
     novas: novidades.novas,
     // false até a migration da ficha/DISC entrar: o painel esconde o botão
     fichaDisponivel: fichaDisponivel,
+    // false até a migration das pastas entrar: o painel esconde o seletor
+    pastasDisponivel: pastasDisponivel,
+  });
+}
+
+// ----------------------------------------------------------------- pastas --
+// Quantas candidaturas batem com um filtro PostgREST (null se falhar).
+async function contar(cfg, filtro) {
+  const r = await api(cfg, `/rest/v1/job_applications?select=id&limit=1&${filtro}`, { headers: { Prefer: "count=exact" } });
+  return r.ok ? totalDoContentRange(r.headers.get("content-range")) : null;
+}
+
+async function listarPastas(res, cfg) {
+  const r = await api(cfg, "/rest/v1/job_folders?select=id,nome,created_at,job_applications(count)&order=created_at.desc");
+  if (!r.ok) {
+    const corpo = await r.text();
+    if (/job_folders|PGRST205|42P01/.test(corpo)) {
+      return res.status(200).json({ ok: true, disponivel: false, pastas: [], atual: null });
+    }
+    console.error("[vagas/admin] falha ao listar pastas", r.status, corpo.slice(0, 200));
+    return res.status(502).json({ ok: false, error: "falha_ao_listar" });
+  }
+  const linhas = await r.json();
+  return res.status(200).json({
+    ok: true,
+    disponivel: true,
+    atual: await contar(cfg, "folder_id=is.null"),
+    pastas: linhas.map(function (p) {
+      const n = p.job_applications && p.job_applications[0];
+      return { id: p.id, nome: p.nome, created_at: p.created_at, total: n ? n.count : 0 };
+    }),
+  });
+}
+
+// Guarda toda a seleção atual numa pasta nova. `ate` é a candidatura mais
+// recente que o painel mostrava: o que chegar enquanto o RH confirma fica de
+// fora e continua na seleção atual.
+async function arquivarAtual(res, cfg, body, sessao) {
+  const nome = cleanText(body.nome, 80);
+  if (nome.length < 2) {
+    return res.status(422).json({ ok: false, error: "nome_invalido", message: "Dê um nome para a pasta." });
+  }
+  // `ate` volta exatamente como o banco mandou (com microssegundos). Passar por
+  // Date() cortaria para milissegundos e deixaria a candidatura mais recente de
+  // fora, porque .954251 > .954.
+  const ate = cleanText(body.ate, 40);
+  const ISO_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,6})?(Z|[+-]\d{2}:\d{2})$/;
+  const limite = ISO_RE.test(ate) ? ate : new Date().toISOString();
+  const filtro = `folder_id=is.null&created_at=lte.${encodeURIComponent(limite)}`;
+
+  const quantas = await contar(cfg, filtro);
+  if (quantas === null) return res.status(502).json({ ok: false, error: "falha_ao_arquivar" });
+  if (quantas === 0) {
+    return res.status(422).json({ ok: false, error: "nada_para_arquivar", message: "Não há candidaturas na seleção atual." });
+  }
+
+  const p = await api(cfg, "/rest/v1/job_folders", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Prefer: "return=representation" },
+    body: JSON.stringify({ nome: nome, created_by: sessao.id }),
+  });
+  if (!p.ok) {
+    const corpo = await p.text();
+    if (p.status === 409 || /23505/.test(corpo)) {
+      return res.status(409).json({ ok: false, error: "nome_em_uso", message: "Já existe uma pasta com esse nome." });
+    }
+    console.error("[vagas/admin] falha ao criar pasta", p.status, corpo.slice(0, 200));
+    return res.status(502).json({ ok: false, error: "falha_ao_arquivar" });
+  }
+  const [pasta] = await p.json();
+
+  const m = await api(cfg, `/rest/v1/job_applications?select=id&${filtro}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", Prefer: "return=representation" },
+    body: JSON.stringify({ folder_id: pasta.id }),
+  });
+  if (!m.ok) {
+    console.error("[vagas/admin] falha ao mover para a pasta", m.status, (await m.text()).slice(0, 200));
+    // Pasta vazia não serve para nada: desfaz para o RH poder tentar de novo.
+    await api(cfg, `/rest/v1/job_folders?id=eq.${pasta.id}`, { method: "DELETE" }).catch(function () {});
+    return res.status(502).json({ ok: false, error: "falha_ao_arquivar" });
+  }
+  const movidas = (await m.json()).length;
+  return res.status(200).json({
+    ok: true,
+    movidas: movidas,
+    pasta: { id: pasta.id, nome: pasta.nome, created_at: pasta.created_at, total: movidas },
   });
 }
 
