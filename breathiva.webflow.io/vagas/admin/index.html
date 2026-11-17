@@ -1325,7 +1325,7 @@
     // Seções que a própria pessoa respondeu pelo link, junto com o DISC
     if (respostas.questionario_em) {
       corpo.appendChild(el("p", "aviso-cand",
-        "As respostas das seções 2, 4, 5 e 6 e de “Por que você…” foram enviadas pela própria pessoa em " +
+        "As respostas das seções 2 a 6 (a 3 só para quem já trabalhou com recepção) e de “Por que você…” foram enviadas pela própria pessoa em " +
         dataBr(respostas.questionario_em) + ", junto com o DISC. Confirme na entrevista."));
     }
 
@@ -1644,7 +1644,7 @@
 
       b.appendChild(el("p", "nota-disc", "Resultado indicativo, baseado na autoavaliação da pessoa. O DISC mostra tendências de comportamento, não define quem a pessoa é: use como uma camada do processo, junto da entrevista e das situações práticas."));
     } else {
-      b.appendChild(el("p", "desc", "Pelo mesmo link, a pessoa responde as perguntas das seções 2, 4, 5 e 6 e “Por que você…” e depois o questionário de perfil comportamental, tudo pelo celular, em cerca de 15 minutos. As respostas entram nesta ficha e o resultado do DISC aparece aqui."));
+      b.appendChild(el("p", "desc", "Pelo mesmo link, a pessoa responde as perguntas das seções 2 a 6 e “Por que você…” e depois o questionário de perfil comportamental, tudo pelo celular, em cerca de 15 minutos. As respostas entram nesta ficha e o resultado do DISC aparece aqui."));
     }
 
     if (d.pendente) {

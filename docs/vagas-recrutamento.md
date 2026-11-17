@@ -221,10 +221,13 @@ mais um link de WhatsApp com a mensagem pronta. O link vale 30 dias, só pode se
 respondido uma vez, e "Gerar novo link" cancela o anterior.
 
 **Perguntas da ficha no mesmo link.** Antes do DISC, a página do link pede as
-seções 2 (Experiência profissional), 4 (Perfil profissional), 5 (Situações
-práticas) e 6 (Disponibilidade) da ficha e a pergunta "Por que você acredita que
-seria uma boa pessoa para fazer parte do nosso time?". Uma seção por tela, todas
-obrigatórias ("Qual sistema?" só quando a resposta anterior é sim). Tudo é
+seções 2 (Experiência profissional), 3 (Experiência com recepção), 4 (Perfil
+profissional), 5 (Situações práticas) e 6 (Disponibilidade) da ficha e a pergunta
+"Por que você acredita que seria uma boa pessoa para fazer parte do nosso time?".
+Uma seção por tela, todas obrigatórias. Como na ficha, a seção 3 só aparece para
+quem responde que já trabalhou com recepção, e "Qual sistema?" só quando a
+resposta anterior é sim. Uma seção com `se` passa a condição para todas as
+perguntas dela, na página e na validação do servidor. Tudo é
 enviado junto no final, e o progresso fica no `sessionStorage` da aba até lá.
 
 - A lista está em `api/_lib/questionario.js`, com as **mesmas chaves e textos**

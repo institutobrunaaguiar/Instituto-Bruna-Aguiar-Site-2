@@ -23,6 +23,14 @@ const SECOES = [
     { k: "exp_sistema_qual", t: "text", p: "Qual sistema?", se: ["exp_sistema", "sim"] },
     { k: "exp_tempo", t: "select", p: "Quanto tempo de experiência profissional você possui?", op: TEMPO_EXP },
   ]},
+  // Só aparece para quem respondeu que já trabalhou com recepção.
+  { titulo: "Experiência com recepção", se: ["exp_recepcao", "sim"], campos: [
+    { k: "rec_onde", t: "text", p: "Onde você trabalhou como recepcionista?" },
+    { k: "rec_tempo", t: "text", p: "Por quanto tempo você trabalhou com recepção?" },
+    { k: "rec_responsabilidades", t: "area", p: "Quais eram suas principais responsabilidades?" },
+    { k: "rec_whatsapp", t: "sn", p: "Você realizava atendimento ou agendamento pelo WhatsApp?" },
+    { k: "rec_vendas", t: "sn", p: "Você também era responsável por vendas ou conversão de clientes?" },
+  ]},
   { titulo: "Perfil profissional", desc: "Responda com uma nota de 0 a 10. Não existe resposta certa ou errada.", campos: [
     { k: "perfil_conexao", t: "escala", p: "De 0 a 10, quanto você considera que tem facilidade para conversar e criar conexão com pessoas?" },
     { k: "perfil_comercial", t: "escala", p: "De 0 a 10, quanto você considera que possui perfil comercial?" },
@@ -45,7 +53,11 @@ const SECOES = [
   ]},
 ];
 
-const CAMPOS = [].concat.apply([], SECOES.map(function (s) { return s.campos; }));
+// Lista plana para validar. Seção com condição (`se`) passa a condição para
+// cada campo dela que não tenha a sua própria.
+const CAMPOS = [].concat.apply([], SECOES.map(function (s) {
+  return s.campos.map(function (f) { return f.se || !s.se ? f : Object.assign({}, f, { se: s.se }); });
+}));
 
 // Marca, dentro das respostas da ficha, quando a candidata enviou o questionário.
 const MARCA = "questionario_em";
@@ -60,7 +72,8 @@ function texto(v, max) {
 }
 
 // Confere e normaliza o que a página mandou. Toda pergunta visível é
-// obrigatória ("Qual sistema?" só vale quando a resposta anterior é sim).
+// obrigatória ("Qual sistema?" e a seção de recepção só valem quando a
+// resposta anterior é sim).
 // Devolve { respostas } ou { faltando: [chaves] }.
 function validar(entrada) {
   const e = entrada && typeof entrada === "object" && !Array.isArray(entrada) ? entrada : {};
@@ -91,9 +104,14 @@ function validar(entrada) {
 // preencheu vale mais: a candidata só completa campos vazios.
 function mesclar(existente, daCandidata) {
   const saida = Object.assign({}, existente || {});
-  Object.keys(daCandidata).forEach(function (k) {
-    const atual = saida[k];
-    if (atual === undefined || atual === null || atual === "") saida[k] = daCandidata[k];
+  const vazio = function (v) { return v === undefined || v === null || v === ""; };
+  // Primeiro os campos sem condição, depois os condicionais: a condição é
+  // conferida na ficha já mesclada. Se o RH marcou "não" em recepção, a seção
+  // de recepção da candidata não entra (ficaria gravada e escondida).
+  CAMPOS.slice().sort(function (a, b) { return (a.se ? 1 : 0) - (b.se ? 1 : 0); }).forEach(function (f) {
+    if (!(f.k in daCandidata) || !vazio(saida[f.k])) return;
+    if (f.se && saida[f.se[0]] !== f.se[1]) return;
+    saida[f.k] = daCandidata[f.k];
   });
   saida[MARCA] = new Date().toISOString();
   return saida;

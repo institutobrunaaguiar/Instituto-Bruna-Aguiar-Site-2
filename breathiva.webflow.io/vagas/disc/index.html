@@ -279,16 +279,23 @@
   function visivel(f) { return !f.se || ficha[f.se[0]] === f.se[1]; }
   function vazio(f) { var v = ficha[f.k]; return v === undefined || v === null || String(v).trim() === ""; }
   function faltando(sec) { return sec.campos.filter(function (f) { return visivel(f) && vazio(f); }); }
+  // Seção com condição (ex.: recepção) só existe quando a resposta pede.
+  function secaoVisivel(i) { return Boolean(secoes[i]) && visivel(secoes[i]); }
+  function visiveis() { return secoes.map(function (x, i) { return i; }).filter(secaoVisivel); }
+  function proxima(i, passo) { for (var j = i + passo; j >= 0 && j < secoes.length; j += passo) if (secaoVisivel(j)) return j; return -1; }
+  function ultimaVisivel() { var v = visiveis(); return v[v.length - 1]; }
 
   function desenharSecao() {
+    if (!secaoVisivel(secao)) secao = proxima(secao, -1) >= 0 ? proxima(secao, -1) : 0;
     var sec = secoes[secao];
-    $("barraForm").style.width = (secao / secoes.length) * 100 + "%";
-    $("contadorForm").textContent = "Etapa " + (secao + 1) + " de " + secoes.length;
+    var v = visiveis(), pos = v.indexOf(secao);
+    $("barraForm").style.width = (pos / v.length) * 100 + "%";
+    $("contadorForm").textContent = "Etapa " + (pos + 1) + " de " + v.length;
     $("secaoTitulo").textContent = sec.titulo;
     $("secaoDesc").textContent = sec.desc || "";
     $("secaoDesc").hidden = !sec.desc;
     $("erroForm").hidden = true;
-    $("btnContinuar").textContent = secao === secoes.length - 1 ? "Ir para a parte 2" : "Continuar";
+    $("btnContinuar").textContent = proxima(secao, 1) < 0 ? "Ir para a parte 2" : "Continuar";
     var caixa = $("secaoCampos");
     caixa.innerHTML = "";
     sec.campos.forEach(function (f) { caixa.appendChild(campo(f)); });
@@ -376,19 +383,22 @@
   $("btnContinuar").addEventListener("click", function () {
     var f = faltando(secoes[secao]);
     if (f.length) { marcarFaltando(f); return; }
-    if (secao < secoes.length - 1) { secao += 1; salvar(); desenharSecao(); window.scrollTo(0, 0); return; }
+    var prox = proxima(secao, 1);
+    if (prox >= 0) { secao = prox; salvar(); desenharSecao(); window.scrollTo(0, 0); return; }
     mostrar("tDiscIntro");
   });
   $("btnVoltarForm").addEventListener("click", function () {
-    if (secao > 0) { secao -= 1; salvar(); desenharSecao(); window.scrollTo(0, 0); }
+    var ant = proxima(secao, -1);
+    if (ant >= 0) { secao = ant; salvar(); desenharSecao(); window.scrollTo(0, 0); }
     else mostrar("tIntro");
   });
   $("btnComecarDisc").addEventListener("click", function () { desenhar(); mostrar("tPergunta"); });
-  $("btnVoltarPerguntas").addEventListener("click", function () { secao = secoes.length - 1; desenharSecao(); mostrar("tForm"); });
+  $("btnVoltarPerguntas").addEventListener("click", function () { secao = ultimaVisivel(); desenharSecao(); mostrar("tForm"); });
 
   // Leva a pessoa até a primeira seção com pergunta em branco.
   function irParaFaltando(chaves) {
     for (var i = 0; i < secoes.length; i++) {
+      if (!secaoVisivel(i)) continue;
       var f = secoes[i].campos.filter(function (c) { return chaves ? chaves.indexOf(c.k) >= 0 : (visivel(c) && vazio(c)); });
       if (f.length) { secao = i; desenharSecao(); mostrar("tForm"); marcarFaltando(f); return true; }
     }
@@ -398,6 +408,7 @@
   function fichaParaEnviar() {
     var saida = {};
     secoes.forEach(function (sec) {
+      if (!visivel(sec)) return; // ex.: recepção respondida e depois trocada para "Não"
       sec.campos.forEach(function (f) { if (visivel(f) && !vazio(f)) saida[f.k] = String(ficha[f.k]).trim(); });
     });
     return saida;
