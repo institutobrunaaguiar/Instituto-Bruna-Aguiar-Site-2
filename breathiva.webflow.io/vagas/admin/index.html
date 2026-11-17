@@ -207,6 +207,7 @@
   .selos{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
   .selo.ok{color:var(--ok);border-color:#b7d3c3;background:#f2f8f4}
   .selo.pend{color:#8a6d1f;border-color:#e8d9a8;background:#fdf8ea}
+  .btn-wa svg{width:16px;height:16px;flex:0 0 16px}
 
   /* ================================================================ ficha == */
   .ficha{position:fixed;inset:0;z-index:40;background:var(--cream);overflow-y:auto;-webkit-overflow-scrolling:touch}
@@ -942,6 +943,18 @@
       acoes.appendChild(bFicha);
     }
 
+    // Convite pelo WhatsApp com o link do DISC. Quem já respondeu não precisa.
+    var telOk = String(c.telefone || "").replace(/\D/g, "").length >= 10;
+    if (fichaDisponivel && telOk && c.disc_status !== "concluido") {
+      var bWa = document.createElement("button");
+      bWa.className = "btn btn-sec btn-peq btn-wa";
+      bWa.type = "button";
+      bWa.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 01-12.3 7.4L3 21l2.1-5.6A8.4 8.4 0 1121 11.5z"/></svg>';
+      bWa.appendChild(document.createTextNode(c.disc_status === "pendente" ? "Reenviar convite" : "Convidar pelo WhatsApp"));
+      bWa.addEventListener("click", function () { convidarWhatsapp(c, bWa, art); });
+      acoes.appendChild(bWa);
+    }
+
     var bCv = document.createElement("button");
     bCv.className = "btn btn-sec btn-peq";
     bCv.type = "button";
@@ -973,6 +986,32 @@
 
     art.appendChild(acoes);
     return art;
+  }
+
+  // Gera (ou reaproveita) o link do DISC e abre o WhatsApp com o convite pronto
+  // para a pessoa. O RH ainda revisa o texto no WhatsApp antes de enviar.
+  function convidarWhatsapp(c, botao, art) {
+    var rotulo = botao.innerHTML;
+    botao.disabled = true; botao.textContent = "Preparando…";
+    // Mesma regra do currículo: a aba abre no toque, antes do fetch (Safari).
+    var aba = window.open("", "_blank");
+    chamar("disc_gerar", { id: c.id, novo: false }).then(function (r) {
+      if (r.status === 401) { if (aba) aba.close(); return sessaoCaiu(); }
+      if (!r.json || !r.json.ok || !r.json.whatsapp) {
+        if (aba) aba.close();
+        botao.disabled = false; botao.innerHTML = rotulo;
+        alert("Não foi possível preparar o convite agora. Tente de novo.");
+        return;
+      }
+      if (aba) aba.location = r.json.whatsapp; else window.location = r.json.whatsapp;
+      // O cartão passa a mostrar "DISC enviado" e o botão vira "Reenviar convite".
+      c.disc_status = "pendente";
+      art.replaceWith(cartao(c));
+    }).catch(function () {
+      if (aba) aba.close();
+      botao.disabled = false; botao.innerHTML = rotulo;
+      alert("Falha de conexão. Tente de novo.");
+    });
   }
 
   function abrirArquivo(id, tipo, botao) {

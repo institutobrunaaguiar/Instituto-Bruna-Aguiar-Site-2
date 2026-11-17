@@ -219,6 +219,16 @@ bytes e devolve `https://www.institutobrunaaguiar.com.br/vagas/disc/?t=<token>`,
 mais um link de WhatsApp com a mensagem pronta. O link vale 30 dias, só pode ser
 respondido uma vez, e "Gerar novo link" cancela o anterior.
 
+**Convite pelo WhatsApp, direto do cartão.** Cada cartão da lista tem o botão
+*Convidar pelo WhatsApp* (some quando a pessoa já respondeu o DISC). Ele chama o
+mesmo `disc_gerar`, reaproveitando o link se ainda houver um válido, e abre o
+WhatsApp com o convite pronto: apresenta o Instituto, pede para confirmar a
+rotina da vaga (segunda a sexta, 8h às 18h, Asa Sul, disponibilidade de horário)
+e manda o link do questionário. O RH revisa o texto no WhatsApp antes de enviar.
+Depois do clique, o cartão mostra *DISC enviado* e o botão vira *Reenviar
+convite*. O texto fica em `linkWhatsapp()` em `api/vagas/admin.js` e é o mesmo
+do botão da ficha: **se os dados da vaga mudarem, mude ali também.**
+
 São 24 grupos de 4 frases. Em cada grupo a pessoa marca a que mais e a que menos
 combina com ela. Cada frase pertence a um fator (D, I, S, C) e a pontuação é
 "vezes que foi mais" menos "vezes que foi menos", de −24 a +24, convertida em

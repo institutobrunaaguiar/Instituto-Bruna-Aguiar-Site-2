@@ -555,12 +555,29 @@ function resumoDisc(discs, candidato) {
   return saida;
 }
 
+// Convite para a próxima etapa, já com o link do DISC. O texto chega pronto no
+// WhatsApp do RH, que pode ajustar antes de enviar. Os dados da vaga são os do
+// anúncio em /vagas: se a vaga mudar, mude aqui também.
 function linkWhatsapp(candidato, link) {
   const tel = String(candidato.telefone || "").replace(/\D/g, "");
   if (tel.length < 10) return null;
-  const nome = String(candidato.nome_completo || "").split(" ")[0];
-  const texto = `Olá, ${nome}! Aqui é do Instituto Bruna Aguiar. Como próxima etapa do processo seletivo ` +
-    `para Recepção, pedimos que você responda a este questionário rápido de perfil. Leva cerca de 5 minutos: ${link}`;
+  const nome = String(candidato.nome_completo || "").trim().split(/\s+/)[0];
+  const texto = [
+    `Olá, ${nome}! Tudo bem?`,
+    "",
+    "Aqui é do Instituto Bruna Aguiar. Recebemos sua candidatura para a vaga de Recepção " +
+      "e queremos convidar você para a próxima etapa do processo seletivo.",
+    "",
+    "Antes de tudo, confirme se a rotina da vaga combina com a sua: segunda a sexta, das 8h às 18h, " +
+      "na Asa Sul, com disponibilidade de horário.",
+    "",
+    "Se estiver tudo certo, a próxima etapa é um questionário rápido de perfil. " +
+      "Leva cerca de 5 minutos e dá para responder pelo celular:",
+    link,
+    "",
+    "Assim que você responder, entramos em contato para combinar a entrevista. " +
+      "Qualquer dúvida, é só chamar por aqui.",
+  ].join("\n");
   return `https://wa.me/55${tel}?text=${encodeURIComponent(texto)}`;
 }
 
