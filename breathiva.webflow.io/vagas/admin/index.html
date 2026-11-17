@@ -208,6 +208,8 @@
   .selo.ok{color:var(--ok);border-color:#b7d3c3;background:#f2f8f4}
   .selo.pend{color:#8a6d1f;border-color:#e8d9a8;background:#fdf8ea}
   .btn-wa svg{width:16px;height:16px;flex:0 0 16px}
+  .aviso-cand{background:#fdf8ea;border:1.5px solid #e8d9a8;border-radius:14px;padding:.85rem 1rem;
+    margin:0 0 1rem;font-size:.875rem;color:#6b5418}
 
   /* ================================================================ ficha == */
   .ficha{position:fixed;inset:0;z-index:40;background:var(--cream);overflow-y:auto;-webkit-overflow-scrolling:touch}
@@ -924,6 +926,7 @@
     var selos = document.createElement("div");
     selos.className = "selos";
     if (c.entrevista_em) selos.appendChild(texto("span", "selo ok", "Entrevista registrada"));
+    if (c.questionario_em) selos.appendChild(texto("span", "selo ok", "Perguntas respondidas"));
     if (c.disc_status === "concluido") selos.appendChild(texto("span", "selo ok", "DISC respondido"));
     else if (c.disc_status === "pendente") selos.appendChild(texto("span", "selo pend", "DISC enviado"));
     if (selos.childNodes.length) corpo.appendChild(selos);
@@ -1319,6 +1322,13 @@
     corpo.appendChild(resumoCandidato(c));
     corpo.appendChild(blocoDisc());
 
+    // Seções que a própria pessoa respondeu pelo link, junto com o DISC
+    if (respostas.questionario_em) {
+      corpo.appendChild(el("p", "aviso-cand",
+        "As respostas das seções 2, 4, 5 e 6 e de “Por que você…” foram enviadas pela própria pessoa em " +
+        dataBr(respostas.questionario_em) + ", junto com o DISC. Confirme na entrevista."));
+    }
+
     // Na primeira entrevista, os dados pessoais já vêm da candidatura.
     ROTEIRO[0].campos.forEach(function (f) {
       if (f.de && (respostas[f.k] === undefined || respostas[f.k] === "")) {
@@ -1634,7 +1644,7 @@
 
       b.appendChild(el("p", "nota-disc", "Resultado indicativo, baseado na autoavaliação da pessoa. O DISC mostra tendências de comportamento, não define quem a pessoa é: use como uma camada do processo, junto da entrevista e das situações práticas."));
     } else {
-      b.appendChild(el("p", "desc", "Questionário de perfil comportamental que a pessoa responde pelo celular, em cerca de 5 minutos. O resultado aparece aqui."));
+      b.appendChild(el("p", "desc", "Pelo mesmo link, a pessoa responde as perguntas das seções 2, 4, 5 e 6 e “Por que você…” e depois o questionário de perfil comportamental, tudo pelo celular, em cerca de 15 minutos. As respostas entram nesta ficha e o resultado do DISC aparece aqui."));
     }
 
     if (d.pendente) {

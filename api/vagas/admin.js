@@ -23,6 +23,7 @@ const {
   methodGuard,
 } = require("../_lib/recrutamento");
 const { PERFIS, interpretar } = require("../_lib/disc");
+const questionario = require("../_lib/questionario");
 
 const {
   COOKIE,
@@ -182,7 +183,7 @@ async function listar(res, cfg, body) {
   const pasta = cleanText(body.pasta, 40);
   const filtroPasta = UUID_RE.test(pasta) ? `&folder_id=eq.${pasta}` : "&folder_id=is.null";
 
-  const selos = ",job_interviews(updated_at),job_disc(status,created_at)";
+  const selos = ",job_interviews(updated_at,updated_by,questionario_em:respostas->>questionario_em),job_disc(status,created_at)";
   const campos = "id,nome_completo,email,telefone,idade,data_nascimento,sexo,bairro,cidade,estado," +
     "curriculo_nome,curriculo_tem_foto,foto_perfil_url,status,created_at" + selos;
   let url = `/rest/v1/job_applications?select=${campos}&order=created_at.desc` +
@@ -376,7 +377,9 @@ async function anexarFotos(cfg, linhas) {
   linhas.forEach(function (l) {
     // resumo do andamento para os selos do cartão
     const ent = Array.isArray(l.job_interviews) ? l.job_interviews[0] : l.job_interviews;
-    l.entrevista_em = ent ? ent.updated_at : null;
+    // updated_by vazio = ficha criada só pelas respostas da candidata
+    l.entrevista_em = ent && ent.updated_by ? ent.updated_at : null;
+    l.questionario_em = ent ? ent.questionario_em || null : null;
     const discs = (l.job_disc || []).filter(function (d) { return d.status !== "cancelado"; });
     l.disc_status = discs.some(function (d) { return d.status === "concluido"; }) ? "concluido"
       : (discs.length ? "pendente" : null);
@@ -571,8 +574,8 @@ function linkWhatsapp(candidato, link) {
     "Antes de tudo, confirme se a rotina da vaga combina com a sua: segunda a sexta, das 8h às 18h, " +
       "na Asa Sul, com disponibilidade de horário.",
     "",
-    "Se estiver tudo certo, a próxima etapa é um questionário rápido de perfil. " +
-      "Leva cerca de 5 minutos e dá para responder pelo celular:",
+    "Se estiver tudo certo, a próxima etapa é responder algumas perguntas sobre sua experiência " +
+      "e um questionário rápido de perfil. Leva cerca de 15 minutos e dá para fazer pelo celular:",
     link,
     "",
     "Assim que você responder, entramos em contato para combinar a entrevista. " +
@@ -605,6 +608,14 @@ async function salvarEntrevista(res, cfg, body, sessao) {
   const id = cleanText(body.id, 40);
   const respostas = limparRespostas(body.respostas);
   if (!UUID_RE.test(id) || !respostas) return res.status(400).json({ ok: false, error: "pedido_invalido" });
+
+  // O painel manda a ficha inteira. Se a candidata enviou as perguntas depois
+  // que o RH abriu a ficha, essas chaves não vêm no pedido: mantém as do banco.
+  const ra = await api(cfg, `/rest/v1/job_interviews?select=respostas&application_id=eq.${id}`);
+  const noBanco = ra.ok ? (((await ra.json())[0] || {}).respostas || {}) : {};
+  questionario.CHAVES.forEach(function (k) {
+    if (!(k in respostas) && noBanco[k] !== undefined) respostas[k] = noBanco[k];
+  });
 
   const r = await api(cfg, "/rest/v1/job_interviews?on_conflict=application_id", {
     method: "POST",

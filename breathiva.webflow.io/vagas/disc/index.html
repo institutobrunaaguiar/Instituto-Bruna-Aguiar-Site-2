@@ -71,6 +71,28 @@
   .opcao[data-marca="menos"]{background:var(--cream-2);border-color:var(--muted);color:var(--muted)}
   .opcao[data-marca="menos"] .marca{background:var(--muted);color:#fff}
 
+  /* perguntas da ficha (parte 1) */
+  .etapa{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
+  .secao-titulo{font-size:1.6rem;line-height:1.2;margin-bottom:.35rem}
+  .secao-desc{color:var(--muted);font-size:.9375rem;margin-bottom:.25rem}
+  .perg{margin-top:1.4rem}
+  .perg .rot{display:block;color:var(--green);font-size:1rem;margin-bottom:.6rem}
+  .perg[data-falta="1"] .rot{color:var(--danger)}
+  .perg[data-falta="1"] .field,.perg[data-falta="1"] .sn button,.perg[data-falta="1"] .nota button{border-color:#f3c9c1}
+  .sn{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+  .nota{display:grid;grid-template-columns:repeat(6,1fr);gap:.45rem}
+  .sn button,.nota button{min-height:48px;background:#fff;border:1.5px solid var(--border);border-radius:12px;
+    font-family:inherit;font-size:1rem;color:var(--green);cursor:pointer;transition:border-color .15s ease,background .15s ease}
+  .sn button:hover,.nota button:hover{border-color:var(--gold)}
+  .sn button[aria-pressed="true"],.nota button[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:var(--cream)}
+  .legenda{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-top:.35rem}
+  .field{width:100%;font-family:inherit;font-size:1rem;padding:.85rem 1rem;color:var(--text);background:#fff;
+    border:1.5px solid var(--border);border-radius:12px;outline:none}
+  .field:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(158,146,113,.14)}
+  textarea.field{min-height:7.5rem;resize:vertical;line-height:1.5}
+  select.field{appearance:none;background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235a6658' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right .8rem center;background-size:18px;padding-right:2.5rem}
+
   .selo{width:64px;height:64px;margin:0 auto 1.5rem;border-radius:50%;border:1.5px solid var(--border);background:#fff;
     color:var(--gold);display:flex;align-items:center;justify-content:center}
   .selo svg{width:28px;height:28px}
@@ -101,13 +123,35 @@
   <section class="tela" id="tIntro" hidden>
     <div class="centro" style="text-align:left;justify-content:flex-start;padding-top:.5rem">
       <h1 id="introTitulo">Olá!</h1>
-      <p class="sub">Este é um questionário de perfil comportamental, parte do processo seletivo para Recepção. Leva cerca de 5 minutos.</p>
-      <ul class="passos">
-        <li>Em cada tela aparecem <b>4 frases</b>.</li>
-        <li>Toque primeiro na frase que <b>mais combina</b> com você e depois na que <b>menos combina</b>.</li>
-        <li>Não existe resposta certa ou errada. Responda pensando em como você é no dia a dia.</li>
-      </ul>
+      <p class="sub" id="introTexto"></p>
+      <ul class="passos" id="introPassos"></ul>
       <button class="btn" type="button" id="btnComecar">Começar</button>
+    </div>
+  </section>
+
+  <!-- parte 1: perguntas da ficha, uma seção por tela -->
+  <section class="tela" id="tForm" hidden>
+    <div class="prog">
+      <div class="bar"><i id="barraForm"></i></div>
+      <div class="conta"><span id="contadorForm" aria-live="polite"></span><button class="voltar" type="button" id="btnVoltarForm">Voltar</button></div>
+    </div>
+    <p class="etapa">Parte 1 de 2 · Sobre você</p>
+    <h2 class="secao-titulo" id="secaoTitulo"></h2>
+    <p class="secao-desc" id="secaoDesc"></p>
+    <div id="secaoCampos"></div>
+    <p class="erro" id="erroForm" role="alert" hidden></p>
+    <button class="btn" type="button" id="btnContinuar">Continuar</button>
+  </section>
+
+  <!-- passagem para a parte 2 (DISC) -->
+  <section class="tela" id="tDiscIntro" hidden>
+    <div class="centro" style="text-align:left;justify-content:flex-start;padding-top:.5rem">
+      <p class="etapa">Parte 2 de 2 · Perfil</p>
+      <h1>Agora, o questionário de perfil</h1>
+      <p class="sub">Leva cerca de 5 minutos.</p>
+      <ul class="passos" id="discPassos"></ul>
+      <button class="btn" type="button" id="btnComecarDisc">Começar o questionário</button>
+      <button class="link" type="button" id="btnVoltarPerguntas">Voltar para as perguntas</button>
     </div>
   </section>
 
@@ -126,7 +170,7 @@
   <section class="tela" id="tFim" hidden>
     <div class="centro">
       <h1>Tudo respondido</h1>
-      <p class="sub">Confira se está tudo certo e envie. Se quiser, volte para revisar.</p>
+      <p class="sub">Confira se está tudo certo e envie. Suas respostas só chegam para a nossa equipe depois que você tocar em enviar.</p>
       <button class="btn" type="button" id="btnEnviar">Enviar respostas</button>
       <button class="link" type="button" id="btnRevisar">Voltar e revisar</button>
       <p class="erro" id="erroEnvio" role="alert" hidden></p>
@@ -148,21 +192,46 @@
   "use strict";
   var $ = function (id) { return document.getElementById(id); };
   var token = new URLSearchParams(location.search).get("t") || "";
-  var CHAVE = "iba:disc:" + token.slice(0, 16); // sessionStorage: só as escolhas, nada pessoal
+  // sessionStorage: as escolhas e as respostas em andamento, para não perder
+  // nada se a página recarregar. Some quando a aba é fechada.
+  var CHAVE = "iba:disc:" + token.slice(0, 16);
   var grupos = [], respostas = [], atual = 0, enviando = false;
+  var secoes = [], ficha = {}, secao = 0; // parte 1: perguntas da ficha
 
+  var TELAS = ["tCarregando", "tAviso", "tIntro", "tForm", "tDiscIntro", "tPergunta", "tFim", "tObrigado"];
   function mostrar(id) {
-    ["tCarregando", "tAviso", "tIntro", "tPergunta", "tFim", "tObrigado"].forEach(function (t) { $(t).hidden = t !== id; });
+    TELAS.forEach(function (t) { $(t).hidden = t !== id; });
     window.scrollTo(0, 0);
   }
   function aviso(titulo, texto) { $("avisoTitulo").textContent = titulo; $("avisoTexto").textContent = texto; mostrar("tAviso"); }
-  function salvar() { try { sessionStorage.setItem(CHAVE, JSON.stringify({ r: respostas, a: atual })); } catch (e) {} }
+  function salvar() { try { sessionStorage.setItem(CHAVE, JSON.stringify({ r: respostas, a: atual, f: ficha, s: secao })); } catch (e) {} }
   function chamar(acao, dados) {
     return fetch("/api/vagas/disc/", {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify(Object.assign({ action: acao, token: token }, dados || {}))
     }).then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { status: r.status, json: j }; }); });
   }
+  function el(tag, classe, texto) {
+    var n = document.createElement(tag);
+    if (classe) n.className = classe;
+    if (texto !== undefined) n.textContent = texto;
+    return n;
+  }
+  function passos(lista, itens) {
+    lista.innerHTML = "";
+    itens.forEach(function (partes) {
+      var li = el("li");
+      li.appendChild(document.createTextNode(partes[0]));
+      if (partes[1]) li.appendChild(el("b", "", partes[1]));
+      if (partes[2]) li.appendChild(document.createTextNode(partes[2]));
+      lista.appendChild(li);
+    });
+  }
+  var PASSOS_DISC = [
+    ["Em cada tela aparecem ", "4 frases", "."],
+    ["Toque primeiro na frase que ", "mais combina", " com você e depois na que menos combina."],
+    ["Não existe resposta certa ou errada. Responda pensando em como você é no dia a dia."]
+  ];
 
   var INVALIDO = ["Link inválido", "Este link não é mais válido. Fale com o Instituto Bruna Aguiar para receber um novo."];
   var RESPONDIDO = ["Questionário já respondido", "Você já enviou suas respostas. Obrigado!"];
@@ -176,22 +245,170 @@
     if (!j.ok) return aviso(INVALIDO[0], INVALIDO[1]);
 
     grupos = j.grupos || [];
+    secoes = j.perguntas || [];
     respostas = grupos.map(function () { return { mais: null, menos: null }; });
     try {
       var salvo = JSON.parse(sessionStorage.getItem(CHAVE) || "null");
       if (salvo && Array.isArray(salvo.r) && salvo.r.length === grupos.length) { respostas = salvo.r; atual = Math.min(salvo.a || 0, grupos.length - 1); }
+      if (salvo && salvo.f && typeof salvo.f === "object") ficha = salvo.f;
+      if (salvo && secoes.length) secao = Math.min(Math.max(Number(salvo.s) || 0, 0), secoes.length - 1);
     } catch (e) {}
+
     $("introTitulo").textContent = j.nome ? "Olá, " + j.nome + "!" : "Olá!";
+    if (secoes.length) {
+      $("introTexto").textContent = "Esta é a próxima etapa do processo seletivo para Recepção. São duas partes, e tudo leva cerca de 15 minutos pelo celular.";
+      passos($("introPassos"), [
+        ["", "Parte 1:", " algumas perguntas sobre sua experiência, seu perfil e sua disponibilidade."],
+        ["", "Parte 2:", " um questionário de perfil comportamental, com frases para escolher."],
+        ["No final, você revisa e envia tudo de uma vez."]
+      ]);
+    } else {
+      $("introTexto").textContent = "Este é um questionário de perfil comportamental, parte do processo seletivo para Recepção. Leva cerca de 5 minutos.";
+      passos($("introPassos"), PASSOS_DISC);
+    }
+    passos($("discPassos"), PASSOS_DISC);
     mostrar("tIntro");
   }).catch(function () { aviso("Sem conexão", "Não foi possível abrir o questionário. Confira sua internet e recarregue a página."); });
 
-  $("btnComecar").addEventListener("click", function () { desenhar(); mostrar("tPergunta"); });
+  $("btnComecar").addEventListener("click", function () {
+    if (secoes.length) { desenharSecao(); mostrar("tForm"); }
+    else { desenhar(); mostrar("tPergunta"); }
+  });
 
+  // ------------------------------------------------ parte 1: perguntas ----
+  function visivel(f) { return !f.se || ficha[f.se[0]] === f.se[1]; }
+  function vazio(f) { var v = ficha[f.k]; return v === undefined || v === null || String(v).trim() === ""; }
+  function faltando(sec) { return sec.campos.filter(function (f) { return visivel(f) && vazio(f); }); }
+
+  function desenharSecao() {
+    var sec = secoes[secao];
+    $("barraForm").style.width = (secao / secoes.length) * 100 + "%";
+    $("contadorForm").textContent = "Etapa " + (secao + 1) + " de " + secoes.length;
+    $("secaoTitulo").textContent = sec.titulo;
+    $("secaoDesc").textContent = sec.desc || "";
+    $("secaoDesc").hidden = !sec.desc;
+    $("erroForm").hidden = true;
+    $("btnContinuar").textContent = secao === secoes.length - 1 ? "Ir para a parte 2" : "Continuar";
+    var caixa = $("secaoCampos");
+    caixa.innerHTML = "";
+    sec.campos.forEach(function (f) { caixa.appendChild(campo(f)); });
+    aplicarCondicoes();
+  }
+
+  function mudou(f, valor, wrap) {
+    ficha[f.k] = valor;
+    wrap.removeAttribute("data-falta");
+    salvar();
+    aplicarCondicoes();
+  }
+
+  function campo(f) {
+    var wrap = el("div", "perg");
+    wrap.setAttribute("data-k", f.k);
+    var id = "f_" + f.k;
+
+    if (f.t === "sn" || f.t === "escala") {
+      var rot = el("span", "rot", f.p); rot.id = id + "_rot";
+      wrap.appendChild(rot);
+      var grupo = el("div", f.t === "sn" ? "sn" : "nota");
+      grupo.setAttribute("role", "group");
+      grupo.setAttribute("aria-labelledby", rot.id);
+      var valores = f.t === "sn" ? [["sim", "Sim"], ["nao", "Não"]]
+        : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(function (n) { return [String(n), String(n)]; });
+      valores.forEach(function (par) {
+        var b = el("button", "", par[1]); b.type = "button";
+        b.setAttribute("aria-pressed", String(String(ficha[f.k]) === par[0]));
+        b.addEventListener("click", function () {
+          grupo.querySelectorAll("button").forEach(function (o, i) { o.setAttribute("aria-pressed", String(valores[i][0] === par[0])); });
+          mudou(f, par[0], wrap);
+        });
+        grupo.appendChild(b);
+      });
+      wrap.appendChild(grupo);
+      if (f.t === "escala") {
+        var leg = el("div", "legenda");
+        leg.appendChild(el("span", "", "0 = nada")); leg.appendChild(el("span", "", "10 = muito"));
+        wrap.appendChild(leg);
+      }
+      return wrap;
+    }
+
+    var lab = el("label", "rot", f.p); lab.htmlFor = id;
+    wrap.appendChild(lab);
+    var c;
+    if (f.t === "select") {
+      c = el("select", "field");
+      var op0 = el("option", "", "Selecione"); op0.value = ""; c.appendChild(op0);
+      f.op.forEach(function (o) { var op = el("option", "", o); op.value = o; c.appendChild(op); });
+    } else if (f.t === "area") {
+      c = el("textarea", "field"); c.maxLength = 2000; c.rows = 4;
+    } else {
+      c = el("input", "field"); c.type = "text"; c.maxLength = 200;
+    }
+    c.id = id;
+    c.value = ficha[f.k] === undefined || ficha[f.k] === null ? "" : String(ficha[f.k]);
+    c.addEventListener(f.t === "select" ? "change" : "input", function () { mudou(f, c.value, wrap); });
+    wrap.appendChild(c);
+    return wrap;
+  }
+
+  function aplicarCondicoes() {
+    var sec = secoes[secao];
+    if (!sec) return;
+    sec.campos.forEach(function (f) {
+      var n = $("secaoCampos").querySelector('[data-k="' + f.k + '"]');
+      if (n) n.hidden = !visivel(f);
+    });
+  }
+
+  function marcarFaltando(lista) {
+    lista.forEach(function (f) {
+      var n = $("secaoCampos").querySelector('[data-k="' + f.k + '"]');
+      if (n) n.setAttribute("data-falta", "1");
+    });
+    var e = $("erroForm");
+    e.textContent = lista.length === 1 ? "Falta responder a pergunta marcada." : "Faltam " + lista.length + " perguntas, marcadas em vermelho.";
+    e.hidden = false;
+    var primeira = $("secaoCampos").querySelector('[data-falta="1"]');
+    if (primeira) primeira.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  $("btnContinuar").addEventListener("click", function () {
+    var f = faltando(secoes[secao]);
+    if (f.length) { marcarFaltando(f); return; }
+    if (secao < secoes.length - 1) { secao += 1; salvar(); desenharSecao(); window.scrollTo(0, 0); return; }
+    mostrar("tDiscIntro");
+  });
+  $("btnVoltarForm").addEventListener("click", function () {
+    if (secao > 0) { secao -= 1; salvar(); desenharSecao(); window.scrollTo(0, 0); }
+    else mostrar("tIntro");
+  });
+  $("btnComecarDisc").addEventListener("click", function () { desenhar(); mostrar("tPergunta"); });
+  $("btnVoltarPerguntas").addEventListener("click", function () { secao = secoes.length - 1; desenharSecao(); mostrar("tForm"); });
+
+  // Leva a pessoa até a primeira seção com pergunta em branco.
+  function irParaFaltando(chaves) {
+    for (var i = 0; i < secoes.length; i++) {
+      var f = secoes[i].campos.filter(function (c) { return chaves ? chaves.indexOf(c.k) >= 0 : (visivel(c) && vazio(c)); });
+      if (f.length) { secao = i; desenharSecao(); mostrar("tForm"); marcarFaltando(f); return true; }
+    }
+    return false;
+  }
+
+  function fichaParaEnviar() {
+    var saida = {};
+    secoes.forEach(function (sec) {
+      sec.campos.forEach(function (f) { if (visivel(f) && !vazio(f)) saida[f.k] = String(ficha[f.k]).trim(); });
+    });
+    return saida;
+  }
+
+  // --------------------------------------------------- parte 2: DISC ------
   function desenhar() {
     var r = respostas[atual];
     $("barra").style.width = (atual / grupos.length) * 100 + "%";
-    $("contador").textContent = "Grupo " + (atual + 1) + " de " + grupos.length;
-    $("btnVoltar").style.visibility = atual > 0 ? "visible" : "hidden";
+    $("contador").textContent = (secoes.length ? "Parte 2 · " : "") + "Grupo " + (atual + 1) + " de " + grupos.length;
+    $("btnVoltar").style.visibility = atual > 0 || secoes.length ? "visible" : "hidden";
 
     if (r.mais === null) {
       $("instrucao").textContent = "Qual frase mais combina com você?";
@@ -235,25 +452,39 @@
     }
   }
 
-  $("btnVoltar").addEventListener("click", function () { if (atual > 0) { atual -= 1; salvar(); desenhar(); } });
+  $("btnVoltar").addEventListener("click", function () {
+    if (atual > 0) { atual -= 1; salvar(); desenhar(); }
+    else if (secoes.length) mostrar("tDiscIntro");
+  });
   $("btnRevisar").addEventListener("click", function () { atual = grupos.length - 1; desenhar(); mostrar("tPergunta"); });
 
   $("btnEnviar").addEventListener("click", function () {
     if (enviando) return;
-    var faltando = respostas.findIndex(function (r) { return r.mais === null || r.menos === null; });
-    if (faltando >= 0) { atual = faltando; desenhar(); mostrar("tPergunta"); return; }
+    if (secoes.length && irParaFaltando(null)) return;
+    var falta = respostas.findIndex(function (r) { return r.mais === null || r.menos === null; });
+    if (falta >= 0) { atual = falta; desenhar(); mostrar("tPergunta"); return; }
     enviando = true;
     var b = $("btnEnviar"); b.disabled = true; b.textContent = "Enviando…";
     $("erroEnvio").hidden = true;
-    chamar("enviar", { respostas: respostas }).then(function (r) {
-      if (r.json && r.json.ok) { try { sessionStorage.removeItem(CHAVE); } catch (e) {} mostrar("tObrigado"); return; }
-      falhou((r.json && r.json.message) || "Não foi possível enviar agora. Tente novamente.");
+    var dados = { respostas: respostas };
+    if (secoes.length) dados.ficha = fichaParaEnviar();
+    chamar("enviar", dados).then(function (r) {
+      var j = r.json || {};
+      if (j.ok) { try { sessionStorage.removeItem(CHAVE); } catch (e) {} mostrar("tObrigado"); return; }
+      if (j.error === "perguntas_incompletas" && Array.isArray(j.faltando)) {
+        liberar();
+        if (irParaFaltando(j.faltando)) return;
+      }
+      falhou(j.message || "Não foi possível enviar agora. Tente novamente.");
     }).catch(function () { falhou("Sem conexão. Confira sua internet e tente novamente."); });
   });
 
-  function falhou(msg) {
+  function liberar() {
     enviando = false;
     var b = $("btnEnviar"); b.disabled = false; b.textContent = "Enviar respostas";
+  }
+  function falhou(msg) {
+    liberar();
     $("erroEnvio").textContent = msg; $("erroEnvio").hidden = false;
   }
 })();

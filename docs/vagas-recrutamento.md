@@ -23,6 +23,7 @@ e arquivos.
 | `breathiva.webflow.io/vagas/disc/index.html` | Questionário DISC respondido pelo candidato |
 | `api/vagas/disc.js` | Abre e recebe o DISC pelo link do candidato |
 | `api/_lib/disc.js` | Frases do DISC e cálculo do perfil (gabarito nunca sai do servidor) |
+| `api/_lib/questionario.js` | Perguntas da ficha que a candidata responde pelo link, antes do DISC |
 | `supabase/migrations/20260922162422_entrevista_e_disc.sql` | Tabelas `job_interviews` e `job_disc` |
 | `supabase/migrations/20261109120000_pastas_de_candidaturas.sql` | Tabela `job_folders` e coluna `job_applications.folder_id` |
 
@@ -219,12 +220,32 @@ bytes e devolve `https://www.institutobrunaaguiar.com.br/vagas/disc/?t=<token>`,
 mais um link de WhatsApp com a mensagem pronta. O link vale 30 dias, só pode ser
 respondido uma vez, e "Gerar novo link" cancela o anterior.
 
+**Perguntas da ficha no mesmo link.** Antes do DISC, a página do link pede as
+seções 2 (Experiência profissional), 4 (Perfil profissional), 5 (Situações
+práticas) e 6 (Disponibilidade) da ficha e a pergunta "Por que você acredita que
+seria uma boa pessoa para fazer parte do nosso time?". Uma seção por tela, todas
+obrigatórias ("Qual sistema?" só quando a resposta anterior é sim). Tudo é
+enviado junto no final, e o progresso fica no `sessionStorage` da aba até lá.
+
+- A lista está em `api/_lib/questionario.js`, com as **mesmas chaves e textos**
+  do `ROTEIRO` do painel. Mudou uma dessas perguntas no painel? Mude lá também.
+- No envio, `api/vagas/disc.js` grava as respostas na ficha (`job_interviews`)
+  **antes** de fechar o DISC. O que o RH já tinha preenchido vale mais: a
+  candidata só completa campos vazios. A chave `questionario_em` marca quando
+  ela enviou, e um link reenviado depois disso pede só o DISC.
+- O salvamento da ficha no painel não apaga essas respostas quando elas chegam
+  com a ficha aberta: as chaves da candidata que não vierem no pedido são
+  mantidas do banco.
+- No cartão: *Perguntas respondidas*. *Entrevista registrada* agora só aparece
+  quando o RH salvou a ficha (`updated_by` preenchido). Na ficha, um aviso diz
+  que aquelas respostas vieram da própria pessoa.
+
 **Convite pelo WhatsApp, direto do cartão.** Cada cartão da lista tem o botão
 *Convidar pelo WhatsApp* (some quando a pessoa já respondeu o DISC). Ele chama o
 mesmo `disc_gerar`, reaproveitando o link se ainda houver um válido, e abre o
 WhatsApp com o convite pronto: apresenta o Instituto, pede para confirmar a
 rotina da vaga (segunda a sexta, 8h às 18h, Asa Sul, disponibilidade de horário)
-e manda o link do questionário. O RH revisa o texto no WhatsApp antes de enviar.
+e manda o link (perguntas + questionário de perfil, cerca de 15 minutos). O RH revisa o texto no WhatsApp antes de enviar.
 Depois do clique, o cartão mostra *DISC enviado* e o botão vira *Reenviar
 convite*. O texto fica em `linkWhatsapp()` em `api/vagas/admin.js` e é o mesmo
 do botão da ficha: **se os dados da vaga mudarem, mude ali também.**
