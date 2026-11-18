@@ -196,6 +196,18 @@ seletor do topo, que vale para tudo abaixo):
   predominante e o **ranking por aderência**, que ordena por coluna e abre a
   ficha pelo nome.
 
+**Filtros.** Um cartão de filtros, acima dos números, vale para tudo abaixo:
+período da candidatura (hoje, 7 ou 30 dias, ou datas), andamento (não
+convidada, convidada sem resposta, respondeu), status, onde mora, aderência,
+fator DISC predominante, combinação DISC, "já trabalhou com…", experiência
+mínima e disponibilidade. As opções de região e combinação vêm da seleção
+inteira, para um filtro não esvaziar o outro. O servidor (`lerFiltros()`)
+aceita só valores de listas fechadas e ignora o resto. A lista do fim
+("Candidatas") mostra todas que passam no filtro: quem tem DISC primeiro, pela
+aderência, e as outras com o andamento no lugar. **Idade e sexo não são
+filtro**, por decisão de 18/11/2026: usar idade para escolher candidatas é
+prática discriminatória (Lei 9.029/95; CLT, art. 373-A).
+
 Os números são calculados no servidor (ação `analise` em `api/vagas/admin.js`):
 o navegador recebe só os agregados e uma linha curta por candidata com DISC
 respondido, nunca as respostas completas. **Sexo e idade ficam de fora de

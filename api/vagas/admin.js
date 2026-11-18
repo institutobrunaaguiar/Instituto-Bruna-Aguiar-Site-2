@@ -22,7 +22,7 @@ const {
   clientIpHash,
   methodGuard,
 } = require("../_lib/recrutamento");
-const { PERFIS, interpretar } = require("../_lib/disc");
+const { PERFIS, COMBINACOES, interpretar } = require("../_lib/disc");
 const questionario = require("../_lib/questionario");
 
 const {
@@ -294,9 +294,55 @@ function regiao(bairro, cidade, estado) {
 
 const DIA_BR = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit" });
 
+// Filtros aceitos (todos opcionais). Cada valor é conferido contra uma lista
+// fechada: o que não for reconhecido é ignorado. Idade e sexo não são filtro
+// de propósito (Lei 9.029/95; CLT, art. 373-A).
+const DIA_RE = /^\d{4}-\d{2}-\d{2}$/;
+function lerFiltros(f) {
+  const e = f && typeof f === "object" && !Array.isArray(f) ? f : {};
+  const um = function (v, lista) { return lista.indexOf(v) >= 0 ? v : null; };
+  const saida = {
+    de: DIA_RE.test(String(e.de || "")) ? e.de : null,
+    ate: DIA_RE.test(String(e.ate || "")) ? e.ate : null,
+    andamento: um(e.andamento, ["nao_convidada", "convidada", "respondeu"]),
+    status: um(e.status, STATUS_VALIDOS),
+    regiao: typeof e.regiao === "string" && e.regiao.length <= 80 ? e.regiao : null,
+    fator: um(e.fator, ["D", "I", "S", "C"]),
+    sigla: um(e.sigla, Object.keys(COMBINACOES)),
+    aderencia: um(e.aderencia, ["alta", "média", "baixa", "alta_media"]),
+    experiencia: um(e.experiencia, EXPERIENCIAS.map(function (x) { return x[0]; })),
+    tempoMin: um(e.tempoMin, TEMPO_EXP.slice(1)),
+    disponibilidade: um(e.disponibilidade, ["disp_presencial", "disp_sabados", "nao_trabalhando"]),
+  };
+  // o período (de/até) conta como um filtro só
+  saida.ativos = Object.keys(saida).filter(function (k) { return k !== "de" && k !== "ate" && saida[k] !== null; }).length +
+    (saida.de || saida.ate ? 1 : 0);
+  return saida;
+}
+
+function passa(r, f) {
+  if (f.de && r.dia < f.de) return false;
+  if (f.ate && r.dia > f.ate) return false;
+  if (f.andamento && r.andamento !== f.andamento) return false;
+  if (f.status && r.status !== f.status) return false;
+  if (f.regiao && r.regiao !== f.regiao) return false;
+  if (f.fator && (!r.L || r.L.dominante !== f.fator)) return false;
+  if (f.sigla && (!r.L || r.L.sigla !== f.sigla)) return false;
+  if (f.aderencia) {
+    if (!r.L) return false;
+    if (f.aderencia === "alta_media" ? r.L.nivelAderencia === "baixa" : r.L.nivelAderencia !== f.aderencia) return false;
+  }
+  if (f.experiencia && r.resp[f.experiencia] !== "sim") return false;
+  if (f.tempoMin && TEMPO_EXP.indexOf(r.resp.exp_tempo) < TEMPO_EXP.indexOf(f.tempoMin)) return false;
+  if (f.disponibilidade === "nao_trabalhando" ? r.resp.trabalhando !== "nao"
+    : f.disponibilidade && r.resp[f.disponibilidade] !== "sim") return false;
+  return true;
+}
+
 async function analise(res, cfg, body) {
   const pasta = cleanText(body.pasta, 40);
   const filtroPasta = UUID_RE.test(pasta) ? `folder_id=eq.${pasta}` : "folder_id=is.null";
+  const filtros = lerFiltros(body.filtros);
   const campos = "id,nome_completo,bairro,cidade,estado,status,created_at," +
     "job_interviews(respostas,updated_by),job_disc(status,resultado,concluido_em)";
 
@@ -313,6 +359,47 @@ async function analise(res, cfg, body) {
     if (pagina.length < 1000) break;
   }
 
+  // 1. um registro por candidatura, com o que os filtros e os gráficos usam
+  const registros = linhas.map(function (l) {
+    const ent = Array.isArray(l.job_interviews) ? l.job_interviews[0] : l.job_interviews;
+    const discs = (l.job_disc || []).filter(function (d) { return d.status !== "cancelado"; });
+    const feito = discs.filter(function (d) { return d.status === "concluido" && d.resultado; })
+      .sort(function (a, b) { return String(b.concluido_em).localeCompare(String(a.concluido_em)); })[0];
+    return {
+      id: l.id,
+      nome: l.nome_completo,
+      status: l.status,
+      created_at: l.created_at,
+      dia: DIA_BR.format(new Date(l.created_at)),
+      regiao: regiao(l.bairro, l.cidade, l.estado),
+      resp: (ent && ent.respostas) || {},
+      entrevista: Boolean(ent && ent.updated_by),
+      andamento: feito ? "respondeu" : (discs.length ? "convidada" : "nao_convidada"),
+      L: feito ? interpretar(feito.resultado) : null,
+    };
+  });
+
+  // 2. opções dos menus: vêm da seleção inteira, para um filtro não esvaziar o outro
+  const contagem = function (lista, chave) {
+    const m = {};
+    lista.forEach(function (r) { const k = chave(r); if (k) m[k] = (m[k] || 0) + 1; });
+    return m;
+  };
+  const porRegiao = contagem(registros, function (r) { return r.regiao === "Não informado" ? null : r.regiao; });
+  const porSigla = contagem(registros, function (r) { return r.L ? r.L.sigla : null; });
+  const dias = registros.map(function (r) { return r.dia; }).sort();
+  const opcoes = {
+    regioes: Object.keys(porRegiao).sort(function (a, b) { return porRegiao[b] - porRegiao[a] || a.localeCompare(b, "pt-BR"); })
+      .map(function (k) { return { valor: k, total: porRegiao[k] }; }),
+    combinacoes: Object.keys(porSigla).sort(function (a, b) { return porSigla[b] - porSigla[a] || a.localeCompare(b); })
+      .map(function (k) { return { valor: k, nome: COMBINACOES[k] || "", total: porSigla[k] }; }),
+    primeiroDia: dias[0] || null,
+    ultimoDia: dias[dias.length - 1] || null,
+  };
+
+  // 3. filtra e agrega
+  const sel = registros.filter(function (r) { return passa(r, filtros); });
+
   const porStatus = {};
   STATUS_VALIDOS.forEach(function (s) { porStatus[s] = 0; });
   const porDia = {};
@@ -324,26 +411,21 @@ async function analise(res, cfg, body) {
   const auto = AUTOAVALIACAO.map(function (par) { return { chave: par[0], nome: par[1], soma: 0, base: 0 }; });
   const dominante = { D: 0, I: 0, S: 0, C: 0 };
   const nivel = { baixa: 0, "média": 0, alta: 0 };
-  let convidadas = 0, responderam = 0, perguntas = 0, entrevistas = 0, somaAderencia = 0;
-  const ranking = [];
+  let convidadas = 0, responderam = 0, entrevistas = 0, somaAderencia = 0;
+  const lista = [];
 
-  linhas.forEach(function (l) {
-    porStatus[l.status] = (porStatus[l.status] || 0) + 1;
-    const dia = DIA_BR.format(new Date(l.created_at));
-    porDia[dia] = (porDia[dia] || 0) + 1;
-
-    const lugar = regiao(l.bairro, l.cidade, l.estado);
-    const chaveLugar = SEM_ACENTO(lugar);
-    if (!locais[chaveLugar]) locais[chaveLugar] = { nome: lugar, total: 0 };
+  sel.forEach(function (r) {
+    const resp = r.resp;
+    porStatus[r.status] = (porStatus[r.status] || 0) + 1;
+    porDia[r.dia] = (porDia[r.dia] || 0) + 1;
+    const chaveLugar = SEM_ACENTO(r.regiao);
+    if (!locais[chaveLugar]) locais[chaveLugar] = { nome: r.regiao, total: 0 };
     locais[chaveLugar].total += 1;
+    if (r.entrevista) entrevistas += 1;
+    if (r.andamento !== "nao_convidada") convidadas += 1;
 
-    const ent = Array.isArray(l.job_interviews) ? l.job_interviews[0] : l.job_interviews;
-    const resp = (ent && ent.respostas) || {};
-    if (ent && ent.updated_by) entrevistas += 1;
-    if (resp.questionario_em) perguntas += 1;
-
-    const conta = function (lista) {
-      lista.forEach(function (x) {
+    const conta = function (itens) {
+      itens.forEach(function (x) {
         if (resp[x.chave] === "sim" || resp[x.chave] === "nao") { x.base += 1; if (resp[x.chave] === "sim") x.sim += 1; }
       });
     };
@@ -354,43 +436,41 @@ async function analise(res, cfg, body) {
     });
     if (tempo[resp.exp_tempo] !== undefined) tempo[resp.exp_tempo] += 1;
 
-    const discs = (l.job_disc || []).filter(function (d) { return d.status !== "cancelado"; });
-    if (discs.length) convidadas += 1;
-    const feito = discs.filter(function (d) { return d.status === "concluido" && d.resultado; })
-      .sort(function (a, b) { return String(b.concluido_em).localeCompare(String(a.concluido_em)); })[0];
-    if (!feito) return;
-    responderam += 1;
-    const L = interpretar(feito.resultado);
-    if (!L) return;
-    dominante[L.dominante] += 1;
-    nivel[L.nivelAderencia] += 1;
-    somaAderencia += L.aderencia;
+    const L = r.L;
+    if (r.andamento === "respondeu") responderam += 1;
+    if (L) {
+      dominante[L.dominante] += 1;
+      nivel[L.nivelAderencia] += 1;
+      somaAderencia += L.aderencia;
+    }
     const notas = AUTOAVALIACAO.map(function (par) { return Number(resp[par[0]]); }).filter(Number.isFinite);
-    ranking.push({
-      id: l.id,
-      nome: l.nome_completo,
-      status: l.status,
-      aderencia: L.aderencia,
-      nivel: L.nivelAderencia,
-      sigla: L.sigla,
-      combinacao: L.combinacao,
+    lista.push({
+      id: r.id,
+      nome: r.nome,
+      status: r.status,
+      created_at: r.created_at,
+      andamento: r.andamento,
+      aderencia: L ? L.aderencia : null,
+      nivel: L ? L.nivelAderencia : null,
+      sigla: L ? L.sigla : null,
+      combinacao: L ? L.combinacao : null,
       recepcao: resp.exp_recepcao || null,
       clinica: resp.exp_clinica || null,
       tempo: resp.exp_tempo || null,
       presencial: resp.disp_presencial || null,
       autoavaliacao: notas.length ? Math.round((notas.reduce(function (a, b) { return a + b; }, 0) / notas.length) * 10) / 10 : null,
-      local: lugar === "Não informado" ? null : lugar,
+      local: r.regiao === "Não informado" ? null : r.regiao,
     });
   });
 
   // dias corridos do primeiro ao último, com zero onde não chegou ninguém
-  const dias = Object.keys(porDia).sort();
+  const diasSel = Object.keys(porDia).sort();
   const serie = [];
-  if (dias.length) {
-    for (let d = new Date(dias[0] + "T12:00:00Z"); ; d.setUTCDate(d.getUTCDate() + 1)) {
+  if (diasSel.length) {
+    for (let d = new Date(diasSel[0] + "T12:00:00Z"); ; d.setUTCDate(d.getUTCDate() + 1)) {
       const k = d.toISOString().slice(0, 10);
       serie.push({ dia: k, total: porDia[k] || 0 });
-      if (k >= dias[dias.length - 1] || serie.length > 400) break;
+      if (k >= diasSel[diasSel.length - 1] || serie.length > 400) break;
     }
   }
 
@@ -401,16 +481,27 @@ async function analise(res, cfg, body) {
     .reduce(function (a, x) { return a + x.total; }, 0);
   if (resto) topo.push({ nome: "Outros lugares", total: resto });
 
-  ranking.sort(function (a, b) { return b.aderencia - a.aderencia || a.nome.localeCompare(b.nome, "pt-BR"); });
+  // quem tem DISC primeiro (maior aderência), depois as mais recentes
+  lista.sort(function (a, b) {
+    if (a.aderencia !== null || b.aderencia !== null) {
+      if (a.aderencia === null) return 1;
+      if (b.aderencia === null) return -1;
+      if (b.aderencia !== a.aderencia) return b.aderencia - a.aderencia;
+    }
+    return String(b.created_at).localeCompare(String(a.created_at));
+  });
+  const comDisc = lista.filter(function (x) { return x.aderencia !== null; });
 
   return res.status(200).json({
     ok: true,
-    total: linhas.length,
+    totalSelecao: registros.length,
+    filtrosAtivos: filtros.ativos,
+    opcoes: opcoes,
+    total: sel.length,
     convidadas: convidadas,
     responderam: responderam,
-    perguntas: perguntas,
     entrevistas: entrevistas,
-    aderenciaMedia: ranking.length ? Math.round(somaAderencia / ranking.length) : null,
+    aderenciaMedia: comDisc.length ? Math.round(somaAderencia / comDisc.length) : null,
     porStatus: porStatus,
     porDia: serie,
     locais: topo,
@@ -420,7 +511,7 @@ async function analise(res, cfg, body) {
     tempo: TEMPO_EXP.map(function (t) { return { nome: t, total: tempo[t] }; }),
     dominante: ["D", "I", "S", "C"].map(function (f) { return { fator: f, nome: PERFIS[f].nome, total: dominante[f] }; }),
     nivel: [["alta", "Alta"], ["média", "Média"], ["baixa", "Baixa"]].map(function (p) { return { nivel: p[0], nome: p[1], total: nivel[p[0]] }; }),
-    ranking: ranking,
+    lista: lista,
   });
 }
 

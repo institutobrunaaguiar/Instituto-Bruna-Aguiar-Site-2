@@ -274,9 +274,27 @@
   table.viz td.nome small,table.viz .perfil small{display:block;color:var(--muted);font-size:.75rem;font-weight:400;margin-top:.1rem}
   table.viz td.perfil{min-width:8.5rem}
   table.viz td.tempo{white-space:nowrap}
+  table.viz .sem-disc{font-size:.8125rem;color:var(--muted);white-space:nowrap}
   table.viz .ader{display:flex;align-items:center;gap:.5rem;white-space:nowrap;font-variant-numeric:tabular-nums}
   table.viz .ader .trilho{width:3.5rem;height:8px;border-radius:4px;background:var(--viz-trilho);flex:0 0 3.5rem}
   table.viz .ader .trilho i{display:block;height:100%;border-radius:0 4px 4px 0}
+
+  /* filtros da análise */
+  .filtros-cab{display:flex;align-items:center;flex-wrap:wrap;gap:.4rem 1rem;margin-bottom:.8rem}
+  .filtros-cab h3{margin:0}
+  .resumo-filtro{font-size:.875rem;color:var(--muted);margin:0;flex:1;min-width:12rem}
+  .resumo-filtro b{color:var(--green);font-weight:500}
+  .filtros-grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,11.5rem),1fr));gap:.7rem .6rem}
+  @media (max-width:560px){ .filtros-grade{grid-template-columns:repeat(2,minmax(0,1fr))} .filtro .datas{grid-template-columns:1fr} }
+  .filtro{display:flex;flex-direction:column;gap:.3rem;min-width:0}
+  .filtro > label{font-size:.75rem;color:var(--muted)}
+  .filtro .field{padding:.6rem .8rem;font-size:.875rem;width:100%}
+  .filtro select.field{padding-right:2.1rem}
+  .filtro.ativo > label{color:var(--green);font-weight:500}
+  .filtro.ativo .field{border-color:var(--gold)}
+  .filtro .datas{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-top:.3rem}
+  .mais-lista{text-align:center;margin-top:.9rem}
+  .nota-filtro{font-size:.8125rem;color:var(--muted);margin:.8rem 0 0}
 
   .viz-tip{position:fixed;z-index:60;pointer-events:none;background:#fff;border:1px solid var(--border);border-radius:10px;
     padding:.45rem .7rem;box-shadow:0 8px 24px rgba(31,42,28,.12);font-size:.8125rem;color:var(--muted);max-width:16rem}
@@ -539,6 +557,15 @@
         <select class="field pasta" id="anaPasta"><option value="">Seleção atual</option></select>
         <button class="btn btn-sec btn-peq" type="button" id="anaAtualizar">Atualizar</button>
       </div>
+      <section class="viz-card filtros-ana" aria-labelledby="anaFiltrosTitulo">
+        <div class="filtros-cab">
+          <h3 id="anaFiltrosTitulo">Filtros</h3>
+          <p class="resumo-filtro" id="anaResumo" aria-live="polite"></p>
+          <button class="btn btn-sec btn-peq" type="button" id="anaLimpar" hidden>Limpar filtros</button>
+        </div>
+        <div class="filtros-grade" id="anaFiltros"></div>
+        <p class="nota-filtro">Aderência, DISC, experiência e disponibilidade só existem para quem já respondeu o link do convite.</p>
+      </section>
       <div id="anaCorpo"></div>
     </section>
   </main>
@@ -664,6 +691,8 @@
     $("listaCodigos").innerHTML = "";
     $("anaCorpo").innerHTML = "";
     anaDados = null;
+    if (filtrosMontados) limparFiltros();
+    $("anaResumo").textContent = "";
     $("contagem").textContent = "";
     $("atualizadoEm").textContent = "";
     $("avisoNovas").hidden = true;
@@ -1149,6 +1178,106 @@
   // Uma série por gráfico, no verde validado; a aderência usa a escala
   // ordenada baixa→alta. Todo valor aparece escrito: a dica do mouse só repete.
   var anaDados = null, anaSeq = 0, anaOrdem = { campo: "aderencia", desc: true };
+  var anaFiltros = {}, anaMostrar = 50, filtrosMontados = false;
+
+  // Menus de filtro. Idade e sexo não entram de propósito (Lei 9.029/95; CLT, art. 373-A).
+  // "dinamico": as opções vêm dos dados da seleção (regiões e combinações que existem nela).
+  var FILTROS = [
+    { k: "periodo", rot: "Período da candidatura", op: [["", "Todo o período"], ["hoje", "Hoje"], ["7", "Últimos 7 dias"], ["30", "Últimos 30 dias"], ["datas", "Escolher datas…"]] },
+    { k: "andamento", rot: "Andamento", op: [["", "Todas"], ["nao_convidada", "Ainda não convidadas"], ["convidada", "Convidadas, sem resposta"], ["respondeu", "Responderam o DISC"]] },
+    { k: "status", rot: "Status no painel", op: [["", "Todos"]].concat(Object.keys(STATUS).map(function (s) { return [s, STATUS[s]]; })) },
+    { k: "regiao", rot: "Onde mora", dinamico: true, op: [["", "Todas as regiões"]] },
+    { k: "aderencia", rot: "Aderência à vaga", op: [["", "Qualquer"], ["alta", "Alta (80% ou mais)"], ["alta_media", "Alta ou média"], ["média", "Média (65% a 79%)"], ["baixa", "Baixa (abaixo de 65%)"]] },
+    { k: "fator", rot: "Fator DISC predominante", op: [["", "Qualquer"], ["D", "D · Dominância"], ["I", "I · Influência"], ["S", "S · Estabilidade"], ["C", "C · Conformidade"]] },
+    { k: "sigla", rot: "Combinação DISC", dinamico: true, op: [["", "Qualquer"]] },
+    { k: "experiencia", rot: "Já trabalhou com", op: [["", "Qualquer"], ["exp_recepcao", "Recepção"], ["exp_atendimento", "Atendimento ao público"],
+      ["exp_whatsapp", "Atendimento pelo WhatsApp"], ["exp_clinica", "Clínica, consultório ou estética"], ["exp_administrativo", "Área administrativa"],
+      ["exp_sistema", "Sistema de agenda ou CRM"], ["exp_vendas", "Vendas"], ["exp_metas", "Metas"]] },
+    { k: "tempoMin", rot: "Experiência profissional", op: [["", "Qualquer"], ["Menos de 1 ano", "Alguma experiência"], ["De 1 a 2 anos", "1 ano ou mais"],
+      ["De 3 a 5 anos", "3 anos ou mais"], ["Mais de 5 anos", "Mais de 5 anos"]] },
+    { k: "disponibilidade", rot: "Disponibilidade", op: [["", "Qualquer"], ["disp_presencial", "Trabalho presencial"], ["disp_sabados", "Trabalha aos sábados"],
+      ["nao_trabalhando", "Não está trabalhando hoje"]] }
+  ];
+  var HOJE_BR = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit" });
+  function diaMenos(iso, n) { var d = new Date(iso + "T12:00:00Z"); d.setUTCDate(d.getUTCDate() - n); return d.toISOString().slice(0, 10); }
+
+  function montarFiltros() {
+    if (filtrosMontados) return;
+    filtrosMontados = true;
+    var grade = $("anaFiltros");
+    FILTROS.forEach(function (f) {
+      var box = el("div", "filtro"); box.id = "filtro_" + f.k;
+      var lab = el("label", "", f.rot); lab.htmlFor = "ana_" + f.k;
+      var sel = el("select", "field"); sel.id = "ana_" + f.k;
+      f.op.forEach(function (o) { var op = el("option", "", o[1]); op.value = o[0]; sel.appendChild(op); });
+      sel.addEventListener("change", function () {
+        if (f.k === "periodo") { $("filtro_periodo").querySelector(".datas").hidden = sel.value !== "datas"; if (sel.value === "datas") return; }
+        lerFiltrosDaTela(); anaMostrar = 50; carregarAnalise();
+      });
+      box.appendChild(lab); box.appendChild(sel);
+      if (f.k === "periodo") {
+        var datas = el("div", "datas"); datas.hidden = true;
+        ["de", "ate"].forEach(function (q) {
+          var i = el("input", "field"); i.type = "date"; i.id = "ana_" + q;
+          i.setAttribute("aria-label", q === "de" ? "Desde o dia" : "Até o dia");
+          i.addEventListener("change", function () { lerFiltrosDaTela(); anaMostrar = 50; carregarAnalise(); });
+          datas.appendChild(i);
+        });
+        box.appendChild(datas);
+      }
+      grade.appendChild(box);
+    });
+  }
+
+  // Lê os menus para o objeto que vai ao servidor.
+  function lerFiltrosDaTela() {
+    var f = {};
+    FILTROS.forEach(function (x) { if (x.k !== "periodo") { var v = $("ana_" + x.k).value; if (v) f[x.k] = v; } });
+    var per = $("ana_periodo").value, hoje = HOJE_BR.format(new Date());
+    if (per === "hoje") { f.de = hoje; f.ate = hoje; }
+    else if (per === "7" || per === "30") { f.de = diaMenos(hoje, Number(per) - 1); f.ate = hoje; }
+    else if (per === "datas") { if ($("ana_de").value) f.de = $("ana_de").value; if ($("ana_ate").value) f.ate = $("ana_ate").value; }
+    anaFiltros = f;
+    FILTROS.forEach(function (x) { $("filtro_" + x.k).classList.toggle("ativo", Boolean($("ana_" + x.k).value)); });
+  }
+
+  // Regiões e combinações vêm da seleção inteira. Se a escolhida sumir (outra pasta), ela fica no menu com (0).
+  function atualizarOpcoes(opcoes) {
+    if (!opcoes) return;
+    [["regiao", (opcoes.regioes || []).map(function (r) { return [r.valor, r.valor + " (" + r.total + ")"]; })],
+     ["sigla", (opcoes.combinacoes || []).map(function (c) { return [c.valor, c.valor + (c.nome ? " · " + c.nome : "") + " (" + c.total + ")"]; })]
+    ].forEach(function (par) {
+      var sel = $("ana_" + par[0]), atual = sel.value, primeira = sel.options[0];
+      sel.innerHTML = ""; sel.appendChild(primeira);
+      par[1].forEach(function (o) { var op = el("option", "", o[1]); op.value = o[0]; sel.appendChild(op); });
+      if (atual && !par[1].some(function (o) { return o[0] === atual; })) { var z = el("option", "", atual + " (0)"); z.value = atual; sel.appendChild(z); }
+      sel.value = atual;
+    });
+    if (opcoes.primeiroDia) { $("ana_de").min = $("ana_ate").min = opcoes.primeiroDia; }
+    if (opcoes.ultimoDia) { $("ana_de").max = $("ana_ate").max = opcoes.ultimoDia; }
+  }
+
+  function limparFiltros() {
+    FILTROS.forEach(function (x) { $("ana_" + x.k).value = ""; });
+    $("ana_de").value = ""; $("ana_ate").value = "";
+    $("filtro_periodo").querySelector(".datas").hidden = true;
+    lerFiltrosDaTela(); anaMostrar = 50;
+  }
+  $("anaLimpar").addEventListener("click", function () { limparFiltros(); carregarAnalise(); });
+
+  function resumoFiltros(d) {
+    var r = $("anaResumo");
+    r.innerHTML = "";
+    if (d.filtrosAtivos) {
+      r.appendChild(document.createTextNode("Mostrando "));
+      r.appendChild(el("b", "", String(d.total)));
+      r.appendChild(document.createTextNode(" de " + d.totalSelecao + " candidaturas da seleção · " +
+        d.filtrosAtivos + (d.filtrosAtivos === 1 ? " filtro ativo" : " filtros ativos")));
+    } else {
+      r.textContent = d.totalSelecao + " candidaturas na seleção, sem filtro.";
+    }
+    $("anaLimpar").hidden = !d.filtrosAtivos;
+  }
   var NIVEL_COR = { alta: "var(--ord-alta)", "média": "var(--ord-media)", baixa: "var(--ord-baixa)" };
   var NIVEL_TEXTO = { alta: "#fff", "média": "#fff", baixa: "#1f2a1c" }; // texto dentro do bloco, pelo tom do fundo
 
@@ -1167,9 +1296,15 @@
     sel.value = escolhida;
     if (sel.value !== escolhida) sel.value = "";
     sel.hidden = origem.hidden;
+    montarFiltros();
     carregarAnalise();
   }
-  $("anaPasta").addEventListener("change", carregarAnalise);
+  // outra pasta: região, combinação e período deixam de fazer sentido; o resto fica
+  $("anaPasta").addEventListener("change", function () {
+    ["regiao", "sigla", "periodo"].forEach(function (k) { $("ana_" + k).value = ""; });
+    $("ana_de").value = ""; $("ana_ate").value = ""; $("filtro_periodo").querySelector(".datas").hidden = true;
+    lerFiltrosDaTela(); anaMostrar = 50; carregarAnalise();
+  });
   $("anaAtualizar").addEventListener("click", carregarAnalise);
 
   function carregarAnalise() {
@@ -1178,12 +1313,14 @@
     // recarregando: o desenho anterior fica, mais claro, até chegar o novo
     if (anaDados) corpo.classList.add("recarregando");
     else corpo.innerHTML = '<p class="carregando">Carregando a análise…</p>';
-    return chamar("analise", { pasta: $("anaPasta").value }).then(function (r) {
+    return chamar("analise", { pasta: $("anaPasta").value, filtros: anaFiltros }).then(function (r) {
       if (minha !== anaSeq) return;
       corpo.classList.remove("recarregando");
       if (r.status === 401) return sessaoCaiu();
       if (!r.json || !r.json.ok) { anaDados = null; corpo.innerHTML = '<p class="vazio">Não foi possível carregar a análise agora.</p>'; return; }
       anaDados = r.json;
+      atualizarOpcoes(r.json.opcoes);
+      resumoFiltros(r.json);
       desenharAnalise();
     }).catch(function () {
       if (minha !== anaSeq) return;
@@ -1317,14 +1454,19 @@
   function desenharAnalise() {
     var d = anaDados, corpo = $("anaCorpo");
     corpo.innerHTML = "";
-    if (!d.total) { corpo.appendChild(el("p", "vazio", "Nenhuma candidatura nesta seleção ainda.")); return; }
+    if (!d.total) {
+      corpo.appendChild(el("p", "vazio", d.totalSelecao ? "Nenhuma candidatura com esses filtros." : "Nenhuma candidatura nesta seleção ainda."));
+      return;
+    }
     var st = d.porStatus || {};
     var alta = (d.nivel.filter(function (n) { return n.nivel === "alta"; })[0] || {}).total || 0;
     var dias = d.porDia || [];
 
     // 1. números principais
     var k = el("div", "kpis");
-    k.appendChild(kpi("Candidaturas", d.total, dias.length ? "de " + diaCurto(dias[0].dia) + " a " + diaCurto(dias[dias.length - 1].dia) : "", true));
+    var periodo = dias.length ? "de " + diaCurto(dias[0].dia) + " a " + diaCurto(dias[dias.length - 1].dia) : "";
+    k.appendChild(kpi(d.filtrosAtivos ? "Candidaturas no filtro" : "Candidaturas", d.total,
+      d.filtrosAtivos ? pct(d.total, d.totalSelecao) + " das " + d.totalSelecao + " da seleção" : periodo, true));
     k.appendChild(kpi("Convidadas", d.convidadas, pct(d.convidadas, d.total) + " das candidaturas"));
     k.appendChild(kpi("Responderam", d.responderam, d.convidadas ? pct(d.responderam, d.convidadas) + " das convidadas" : "ninguém convidado ainda"));
     k.appendChild(kpi("Aderência alta", alta, d.responderam ? "de " + d.responderam + " com DISC · média " + d.aderenciaMedia + "%" : "sem DISC respondido"));
@@ -1396,10 +1538,10 @@
 
     // 6. DISC
     corpo.appendChild(el("h2", "viz-secao", "Perfil comportamental (DISC)"));
-    if (!d.responderam) {
-      corpo.appendChild(el("p", "viz-secao-sub", "Ninguém respondeu o DISC nesta seleção ainda."));
-      return;
-    }
+    var semDisc = !d.responderam;
+    if (semDisc) {
+      corpo.appendChild(el("p", "viz-secao-sub", d.filtrosAtivos ? "Ninguém com esses filtros respondeu o DISC." : "Ninguém respondeu o DISC nesta seleção ainda."));
+    } else {
     corpo.appendChild(el("p", "viz-secao-sub", d.responderam + (d.responderam === 1 ? " candidata respondeu." : " candidatas responderam.") +
       " O DISC mostra tendências, não define a pessoa: use junto com a entrevista."));
     var g4 = el("div", "viz-grade");
@@ -1413,10 +1555,12 @@
     })));
     g4.appendChild(dom);
     corpo.appendChild(g4);
+    }
 
-    // 7. ranking
-    var rk = card("Ranking por aderência", "Toque no título de uma coluna para ordenar e no nome para abrir a ficha com tudo o que ela respondeu.");
-    rk.appendChild(tabelaRanking(d.ranking));
+    // 7. lista de quem está no filtro
+    var rk = card(d.filtrosAtivos ? "Candidatas no filtro" : "Candidatas",
+      "Quem respondeu o DISC aparece primeiro, pela aderência. Toque no título de uma coluna para ordenar e no nome para abrir a ficha.");
+    rk.appendChild(tabelaRanking(d.lista || []));
     corpo.appendChild(rk);
   }
 
@@ -1447,14 +1591,15 @@
     var campo = anaOrdem.campo, sinal = anaOrdem.desc ? -1 : 1;
     var ordenada = lista.slice().sort(function (a, b) {
       var x = a[campo], y = b[campo];
-      if (x === null || x === undefined) return 1;
-      if (y === null || y === undefined) return -1;
-      var r = typeof x === "number" ? x - y : String(x).localeCompare(String(y), "pt-BR");
-      return r * sinal || b.aderencia - a.aderencia;
+      var semX = x === null || x === undefined, semY = y === null || y === undefined;
+      var r = semX && semY ? 0 : (semX ? 1 : (semY ? -1 : 0)); // sem valor vai para o fim, nos dois sentidos
+      if (!r && !semX) r = (typeof x === "number" ? x - y : String(x).localeCompare(String(y), "pt-BR")) * sinal;
+      // desempate: aderência maior, depois a mais recente
+      return r || ((b.aderencia || -1) - (a.aderencia || -1)) || String(b.created_at || "").localeCompare(String(a.created_at || ""));
     });
 
     var tb = el("tbody");
-    ordenada.forEach(function (c, i) {
+    ordenada.slice(0, anaMostrar).forEach(function (c, i) {
       var tr = el("tr");
       var tdN = el("td", "nome");
       if (fichaDisponivel) {
@@ -1465,11 +1610,17 @@
       } else tdN.appendChild(document.createTextNode(c.nome));
       tdN.appendChild(el("small", "", [c.local, STATUS[c.status] || c.status].filter(Boolean).join(" · ")));
       tr.appendChild(tdN);
-      var tdA = el("td"), a = el("div", "ader"), tr2 = el("span", "trilho"), f = el("i");
-      f.style.width = c.aderencia + "%"; f.style.background = NIVEL_COR[c.nivel];
-      tr2.appendChild(f); a.appendChild(tr2); a.appendChild(document.createTextNode(c.aderencia + "% · " + c.nivel));
-      tdA.appendChild(a); tr.appendChild(tdA);
-      var tdP = el("td", "perfil", c.sigla); if (c.combinacao) tdP.appendChild(el("small", "", c.combinacao)); tr.appendChild(tdP);
+      var tdA = el("td");
+      if (c.aderencia !== null && c.aderencia !== undefined) {
+        var a = el("div", "ader"), tr2 = el("span", "trilho"), f = el("i");
+        f.style.width = c.aderencia + "%"; f.style.background = NIVEL_COR[c.nivel];
+        tr2.appendChild(f); a.appendChild(tr2); a.appendChild(document.createTextNode(c.aderencia + "% · " + c.nivel));
+        tdA.appendChild(a);
+      } else {
+        tdA.appendChild(el("span", "sem-disc", c.andamento === "convidada" ? "Convidada, sem resposta" : "Ainda não convidada"));
+      }
+      tr.appendChild(tdA);
+      var tdP = el("td", "perfil", c.sigla || "–"); if (c.combinacao) tdP.appendChild(el("small", "", c.combinacao)); tr.appendChild(tdP);
       tr.appendChild(el("td", "", sn(c.recepcao)));
       tr.appendChild(el("td", "", sn(c.clinica)));
       tr.appendChild(el("td", "", sn(c.presencial)));
@@ -1478,6 +1629,12 @@
       tb.appendChild(tr);
     });
     t.appendChild(tb); w.appendChild(t);
+    if (ordenada.length > anaMostrar) {
+      var mais = el("div", "mais-lista");
+      var bm = el("button", "btn btn-sec btn-peq", "Mostrar mais (" + (ordenada.length - anaMostrar) + " restantes)"); bm.type = "button";
+      bm.addEventListener("click", function () { anaMostrar += 50; w.replaceWith(tabelaRanking(lista)); });
+      mais.appendChild(bm); w.appendChild(mais);
+    }
     return w;
   }
 
