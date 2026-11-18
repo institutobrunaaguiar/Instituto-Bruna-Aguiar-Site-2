@@ -192,6 +192,96 @@
   .form-codigo{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.5rem}
   .form-codigo .field{flex:1;min-width:12rem;padding:.7rem .9rem;font-size:.9375rem}
 
+  /* ------------------------------------------------------------ análise -- */
+  /* Cores validadas (dataviz/validate_palette.js): série única #3f7a3a e a
+     escala de aderência baixa→alta #93b386, #5e8a52, #2f5a2a sobre #fff. */
+  :root{--viz-1:#3f7a3a;--viz-1-hover:#4f8f49;--viz-trilho:#e6ede2;--grade:#eceee8;
+    --ord-baixa:#93b386;--ord-media:#5e8a52;--ord-alta:#2f5a2a}
+  #anaCorpo{transition:opacity .2s ease}
+  #anaCorpo.recarregando{opacity:.5}
+  .kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem;margin-bottom:.8rem}
+  .kpi{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:1rem 1.1rem;min-width:0}
+  .kpi .rot{font-size:.8125rem;color:var(--muted)}
+  .kpi .val{font-family:var(--body);font-weight:500;font-size:2rem;line-height:1.1;color:var(--green);margin-top:.3rem}
+  .kpi.hero{grid-column:1/-1}
+  @media (min-width:760px){ .kpis{grid-template-columns:1.4fr repeat(4,minmax(0,1fr))} .kpi.hero{grid-column:auto} }
+  .kpi.hero .val{font-size:3rem}
+  .kpi .det{font-size:.8125rem;color:var(--muted);margin-top:.3rem}
+  .viz-grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,25rem),1fr));gap:.8rem;margin-bottom:.8rem}
+  .viz-card{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:1.1rem 1.2rem;margin-bottom:.8rem;min-width:0}
+  .viz-grade .viz-card{margin-bottom:0}
+  .viz-card h3{font-family:var(--head);font-weight:400;color:var(--green);font-size:1.2rem;margin:0}
+  .viz-card .sub{font-size:.8125rem;color:var(--muted);margin:.2rem 0 .9rem}
+  .viz-secao{font-family:var(--head);color:var(--green);font-size:1.4rem;font-weight:400;margin:1.8rem 0 .25rem}
+  .viz-secao-sub{font-size:.875rem;color:var(--muted);margin:0 0 .8rem}
+  .viz-vazio{font-size:.875rem;color:var(--muted);padding:.4rem 0}
+
+  /* linhas com barra: medidor (com trilho) ou barra simples (sem trilho) */
+  .linha-viz{display:grid;grid-template-columns:minmax(0,13rem) minmax(0,1fr) auto;align-items:center;gap:.3rem .8rem;padding:.3rem 0}
+  .linha-viz .nome{font-size:.875rem;color:var(--text);overflow-wrap:anywhere}
+  .linha-viz .trilho{height:10px;border-radius:4px;background:var(--viz-trilho)}
+  .linha-viz.sem-trilho .trilho{background:none}
+  .linha-viz .trilho i{display:block;height:100%;background:var(--viz-1);border-radius:0 4px 4px 0;max-width:100%}
+  .linha-viz:hover .trilho i{background:var(--viz-1-hover)}
+  .linha-viz .num{font-size:.875rem;color:var(--green);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right;min-width:5.5rem}
+  .linha-viz .num small{color:var(--muted);font-size:.8125rem;margin-left:.3rem}
+  @media (max-width:560px){
+    .linha-viz{grid-template-columns:minmax(0,1fr) auto}
+    .linha-viz .trilho{grid-column:1/-1;grid-row:2}
+    .eixo-x span.fina{visibility:hidden}
+  }
+
+  /* colunas: candidaturas por dia */
+  .colunas{position:relative;height:170px;margin:1.6rem 0 0 2.1rem}
+  .colunas .grade{position:absolute;left:0;right:0;height:0;border-top:1px solid var(--grade)}
+  .colunas .grade.base{border-top-color:#d9ddd3}
+  .colunas .grade span{position:absolute;right:calc(100% + .45rem);top:-.5rem;font-size:.6875rem;color:var(--muted);font-variant-numeric:tabular-nums}
+  .colunas .faixa{position:absolute;inset:0;display:flex;align-items:stretch;gap:2px}
+  .colunas .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;outline:none;min-width:0}
+  .colunas .col i{display:block;width:min(24px,75%);background:var(--viz-1);border-radius:4px 4px 0 0}
+  .colunas .col:hover i,.colunas .col:focus-visible i{background:var(--viz-1-hover)}
+  .colunas .col:focus-visible{box-shadow:inset 0 0 0 2px var(--gold);border-radius:4px}
+  .colunas .col .rotulo{font-size:.75rem;color:var(--green);font-weight:500;margin-bottom:.2rem;font-variant-numeric:tabular-nums}
+  .eixo-x{display:flex;gap:2px;margin:.4rem 0 0 2.1rem}
+  .eixo-x span{flex:1;min-width:0;text-align:center;font-size:.6875rem;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .ver-tabela{margin-top:.9rem;font-size:.8125rem;color:var(--muted)}
+  .ver-tabela summary{cursor:pointer;width:max-content}
+  .ver-tabela .tabela-wrap{max-height:16rem;overflow:auto;margin-top:.5rem}
+
+  /* barra segmentada alta: aderência */
+  .segmentos{display:flex;gap:2px;height:28px;margin:.3rem 0 .75rem}
+  .segmentos > div{border-radius:4px;display:flex;align-items:center;padding-left:.5rem;font-size:.8125rem;font-weight:500;
+    min-width:0;white-space:nowrap;outline:none}
+  .segmentos > div:focus-visible{box-shadow:0 0 0 2px var(--gold)}
+  .legenda-viz{display:flex;flex-wrap:wrap;gap:.3rem 1.1rem;font-size:.8125rem;color:var(--text)}
+  .legenda-viz .sw{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:.4rem;vertical-align:-1px}
+
+  /* tabela do ranking */
+  .tabela-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table.viz{width:100%;border-collapse:collapse;font-size:.875rem}
+  table.viz.larga{min-width:46rem}
+  table.viz th{text-align:left;font-weight:500;color:var(--muted);font-size:.6875rem;text-transform:uppercase;letter-spacing:.08em;
+    padding:.5rem .55rem;border-bottom:1px solid var(--border);vertical-align:bottom;line-height:1.3}
+  table.viz th button{background:none;border:none;padding:0;font:inherit;color:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer}
+  table.viz th button:hover{color:var(--green)}
+  table.viz th[aria-sort] button{color:var(--green)}
+  table.viz td{padding:.55rem;border-bottom:1px solid var(--grade);vertical-align:middle;color:var(--text)}
+  table.viz td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+  table.viz td.nome{min-width:11rem}
+  table.viz td.nome button{background:none;border:none;padding:0;font:inherit;font-weight:500;color:var(--green);
+    text-align:left;cursor:pointer;text-decoration:underline;text-decoration-color:var(--border);text-underline-offset:3px}
+  table.viz td.nome button:hover{text-decoration-color:var(--gold)}
+  table.viz td.nome small,table.viz .perfil small{display:block;color:var(--muted);font-size:.75rem;font-weight:400;margin-top:.1rem}
+  table.viz td.perfil{min-width:8.5rem}
+  table.viz td.tempo{white-space:nowrap}
+  table.viz .ader{display:flex;align-items:center;gap:.5rem;white-space:nowrap;font-variant-numeric:tabular-nums}
+  table.viz .ader .trilho{width:3.5rem;height:8px;border-radius:4px;background:var(--viz-trilho);flex:0 0 3.5rem}
+  table.viz .ader .trilho i{display:block;height:100%;border-radius:0 4px 4px 0}
+
+  .viz-tip{position:fixed;z-index:60;pointer-events:none;background:#fff;border:1px solid var(--border);border-radius:10px;
+    padding:.45rem .7rem;box-shadow:0 8px 24px rgba(31,42,28,.12);font-size:.8125rem;color:var(--muted);max-width:16rem}
+  .viz-tip b{display:block;color:var(--green);font-size:.9375rem;font-weight:500}
+
   main{padding-bottom:4rem}
   .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
     clip:rect(0,0,0,0);white-space:nowrap;border:0}
@@ -362,6 +452,7 @@
   <main class="wrap">
     <div class="abas" role="tablist">
       <button class="aba" role="tab" id="abaCand" aria-selected="true" aria-controls="painelCand">Candidaturas</button>
+      <button class="aba" role="tab" id="abaAna" aria-selected="false" aria-controls="painelAna">Análise</button>
       <button class="aba" role="tab" id="abaCod" aria-selected="false" aria-controls="painelCod">Acessos</button>
     </div>
 
@@ -440,7 +531,18 @@
 
       <div id="listaCodigos"></div>
     </section>
+
+    <!-- ANÁLISE -->
+    <section id="painelAna" role="tabpanel" aria-labelledby="abaAna" hidden>
+      <div class="filtros">
+        <label class="sr-only" for="anaPasta">Seleção analisada</label>
+        <select class="field pasta" id="anaPasta"><option value="">Seleção atual</option></select>
+        <button class="btn btn-sec btn-peq" type="button" id="anaAtualizar">Atualizar</button>
+      </div>
+      <div id="anaCorpo"></div>
+    </section>
   </main>
+  <div class="viz-tip" id="vizTip" role="tooltip" hidden></div>
 </div>
 
 <!-- ============================================================== FICHA ==== -->
@@ -560,6 +662,8 @@
     fecharFicha(true);
     $("lista").innerHTML = "";
     $("listaCodigos").innerHTML = "";
+    $("anaCorpo").innerHTML = "";
+    anaDados = null;
     $("contagem").textContent = "";
     $("atualizadoEm").textContent = "";
     $("avisoNovas").hidden = true;
@@ -597,14 +701,16 @@
 
   // ---------------------------------------------------------- abas --------
   function trocarAba(qual) {
-    var cand = qual === "cand";
-    $("abaCand").setAttribute("aria-selected", String(cand));
-    $("abaCod").setAttribute("aria-selected", String(!cand));
-    $("painelCand").hidden = !cand;
-    $("painelCod").hidden = cand;
-    if (!cand) carregarCodigos();
+    [["cand", "abaCand", "painelCand"], ["ana", "abaAna", "painelAna"], ["cod", "abaCod", "painelCod"]].forEach(function (t) {
+      $(t[1]).setAttribute("aria-selected", String(t[0] === qual));
+      $(t[2]).hidden = t[0] !== qual;
+    });
+    $("vizTip").hidden = true;
+    if (qual === "cod") carregarCodigos();
+    if (qual === "ana") abrirAnalise();
   }
   $("abaCand").addEventListener("click", function () { trocarAba("cand"); });
+  $("abaAna").addEventListener("click", function () { trocarAba("ana"); });
   $("abaCod").addEventListener("click", function () { trocarAba("cod"); });
 
   // -------------------------------------------------- candidaturas --------
@@ -1037,6 +1143,371 @@
       if (aba) aba.close();
     });
   }
+
+  // ============================================================ ANÁLISE ===
+  // Dashboard da seleção: o servidor manda só os agregados (ação "analise").
+  // Uma série por gráfico, no verde validado; a aderência usa a escala
+  // ordenada baixa→alta. Todo valor aparece escrito: a dica do mouse só repete.
+  var anaDados = null, anaSeq = 0, anaOrdem = { campo: "aderencia", desc: true };
+  var NIVEL_COR = { alta: "var(--ord-alta)", "média": "var(--ord-media)", baixa: "var(--ord-baixa)" };
+  var NIVEL_TEXTO = { alta: "#fff", "média": "#fff", baixa: "#1f2a1c" }; // texto dentro do bloco, pelo tom do fundo
+
+  function pct(a, b) { return b ? Math.round((a * 100) / b) + "%" : "–"; }
+  function diaCurto(iso) { var p = String(iso).split("-"); return p[2] + "/" + p[1]; }
+  function diaLongo(iso) {
+    return new Date(iso + "T12:00:00Z").toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "2-digit", timeZone: "UTC" });
+  }
+  function sn(v) { return v === "sim" ? "Sim" : (v === "nao" ? "Não" : "–"); }
+  function decimal(n) { return n === null || n === undefined ? "–" : Number(n).toFixed(1).replace(".", ","); }
+
+  function abrirAnalise() {
+    // o seletor da análise repete as pastas do seletor da lista
+    var origem = $("filtroPasta"), sel = $("anaPasta"), escolhida = sel.value;
+    sel.innerHTML = origem.innerHTML;
+    sel.value = escolhida;
+    if (sel.value !== escolhida) sel.value = "";
+    sel.hidden = origem.hidden;
+    carregarAnalise();
+  }
+  $("anaPasta").addEventListener("change", carregarAnalise);
+  $("anaAtualizar").addEventListener("click", carregarAnalise);
+
+  function carregarAnalise() {
+    var minha = ++anaSeq, corpo = $("anaCorpo");
+    $("vizTip").hidden = true;
+    // recarregando: o desenho anterior fica, mais claro, até chegar o novo
+    if (anaDados) corpo.classList.add("recarregando");
+    else corpo.innerHTML = '<p class="carregando">Carregando a análise…</p>';
+    return chamar("analise", { pasta: $("anaPasta").value }).then(function (r) {
+      if (minha !== anaSeq) return;
+      corpo.classList.remove("recarregando");
+      if (r.status === 401) return sessaoCaiu();
+      if (!r.json || !r.json.ok) { anaDados = null; corpo.innerHTML = '<p class="vazio">Não foi possível carregar a análise agora.</p>'; return; }
+      anaDados = r.json;
+      desenharAnalise();
+    }).catch(function () {
+      if (minha !== anaSeq) return;
+      corpo.classList.remove("recarregando");
+      anaDados = null;
+      corpo.innerHTML = '<p class="vazio">Falha de conexão.</p>';
+    });
+  }
+
+  // ---- peças
+  function card(titulo, sub) {
+    var c = el("section", "viz-card");
+    c.appendChild(el("h3", "", titulo));
+    if (sub) c.appendChild(el("p", "sub", sub));
+    return c;
+  }
+  function kpi(rotulo, valor, detalhe, hero) {
+    var k = el("div", "kpi" + (hero ? " hero" : ""));
+    k.appendChild(el("div", "rot", rotulo));
+    k.appendChild(el("div", "val", String(valor)));
+    if (detalhe) k.appendChild(el("div", "det", detalhe));
+    return k;
+  }
+  // itens: { nome, frac (0 a 1), valor, detalhe, tip }. trilho=true para medidor.
+  function linhas(itens, trilho) {
+    var box = el("div");
+    itens.forEach(function (it) {
+      var l = el("div", "linha-viz" + (trilho ? "" : " sem-trilho"));
+      l.appendChild(el("span", "nome", it.nome));
+      var tr = el("span", "trilho");
+      var f = el("i"); f.style.width = Math.max(0, Math.min(1, it.frac || 0)) * 100 + "%";
+      tr.appendChild(f);
+      tr.setAttribute("data-tip-valor", it.valor + (it.detalhe ? " · " + it.detalhe : ""));
+      tr.setAttribute("data-tip-rotulo", it.nome);
+      l.appendChild(tr);
+      var num = el("span", "num", String(it.valor));
+      if (it.detalhe) num.appendChild(el("small", "", it.detalhe));
+      l.appendChild(num);
+      box.appendChild(l);
+    });
+    return box;
+  }
+  function escalaBoa(max) {
+    if (max <= 0) return 1;
+    var e = Math.pow(10, Math.floor(Math.log10(max)));
+    var passos = [1, 2, 5, 10].map(function (m) { return m * e; });
+    for (var i = 0; i < passos.length; i++) if (max / passos[i] <= 4) return Math.ceil(max / passos[i]) * passos[i];
+    return Math.ceil(max / (10 * e)) * 10 * e;
+  }
+  function colunas(serie) {
+    var box = el("div");
+    var max = serie.reduce(function (m, x) { return Math.max(m, x.total); }, 0);
+    var topo = escalaBoa(max);
+    var passo = topo / (topo <= 4 ? topo : 4);
+    var plot = el("div", "colunas");
+    for (var v = 0; v <= topo + 1e-9; v += passo) {
+      var g = el("div", "grade" + (v === 0 ? " base" : ""));
+      g.style.bottom = (v / topo) * 100 + "%";
+      g.appendChild(el("span", "", String(Math.round(v))));
+      plot.appendChild(g);
+    }
+    var faixa = el("div", "faixa");
+    var rotulouMax = false;
+    serie.forEach(function (x) {
+      var c = el("div", "col");
+      c.tabIndex = 0;
+      var frase = x.total === 1 ? "1 candidatura" : x.total + " candidaturas";
+      c.setAttribute("aria-label", diaLongo(x.dia) + ": " + frase);
+      c.setAttribute("data-tip-valor", frase);
+      c.setAttribute("data-tip-rotulo", diaLongo(x.dia));
+      // rótulo só no pico: o resto está no eixo, na dica e na tabela
+      if (!rotulouMax && x.total === max && max > 0) { c.appendChild(el("span", "rotulo", String(x.total))); rotulouMax = true; }
+      var b = el("i"); b.style.height = (x.total / topo) * 100 + "%";
+      if (!x.total) b.style.height = "0";
+      c.appendChild(b);
+      faixa.appendChild(c);
+    });
+    plot.appendChild(faixa);
+    box.appendChild(plot);
+    var eixo = el("div", "eixo-x");
+    var cada = Math.max(1, Math.ceil(serie.length / 9));
+    // no celular, metade das datas (classe "fina" some abaixo de 560px)
+    serie.forEach(function (x, i) {
+      var mostra = i % cada === 0 || i === serie.length - 1;
+      var fina = mostra && i % (2 * cada) !== 0;
+      eixo.appendChild(el("span", fina ? "fina" : "", mostra ? diaCurto(x.dia) : ""));
+    });
+    box.appendChild(eixo);
+    // gêmeo em tabela, para ler sem o mouse
+    var det = el("details", "ver-tabela");
+    det.appendChild(el("summary", "", "Ver em tabela"));
+    var w = el("div", "tabela-wrap"), t = el("table", "viz");
+    var th = el("tr"); th.appendChild(el("th", "", "Dia")); th.appendChild(el("th", "", "Candidaturas"));
+    var thead = el("thead"); thead.appendChild(th); t.appendChild(thead);
+    var tb = el("tbody");
+    serie.forEach(function (x) {
+      var tr = el("tr"); tr.appendChild(el("td", "", diaLongo(x.dia))); tr.appendChild(el("td", "n", String(x.total))); tb.appendChild(tr);
+    });
+    t.appendChild(tb); w.appendChild(t); det.appendChild(w); box.appendChild(det);
+    return box;
+  }
+  function segmentos(partes, total) {
+    var box = el("div");
+    var barra = el("div", "segmentos");
+    barra.setAttribute("role", "img");
+    barra.setAttribute("aria-label", partes.map(function (p) { return p.nome + ": " + p.total; }).join(", "));
+    partes.forEach(function (p) {
+      if (!p.total) return;
+      var b = el("div");
+      b.style.flex = String(p.total);
+      b.style.background = NIVEL_COR[p.nivel];
+      b.style.color = NIVEL_TEXTO[p.nivel];
+      b.tabIndex = 0;
+      b.setAttribute("aria-label", p.nome + ": " + p.total + " (" + pct(p.total, total) + ")");
+      b.setAttribute("data-tip-valor", p.total + " · " + pct(p.total, total));
+      b.setAttribute("data-tip-rotulo", "Aderência " + p.nome.toLowerCase());
+      if (p.total / total >= 0.12) b.textContent = String(p.total); // só escreve onde cabe
+      barra.appendChild(b);
+    });
+    box.appendChild(barra);
+    var leg = el("div", "legenda-viz");
+    partes.forEach(function (p) {
+      var i = el("span"); var sw = el("span", "sw"); sw.style.background = NIVEL_COR[p.nivel];
+      i.appendChild(sw); i.appendChild(document.createTextNode(p.nome + " (" + p.total + ")"));
+      leg.appendChild(i);
+    });
+    box.appendChild(leg);
+    return box;
+  }
+
+  function desenharAnalise() {
+    var d = anaDados, corpo = $("anaCorpo");
+    corpo.innerHTML = "";
+    if (!d.total) { corpo.appendChild(el("p", "vazio", "Nenhuma candidatura nesta seleção ainda.")); return; }
+    var st = d.porStatus || {};
+    var alta = (d.nivel.filter(function (n) { return n.nivel === "alta"; })[0] || {}).total || 0;
+    var dias = d.porDia || [];
+
+    // 1. números principais
+    var k = el("div", "kpis");
+    k.appendChild(kpi("Candidaturas", d.total, dias.length ? "de " + diaCurto(dias[0].dia) + " a " + diaCurto(dias[dias.length - 1].dia) : "", true));
+    k.appendChild(kpi("Convidadas", d.convidadas, pct(d.convidadas, d.total) + " das candidaturas"));
+    k.appendChild(kpi("Responderam", d.responderam, d.convidadas ? pct(d.responderam, d.convidadas) + " das convidadas" : "ninguém convidado ainda"));
+    k.appendChild(kpi("Aderência alta", alta, d.responderam ? "de " + d.responderam + " com DISC · média " + d.aderenciaMedia + "%" : "sem DISC respondido"));
+    k.appendChild(kpi("Entrevistas registradas", d.entrevistas, "fichas salvas pela equipe"));
+    corpo.appendChild(k);
+
+    // 2. funil + 3. chegada
+    var g1 = el("div", "viz-grade");
+    var funil = card("Funil da seleção", "Cada etapa em relação ao total de candidaturas.");
+    var emEnt = (st.entrevista || 0) + (st.aprovada || 0);
+    funil.appendChild(linhas([
+      ["Candidaturas", d.total], ["Convidadas pelo WhatsApp", d.convidadas], ["Responderam o DISC", d.responderam],
+      ["Em entrevista ou aprovadas", emEnt], ["Aprovadas", st.aprovada || 0]
+    ].map(function (p) { return { nome: p[0], frac: p[1] / d.total, valor: p[1], detalhe: pct(p[1], d.total) }; }), true));
+    g1.appendChild(funil);
+    var cheg = card("Candidaturas por dia", "Horário de Brasília. Útil para ver o efeito de cada anúncio.");
+    cheg.appendChild(colunas(dias));
+    g1.appendChild(cheg);
+    corpo.appendChild(g1);
+
+    // 4. onde moram + status
+    var g2 = el("div", "viz-grade");
+    var maxLocal = d.locais.reduce(function (m, x) { return Math.max(m, x.total); }, 0);
+    var onde = card("Onde moram", "Região administrativa no DF, ou a cidade no entorno. A clínica fica na Asa Sul.");
+    onde.appendChild(linhas(d.locais.map(function (x) {
+      return { nome: x.nome, frac: maxLocal ? x.total / maxLocal : 0, valor: x.total, detalhe: pct(x.total, d.total) };
+    })));
+    g2.appendChild(onde);
+    var maxSt = Object.keys(STATUS).reduce(function (m, s) { return Math.max(m, st[s] || 0); }, 0);
+    var stCard = card("Status no painel", "Como cada candidatura está marcada agora.");
+    stCard.appendChild(linhas(Object.keys(STATUS).map(function (s) {
+      return { nome: STATUS[s], frac: maxSt ? (st[s] || 0) / maxSt : 0, valor: st[s] || 0, detalhe: pct(st[s] || 0, d.total) };
+    })));
+    g2.appendChild(stCard);
+    corpo.appendChild(g2);
+
+    // 5. respostas das candidatas
+    corpo.appendChild(el("h2", "viz-secao", "Respostas das candidatas"));
+    var temResposta = d.experiencia.some(function (x) { return x.base; }) || d.disponibilidade.some(function (x) { return x.base; });
+    if (!temResposta) {
+      corpo.appendChild(el("p", "viz-secao-sub", "Ainda ninguém respondeu as perguntas. Elas chegam junto com o DISC, pelo convite do WhatsApp."));
+    } else {
+      corpo.appendChild(el("p", "viz-secao-sub", "Cada número conta só quem respondeu aquela pergunta, pelo link ou na entrevista."));
+      var g3 = el("div", "viz-grade");
+      var ex = card("Já trabalhou com…", "Quantas responderam sim.");
+      ex.appendChild(linhas(d.experiencia.map(function (x) {
+        return { nome: x.nome, frac: x.base ? x.sim / x.base : 0, valor: pct(x.sim, x.base), detalhe: x.sim + " de " + x.base };
+      }), true));
+      g3.appendChild(ex);
+      var somaTempo = d.tempo.reduce(function (a, x) { return a + x.total; }, 0);
+      var maxTempo = d.tempo.reduce(function (m, x) { return Math.max(m, x.total); }, 0);
+      var tp = card("Tempo de experiência profissional", somaTempo + (somaTempo === 1 ? " resposta." : " respostas."));
+      tp.appendChild(somaTempo ? linhas(d.tempo.map(function (x) {
+        return { nome: x.nome, frac: maxTempo ? x.total / maxTempo : 0, valor: x.total, detalhe: pct(x.total, somaTempo) };
+      })) : el("p", "viz-vazio", "Sem respostas ainda."));
+      g3.appendChild(tp);
+      var dp = card("Disponibilidade", "Quantas responderam sim.");
+      dp.appendChild(linhas(d.disponibilidade.map(function (x) {
+        return { nome: x.nome, frac: x.base ? x.sim / x.base : 0, valor: pct(x.sim, x.base), detalhe: x.sim + " de " + x.base };
+      }), true));
+      g3.appendChild(dp);
+      var au = card("Autoavaliação", "Média da nota que cada uma se deu, de 0 a 10.");
+      au.appendChild(linhas(d.autoavaliacao.map(function (x) {
+        return { nome: x.nome, frac: x.media === null ? 0 : x.media / 10, valor: decimal(x.media), detalhe: x.base + (x.base === 1 ? " resposta" : " respostas") };
+      }), true));
+      g3.appendChild(au);
+      corpo.appendChild(g3);
+    }
+
+    // 6. DISC
+    corpo.appendChild(el("h2", "viz-secao", "Perfil comportamental (DISC)"));
+    if (!d.responderam) {
+      corpo.appendChild(el("p", "viz-secao-sub", "Ninguém respondeu o DISC nesta seleção ainda."));
+      return;
+    }
+    corpo.appendChild(el("p", "viz-secao-sub", d.responderam + (d.responderam === 1 ? " candidata respondeu." : " candidatas responderam.") +
+      " O DISC mostra tendências, não define a pessoa: use junto com a entrevista."));
+    var g4 = el("div", "viz-grade");
+    var ad = card("Aderência ao perfil da vaga", "Média de " + d.aderenciaMedia + "%. Alta a partir de 80%, média de 65% a 79%.");
+    ad.appendChild(segmentos(d.nivel, d.responderam));
+    g4.appendChild(ad);
+    var maxDom = d.dominante.reduce(function (m, x) { return Math.max(m, x.total); }, 0);
+    var dom = card("Fator predominante", "O fator mais alto de cada candidata.");
+    dom.appendChild(linhas(d.dominante.map(function (x) {
+      return { nome: x.fator + " · " + x.nome, frac: maxDom ? x.total / maxDom : 0, valor: x.total, detalhe: pct(x.total, d.responderam) };
+    })));
+    g4.appendChild(dom);
+    corpo.appendChild(g4);
+
+    // 7. ranking
+    var rk = card("Ranking por aderência", "Toque no título de uma coluna para ordenar e no nome para abrir a ficha com tudo o que ela respondeu.");
+    rk.appendChild(tabelaRanking(d.ranking));
+    corpo.appendChild(rk);
+  }
+
+  function tabelaRanking(lista) {
+    var w = el("div", "tabela-wrap"), t = el("table", "viz larga");
+    // nome abre a ficha; região e status vão embaixo do nome para a tabela caber
+    var colunasT = [
+      ["Candidata", "nome"], ["Aderência", "aderencia"], ["Perfil", "sigla"], ["Recepção", "recepcao"],
+      ["Clínica", "clinica"], ["Presencial", "presencial"], ["Experiência", null], ["Nota própria", "autoavaliacao"]
+    ];
+    var thead = el("thead"), hr = el("tr");
+    colunasT.forEach(function (c) {
+      var th = el("th");
+      if (c[1]) {
+        var b = el("button", "", c[0]); b.type = "button";
+        b.addEventListener("click", function () {
+          anaOrdem = anaOrdem.campo === c[1] ? { campo: c[1], desc: !anaOrdem.desc }
+            : { campo: c[1], desc: c[1] === "aderencia" || c[1] === "autoavaliacao" };
+          var novo = tabelaRanking(lista); w.replaceWith(novo);
+        });
+        th.appendChild(b);
+        if (anaOrdem.campo === c[1]) th.setAttribute("aria-sort", anaOrdem.desc ? "descending" : "ascending");
+      } else th.textContent = c[0];
+      hr.appendChild(th);
+    });
+    thead.appendChild(hr); t.appendChild(thead);
+
+    var campo = anaOrdem.campo, sinal = anaOrdem.desc ? -1 : 1;
+    var ordenada = lista.slice().sort(function (a, b) {
+      var x = a[campo], y = b[campo];
+      if (x === null || x === undefined) return 1;
+      if (y === null || y === undefined) return -1;
+      var r = typeof x === "number" ? x - y : String(x).localeCompare(String(y), "pt-BR");
+      return r * sinal || b.aderencia - a.aderencia;
+    });
+
+    var tb = el("tbody");
+    ordenada.forEach(function (c, i) {
+      var tr = el("tr");
+      var tdN = el("td", "nome");
+      if (fichaDisponivel) {
+        var bn = el("button", "", c.nome); bn.type = "button";
+        bn.setAttribute("aria-label", "Abrir a ficha de " + c.nome);
+        bn.addEventListener("click", function () { abrirFicha(c.id); });
+        tdN.appendChild(bn);
+      } else tdN.appendChild(document.createTextNode(c.nome));
+      tdN.appendChild(el("small", "", [c.local, STATUS[c.status] || c.status].filter(Boolean).join(" · ")));
+      tr.appendChild(tdN);
+      var tdA = el("td"), a = el("div", "ader"), tr2 = el("span", "trilho"), f = el("i");
+      f.style.width = c.aderencia + "%"; f.style.background = NIVEL_COR[c.nivel];
+      tr2.appendChild(f); a.appendChild(tr2); a.appendChild(document.createTextNode(c.aderencia + "% · " + c.nivel));
+      tdA.appendChild(a); tr.appendChild(tdA);
+      var tdP = el("td", "perfil", c.sigla); if (c.combinacao) tdP.appendChild(el("small", "", c.combinacao)); tr.appendChild(tdP);
+      tr.appendChild(el("td", "", sn(c.recepcao)));
+      tr.appendChild(el("td", "", sn(c.clinica)));
+      tr.appendChild(el("td", "", sn(c.presencial)));
+      tr.appendChild(el("td", "tempo", c.tempo || "–"));
+      tr.appendChild(el("td", "n", decimal(c.autoavaliacao)));
+      tb.appendChild(tr);
+    });
+    t.appendChild(tb); w.appendChild(t);
+    return w;
+  }
+
+  // ---- dica do mouse (e do teclado): repete o valor, nunca é o único lugar dele
+  (function () {
+    var tip = $("vizTip"), painel = $("painelAna");
+    function mostrar(alvo, x, y) {
+      tip.innerHTML = "";
+      tip.appendChild(el("b", "", alvo.getAttribute("data-tip-valor")));
+      tip.appendChild(el("span", "", alvo.getAttribute("data-tip-rotulo") || ""));
+      tip.hidden = false;
+      var w = tip.offsetWidth, h = tip.offsetHeight;
+      tip.style.left = Math.max(8, Math.min(x + 12, window.innerWidth - w - 8)) + "px";
+      tip.style.top = (y - h - 12 < 8 ? y + 16 : y - h - 12) + "px";
+    }
+    painel.addEventListener("pointermove", function (e) {
+      var a = e.target.closest("[data-tip-valor]");
+      if (!a) { tip.hidden = true; return; }
+      mostrar(a, e.clientX, e.clientY);
+    });
+    painel.addEventListener("pointerleave", function () { tip.hidden = true; });
+    painel.addEventListener("focusin", function (e) {
+      var a = e.target.closest("[data-tip-valor]");
+      if (!a) return;
+      var r = a.getBoundingClientRect();
+      mostrar(a, r.left + r.width / 2, r.top);
+    });
+    painel.addEventListener("focusout", function () { tip.hidden = true; });
+    window.addEventListener("scroll", function () { tip.hidden = true; }, { passive: true });
+  })();
 
   // -------------------------------------------------------- códigos -------
   $("formCodigo").addEventListener("submit", function (e) {

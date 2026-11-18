@@ -177,6 +177,34 @@ sortear um.
 logins por aquele período. As tentativas ficam em `job_admin_login_attempts`,
 com o IP em hash.
 
+## Análise (dashboard)
+
+A aba **Análise** do painel resume uma seleção (a atual ou uma pasta, no
+seletor do topo, que vale para tudo abaixo):
+
+- **Números principais:** candidaturas, convidadas, responderam o DISC,
+  aderência alta e entrevistas registradas.
+- **Funil** (candidaturas → convidadas → responderam → em entrevista →
+  aprovadas) e **candidaturas por dia** (horário de Brasília, com tabela).
+- **Onde moram:** região administrativa do DF, ou a cidade no entorno. O bairro
+  vem escrito de jeitos diferentes ("Taguatinga Norte", "Taguatinga Norte
+  (Taguatinga)"), então `regiao()` usa o que está entre parênteses ou reconhece
+  a região no nome. **Status** no painel.
+- **Respostas das candidatas:** experiência e disponibilidade (% de sim, contando
+  só quem respondeu cada pergunta), tempo de experiência e autoavaliação média.
+- **DISC:** aderência ao perfil da vaga (alta, média, baixa), fator
+  predominante e o **ranking por aderência**, que ordena por coluna e abre a
+  ficha pelo nome.
+
+Os números são calculados no servidor (ação `analise` em `api/vagas/admin.js`):
+o navegador recebe só os agregados e uma linha curta por candidata com DISC
+respondido, nunca as respostas completas. **Sexo e idade ficam de fora de
+propósito**, porque não são critério de seleção.
+
+Cores validadas com o validador de paleta: série única `#3f7a3a` e a escala de
+aderência baixa→alta `#93b386`, `#5e8a52`, `#2f5a2a`, sobre o cartão branco.
+Todo valor aparece escrito; a dica do mouse (ou do foco pelo teclado) só repete.
+
 ## Pastas (seleções anteriores)
 
 Ao abrir vagas novas, o botão **Arquivar seleção** guarda todas as candidaturas

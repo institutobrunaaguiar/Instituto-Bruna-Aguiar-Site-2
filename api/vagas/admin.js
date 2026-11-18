@@ -84,6 +84,7 @@ module.exports = async (req, res) => {
     if (acao === "sessao") return res.status(200).json({ ok: true, usuario: sessao.label });
     if (acao === "candidaturas") return await listar(res, cfg, body);
     if (acao === "pastas") return await listarPastas(res, cfg);
+    if (acao === "analise") return await analise(res, cfg, body);
     if (acao === "arquivar_atual") return await arquivarAtual(res, cfg, body, sessao);
     if (acao === "arquivo") return await arquivo(res, cfg, body);
     if (acao === "status") return await mudarStatus(res, cfg, body);
@@ -238,6 +239,188 @@ async function listar(res, cfg, body) {
     fichaDisponivel: fichaDisponivel,
     // false até a migration das pastas entrar: o painel esconde o seletor
     pastasDisponivel: pastasDisponivel,
+  });
+}
+
+// ---------------------------------------------------------------- análise --
+// Números do dashboard (aba Análise), calculados aqui: o navegador recebe só
+// os agregados e uma linha curta por candidata com DISC respondido, nunca as
+// respostas completas. Sexo e idade ficam de fora de propósito: não são
+// critério de seleção.
+const EXPERIENCIAS = [
+  ["exp_recepcao", "Recepção"], ["exp_atendimento", "Atendimento ao público"], ["exp_whatsapp", "Atendimento pelo WhatsApp"],
+  ["exp_clinica", "Clínica, consultório ou estética"], ["exp_administrativo", "Área administrativa"],
+  ["exp_sistema", "Sistema de agenda ou CRM"], ["exp_vendas", "Vendas"], ["exp_metas", "Metas"],
+];
+const DISPONIBILIDADE = [
+  ["disp_presencial", "Trabalho presencial"], ["disp_sabados", "Sábados"], ["trabalhando", "Está trabalhando hoje"],
+];
+const AUTOAVALIACAO = [
+  ["perfil_conexao", "Conversar e criar conexão"], ["perfil_organizacao", "Organização"],
+  ["perfil_aprendizado", "Aprender ferramentas novas"], ["perfil_sistemas", "Computador e sistemas"],
+  ["perfil_comercial", "Perfil comercial"],
+];
+const TEMPO_EXP = ["Sem experiência", "Menos de 1 ano", "De 1 a 2 anos", "De 3 a 5 anos", "Mais de 5 anos"];
+// Regiões administrativas do DF, para agrupar bairros escritos de jeitos
+// diferentes ("Taguatinga Norte" e "Taguatinga Norte (Taguatinga)"). As com
+// nome que contém outro (Sobradinho II, Riacho Fundo II) vêm antes.
+const REGIOES_DF = ["Sobradinho II", "Riacho Fundo II", "Sol Nascente", "Plano Piloto", "Gama", "Taguatinga", "Brazlândia",
+  "Sobradinho", "Planaltina", "Paranoá", "Núcleo Bandeirante", "Ceilândia", "Guará", "Cruzeiro", "Samambaia", "Santa Maria",
+  "São Sebastião", "Recanto das Emas", "Lago Sul", "Riacho Fundo", "Lago Norte", "Candangolândia", "Águas Claras",
+  "Sudoeste", "Octogonal", "Varjão", "Park Way", "Estrutural", "Jardim Botânico", "Itapoã", "SIA", "Vicente Pires",
+  "Fercal", "Arniqueira"];
+function SEM_ACENTO(t) { return String(t || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+const REGIOES_RE = REGIOES_DF.map(function (ra) {
+  return [new RegExp("(^|[^a-z])" + SEM_ACENTO(ra).replace(/ /g, "\\s+") + "($|[^a-z])"), ra];
+});
+const APELIDOS_DF = [[/\basa (sul|norte)\b|\bnoroeste\b/, "Plano Piloto"], [/habitacoes individuais sul|\bshis\b/, "Lago Sul"],
+  [/habitacoes individuais norte|\bshin\b/, "Lago Norte"]];
+
+// "Onde mora", do jeito que importa para o deslocamento: fora do DF, a cidade;
+// no DF, a região administrativa (entre parênteses no bairro, ou reconhecida
+// no nome dele).
+function regiao(bairro, cidade, estado) {
+  const b = String(bairro || "").trim().replace(/\s+/g, " ");
+  const c = String(cidade || "").trim();
+  if (c && SEM_ACENTO(c) !== "brasilia") return c + (estado ? " (" + estado + ")" : "");
+  if (!b) return "Não informado";
+  const par = b.match(/\(([^)]+)\)\s*$/);
+  if (par) return par[1].trim();
+  const nb = SEM_ACENTO(b);
+  for (const [re, ra] of REGIOES_RE) if (re.test(nb)) return ra;
+  for (const [re, ra] of APELIDOS_DF) if (re.test(nb)) return ra;
+  return b;
+}
+
+const DIA_BR = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit" });
+
+async function analise(res, cfg, body) {
+  const pasta = cleanText(body.pasta, 40);
+  const filtroPasta = UUID_RE.test(pasta) ? `folder_id=eq.${pasta}` : "folder_id=is.null";
+  const campos = "id,nome_completo,bairro,cidade,estado,status,created_at," +
+    "job_interviews(respostas,updated_by),job_disc(status,resultado,concluido_em)";
+
+  // Lê a seleção inteira em páginas de 1000 (o limite padrão do PostgREST).
+  const linhas = [];
+  for (let offset = 0; offset < 10000; offset += 1000) {
+    const r = await api(cfg, `/rest/v1/job_applications?select=${campos}&${filtroPasta}&order=created_at.asc&limit=1000&offset=${offset}`);
+    if (!r.ok) {
+      console.error("[vagas/admin] falha na análise", r.status, (await r.text()).slice(0, 200));
+      return res.status(502).json({ ok: false, error: "falha_ao_analisar" });
+    }
+    const pagina = await r.json();
+    linhas.push.apply(linhas, pagina);
+    if (pagina.length < 1000) break;
+  }
+
+  const porStatus = {};
+  STATUS_VALIDOS.forEach(function (s) { porStatus[s] = 0; });
+  const porDia = {};
+  const locais = {};
+  const tempo = {};
+  TEMPO_EXP.forEach(function (t) { tempo[t] = 0; });
+  const contaSim = function (lista) { return lista.map(function (par) { return { chave: par[0], nome: par[1], sim: 0, base: 0 }; }); };
+  const exp = contaSim(EXPERIENCIAS), disp = contaSim(DISPONIBILIDADE);
+  const auto = AUTOAVALIACAO.map(function (par) { return { chave: par[0], nome: par[1], soma: 0, base: 0 }; });
+  const dominante = { D: 0, I: 0, S: 0, C: 0 };
+  const nivel = { baixa: 0, "média": 0, alta: 0 };
+  let convidadas = 0, responderam = 0, perguntas = 0, entrevistas = 0, somaAderencia = 0;
+  const ranking = [];
+
+  linhas.forEach(function (l) {
+    porStatus[l.status] = (porStatus[l.status] || 0) + 1;
+    const dia = DIA_BR.format(new Date(l.created_at));
+    porDia[dia] = (porDia[dia] || 0) + 1;
+
+    const lugar = regiao(l.bairro, l.cidade, l.estado);
+    const chaveLugar = SEM_ACENTO(lugar);
+    if (!locais[chaveLugar]) locais[chaveLugar] = { nome: lugar, total: 0 };
+    locais[chaveLugar].total += 1;
+
+    const ent = Array.isArray(l.job_interviews) ? l.job_interviews[0] : l.job_interviews;
+    const resp = (ent && ent.respostas) || {};
+    if (ent && ent.updated_by) entrevistas += 1;
+    if (resp.questionario_em) perguntas += 1;
+
+    const conta = function (lista) {
+      lista.forEach(function (x) {
+        if (resp[x.chave] === "sim" || resp[x.chave] === "nao") { x.base += 1; if (resp[x.chave] === "sim") x.sim += 1; }
+      });
+    };
+    conta(exp); conta(disp);
+    auto.forEach(function (x) {
+      const n = Number(resp[x.chave]);
+      if (resp[x.chave] !== undefined && resp[x.chave] !== null && resp[x.chave] !== "" && Number.isFinite(n)) { x.soma += n; x.base += 1; }
+    });
+    if (tempo[resp.exp_tempo] !== undefined) tempo[resp.exp_tempo] += 1;
+
+    const discs = (l.job_disc || []).filter(function (d) { return d.status !== "cancelado"; });
+    if (discs.length) convidadas += 1;
+    const feito = discs.filter(function (d) { return d.status === "concluido" && d.resultado; })
+      .sort(function (a, b) { return String(b.concluido_em).localeCompare(String(a.concluido_em)); })[0];
+    if (!feito) return;
+    responderam += 1;
+    const L = interpretar(feito.resultado);
+    if (!L) return;
+    dominante[L.dominante] += 1;
+    nivel[L.nivelAderencia] += 1;
+    somaAderencia += L.aderencia;
+    const notas = AUTOAVALIACAO.map(function (par) { return Number(resp[par[0]]); }).filter(Number.isFinite);
+    ranking.push({
+      id: l.id,
+      nome: l.nome_completo,
+      status: l.status,
+      aderencia: L.aderencia,
+      nivel: L.nivelAderencia,
+      sigla: L.sigla,
+      combinacao: L.combinacao,
+      recepcao: resp.exp_recepcao || null,
+      clinica: resp.exp_clinica || null,
+      tempo: resp.exp_tempo || null,
+      presencial: resp.disp_presencial || null,
+      autoavaliacao: notas.length ? Math.round((notas.reduce(function (a, b) { return a + b; }, 0) / notas.length) * 10) / 10 : null,
+      local: lugar === "Não informado" ? null : lugar,
+    });
+  });
+
+  // dias corridos do primeiro ao último, com zero onde não chegou ninguém
+  const dias = Object.keys(porDia).sort();
+  const serie = [];
+  if (dias.length) {
+    for (let d = new Date(dias[0] + "T12:00:00Z"); ; d.setUTCDate(d.getUTCDate() + 1)) {
+      const k = d.toISOString().slice(0, 10);
+      serie.push({ dia: k, total: porDia[k] || 0 });
+      if (k >= dias[dias.length - 1] || serie.length > 400) break;
+    }
+  }
+
+  const listaLocais = Object.keys(locais).map(function (k) { return locais[k]; })
+    .sort(function (a, b) { return b.total - a.total || a.nome.localeCompare(b.nome, "pt-BR"); });
+  const topo = listaLocais.filter(function (x) { return x.nome !== "Não informado"; }).slice(0, 8);
+  const resto = listaLocais.filter(function (x) { return topo.indexOf(x) < 0; })
+    .reduce(function (a, x) { return a + x.total; }, 0);
+  if (resto) topo.push({ nome: "Outros lugares", total: resto });
+
+  ranking.sort(function (a, b) { return b.aderencia - a.aderencia || a.nome.localeCompare(b.nome, "pt-BR"); });
+
+  return res.status(200).json({
+    ok: true,
+    total: linhas.length,
+    convidadas: convidadas,
+    responderam: responderam,
+    perguntas: perguntas,
+    entrevistas: entrevistas,
+    aderenciaMedia: ranking.length ? Math.round(somaAderencia / ranking.length) : null,
+    porStatus: porStatus,
+    porDia: serie,
+    locais: topo,
+    experiencia: exp.map(function (x) { return { nome: x.nome, sim: x.sim, base: x.base }; }),
+    disponibilidade: disp.map(function (x) { return { nome: x.nome, sim: x.sim, base: x.base }; }),
+    autoavaliacao: auto.map(function (x) { return { nome: x.nome, media: x.base ? Math.round((x.soma / x.base) * 10) / 10 : null, base: x.base }; }),
+    tempo: TEMPO_EXP.map(function (t) { return { nome: t, total: tempo[t] }; }),
+    dominante: ["D", "I", "S", "C"].map(function (f) { return { fator: f, nome: PERFIS[f].nome, total: dominante[f] }; }),
+    nivel: [["alta", "Alta"], ["média", "Média"], ["baixa", "Baixa"]].map(function (p) { return { nivel: p[0], nome: p[1], total: nivel[p[0]] }; }),
+    ranking: ranking,
   });
 }
 
